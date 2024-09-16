@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Voluntr.Application\Voluntr.Application.csproj" />
+		<ProjectReference Include="..\Voluntr.Domain\Voluntr.Domain.csproj" />
+		<ProjectReference Include="..\Voluntr.Infrastructure\Voluntr.Infrastructure.csproj" />
+		<ProjectReference Include="..\Voluntr.IoC\Voluntr.IoC.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="NSwag.AspNetCore" Version="14.1.0" />
+	</ItemGroup>
+</Project>
