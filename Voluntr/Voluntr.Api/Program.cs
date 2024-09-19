@@ -30,6 +30,20 @@ IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
 
+var appInsightsConnectionString = builder.Configuration.GetConnectionString("ApplicationInsights");
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddApplicationInsights(
+    configureTelemetryConfiguration: (config) => config.ConnectionString = appInsightsConnectionString,
+    configureApplicationInsightsLoggerOptions: (options) => { }
+);
+
+builder.Services.AddApplicationInsightsTelemetry(options =>
+{
+    options.ConnectionString = appInsightsConnectionString;
+});
+
 builder.Services.AddDependencyInjectionSetup();
 //builder.Services.AddVoluntrAuthentication();
 builder.Services.AddAutoMapperSetup();
