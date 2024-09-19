@@ -12,7 +12,7 @@ using Voluntr.Infrastructure.Contexts;
 namespace Voluntr.Infrastructure.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20240915015017_VolunteerModel")]
+    [Migration("20240919000941_VolunteerModel")]
     partial class VolunteerModel
     {
         /// <inheritdoc />

@@ -1,3 +1,6 @@
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
 using System.Text.Json.Serialization;
@@ -12,8 +15,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-    .AddEnvironmentVariables();
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+
+var keyVaultUrl = builder.Environment.IsDevelopment() ? Environment.GetEnvironmentVariable("VOLUNTR_KEY_VAULT_URL_BETA") : Environment.GetEnvironmentVariable(builder.Configuration["KeyVault:KeyVaultUrl"]);
+var tenantId = builder.Environment.IsDevelopment() ? Environment.GetEnvironmentVariable("VOLUNTR_TENANT_ID_BETA") : Environment.GetEnvironmentVariable(builder.Configuration["KeyVault:TenantId"]);
+var clientId = builder.Environment.IsDevelopment() ? Environment.GetEnvironmentVariable("VOLUNTR_CLIENT_ID_BETA") : Environment.GetEnvironmentVariable(builder.Configuration["KeyVault:ClientId"]);
+var clientSecret = builder.Environment.IsDevelopment() ? Environment.GetEnvironmentVariable("VOLUNTR_CLIENT_SECRET_BETA") : Environment.GetEnvironmentVariable(builder.Configuration["KeyVault:ClientSecret"]);
+
+var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+var client = new SecretClient(new Uri(keyVaultUrl), credential);
+builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
 
 IConfiguration configuration = builder.Configuration;
 
