@@ -8,10 +8,8 @@
 
   <ItemGroup>
     <Folder Include="CommandHandlers\" />
-    <Folder Include="Commands\" />
     <Folder Include="EventHandlers\" />
     <Folder Include="Event\" />
-    <Folder Include="Validations\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,22 +9,23 @@ namespace Voluntr.Api.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    //[Authorize]
-    public class VolunteerController(
+    public class AuthController(
         IMediatorHandler mediator,
-        IVolunteerServiceApp volunteerServiceApp
+        IAuthenticationServiceApp authenticationServiceApp
     ) : ApiController(mediator)
     {
+
         /// <summary>
-        /// Realiza a consulta de todos os voluntários
+        /// Realiza o cadastro de um usuário
         /// </summary>
-        [ProducesResponseType(typeof(List<VolunteerResponseViewModel>), StatusCodes.Status200OK)]
+        /// <param name="viewModel">Dados do usuário</param>
+        [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
-            var response = await volunteerServiceApp.GetVolunteers();
+            var response = await authenticationServiceApp.Register(viewModel);
 
             return Response(response);
         }

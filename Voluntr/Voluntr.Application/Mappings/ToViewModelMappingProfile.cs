@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Voluntr.Application.ViewModels;
+using Voluntr.Crosscutting.Domain.Helpers.Pagination;
 using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Application.Mappings
@@ -8,7 +9,19 @@ namespace Voluntr.Application.Mappings
     {
         public ToViewModelMappingProfile()
         {
+            #region Domain
+
+            CreateMap<CommandResponseDto, CommandResponseViewModel>();
+            CreateMap<AutocompleteDto, AutocompleteViewModel>();
+            CreateMap<PagedResult<AutocompleteDto>, PagedResult<AutocompleteViewModel>>();
+
+            #endregion
+
+            #region User
+
             CreateMap<VolunteerDto, VolunteerResponseViewModel>();
+
+            #endregion
         }
     }
 }
