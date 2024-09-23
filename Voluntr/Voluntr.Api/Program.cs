@@ -24,26 +24,14 @@ var clientSecret = builder.Environment.IsDevelopment() ? Environment.GetEnvironm
 
 var credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 var client = new SecretClient(new Uri(keyVaultUrl), credential);
+
 builder.Configuration.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
 
 IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
 
-var appInsightsConnectionString = builder.Configuration.GetConnectionString("ApplicationInsights");
-
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddApplicationInsights(
-    configureTelemetryConfiguration: (config) => config.ConnectionString = appInsightsConnectionString,
-    configureApplicationInsightsLoggerOptions: (options) => { }
-);
-
-builder.Services.AddApplicationInsightsTelemetry(options =>
-{
-    options.ConnectionString = appInsightsConnectionString;
-});
-
+builder.AddLoggingSetup();
 builder.Services.AddDependencyInjectionSetup();
 //builder.Services.AddVoluntrAuthentication();
 builder.Services.AddAutoMapperSetup();

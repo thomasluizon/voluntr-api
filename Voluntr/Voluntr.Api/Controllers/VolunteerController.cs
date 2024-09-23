@@ -25,8 +25,6 @@ namespace Voluntr.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            throw new Exception("Teste");
-
             var response = await volunteerServiceApp.GetVolunteers();
 
             return Response(response);
