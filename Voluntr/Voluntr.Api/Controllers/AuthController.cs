@@ -16,7 +16,7 @@ namespace Voluntr.Api.Controllers
     {
 
         /// <summary>
-        /// Realiza o cadastro de um usuário
+        /// Realiza o cadastro do usuário
         /// </summary>
         /// <param name="viewModel">Dados do usuário</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
@@ -26,6 +26,21 @@ namespace Voluntr.Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
             var response = await authenticationServiceApp.Register(viewModel);
+
+            return Response(response);
+        }
+
+        /// <summary>
+        /// Realiza o login do usuário
+        /// </summary>
+        /// <param name="viewModel">Dados do login</param>
+        [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] AuthenticationRequestViewModel viewModel)
+        {
+            var response = await authenticationServiceApp.Login(viewModel);
 
             return Response(response);
         }

@@ -8,7 +8,11 @@ namespace Voluntr.Application.Mappings
     {
         public ToDomainMappingProfile()
         {
+            #region User
+
             CreateMap<Volunteer, VolunteerDto>();
+
+            #endregion
         }
     }
 }

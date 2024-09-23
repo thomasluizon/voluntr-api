@@ -11,6 +11,14 @@ namespace Voluntr.Application.Services
         IMapper mapper
     ) : IAuthenticationServiceApp
     {
+        public async Task<AuthenticationResponseViewModel> Login(AuthenticationRequestViewModel viewModel)
+        {
+            var command = mapper.Map<LoginUserCommand>(viewModel);
+            var response = await mediator.SendCommandResponse(command);
+
+            return mapper.Map<AuthenticationResponseViewModel>(response);
+        }
+
         public async Task<CommandResponseViewModel> Register(RegisterUserViewModel viewModel)
         {
             var command = mapper.Map<RegisterUserCommand>(viewModel);

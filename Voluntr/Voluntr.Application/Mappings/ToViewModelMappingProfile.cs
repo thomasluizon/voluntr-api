@@ -22,6 +22,12 @@ namespace Voluntr.Application.Mappings
             CreateMap<VolunteerDto, VolunteerResponseViewModel>();
 
             #endregion
+
+            #region Authentication
+
+            CreateMap<AuthenticationDto, AuthenticationResponseViewModel>();
+
+            #endregion
         }
     }
 }

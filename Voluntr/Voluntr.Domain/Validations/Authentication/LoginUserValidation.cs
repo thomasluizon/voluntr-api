@@ -3,13 +3,12 @@ using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class RegisterUserValidation : AuthenticationValidation<RegisterUserCommand, CommandResponseDto>
+    public class LoginUserValidation : AuthenticationValidation<LoginUserCommand, AuthenticationDto>
     {
-        public RegisterUserValidation()
+        public LoginUserValidation()
         {
             ValidateEmail();
             ValidatePassword();
-            ValidateName();
         }
     }
 }
