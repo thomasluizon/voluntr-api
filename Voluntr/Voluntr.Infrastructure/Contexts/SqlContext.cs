@@ -9,7 +9,12 @@ namespace Voluntr.Infrastructure.Contexts
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region User
+
             modelBuilder.ApplyConfiguration(new VolunteerMap());
+            modelBuilder.ApplyConfiguration(new UserMap());
+
+            #endregion
 
             base.OnModelCreating(modelBuilder);
         }

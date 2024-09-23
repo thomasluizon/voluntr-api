@@ -6,6 +6,7 @@ using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Services;
+using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Services
 {
@@ -15,42 +16,27 @@ namespace Voluntr.Domain.Services
        IMediatorHandler mediator
     ) : IClaimsService
     {
-        public Guid GetCurrentUserId()
+        public Guid? GetCurrentUserId()
         {
-            string userId = claims.GetUserIdFromToken();
+            var userId = claims.GetUserIdFromToken();
 
-            if (!string.IsNullOrEmpty(userId))
-            {
-                userId = cryptographyService.Decrypt(userId);
+            if (string.IsNullOrEmpty(userId))
+                return null;
 
-                if (!Validator.IsGuid(userId))
-                {
-                    NotifyError(Values.Message.UserRequestNotFound);
-                    return Guid.Empty;
-                }
-            }
+            userId = cryptographyService.Decrypt(userId);
 
-            return Guid.Parse(userId);
-        }
-
-        public string GetCurrentUserRole()
-        {
-            var role = claims.GetRolesFromToken();
-
-            if (string.IsNullOrEmpty(role))
+            if (!Validator.IsGuid(userId))
             {
                 NotifyError(Values.Message.UserRequestNotFound);
                 return null;
             }
 
-            return cryptographyService.Decrypt(role);
+            return Guid.Parse(userId);
         }
 
-        public bool IsAdmin()
+        public string GenerateToken(User user)
         {
-            var roles = GetCurrentUserRole();
-
-            return roles.Contains("Admin");
+            throw new NotImplementedException();
         }
 
         protected void NotifyError(string message) => NotifyError(string.Empty, message);

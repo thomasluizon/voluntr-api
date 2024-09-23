@@ -33,7 +33,7 @@ IConfiguration configuration = builder.Configuration;
 
 builder.AddLoggingSetup();
 builder.Services.AddDependencyInjectionSetup();
-//builder.Services.AddVoluntrAuthentication();
+//builder.Services.AddVoluntrAuthentication(configuration);
 builder.Services.AddAutoMapperSetup();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddSqlContext<SqlContext>(configuration);
