@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -9,7 +10,7 @@ namespace Voluntr.Api.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
-    //[Authorize]
+    [Authorize]
     public class VolunteerController(
         IMediatorHandler mediator,
         IVolunteerServiceApp volunteerServiceApp

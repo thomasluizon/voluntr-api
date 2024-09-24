@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using Voluntr.Api.Configurations;
 using Voluntr.Api.Conventions;
 using Voluntr.Crosscutting.Domain.Middlewares;
+using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Crosscutting.Infrastructure.Contexts.SqlServer;
 using Voluntr.Infrastructure.Contexts;
 
@@ -33,7 +34,8 @@ IConfiguration configuration = builder.Configuration;
 
 builder.AddLoggingSetup();
 builder.Services.AddDependencyInjectionSetup();
-//builder.Services.AddVoluntrAuthentication(configuration);
+builder.Services.AddTokenCredentialSetup(configuration);
+builder.Services.AddVoluntrAuthentication(configuration);
 builder.Services.AddAutoMapperSetup();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddSqlContext<SqlContext>(configuration);
@@ -45,7 +47,6 @@ builder.Services.AddControllers(x => x.Conventions.Add(new ControllerDocumentati
 builder.Services.AddOptions();
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddAzureBlobSetup(configuration);
-builder.Services.AddTokenCredentialSetup(configuration);
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();

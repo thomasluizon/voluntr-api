@@ -52,7 +52,6 @@ namespace Voluntr.Domain.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            // Criar o token
             var token = new JwtSecurityToken(
                 issuer: tokenConfig.Issuer,
                 audience: tokenConfig.Audience,

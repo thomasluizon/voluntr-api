@@ -9,10 +9,14 @@ namespace Voluntr.Api.Configurations
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            var config = new TokenConfig();
-            configuration.Bind("TokenCredentials", config);
+            var tokenConfig = new TokenConfig();
+            configuration.Bind("Authentication:TokenCredentials", tokenConfig);
 
-            services.AddSingleton(config);
+            var googleConfig = new GoogleConfig();
+            configuration.Bind("Authentication:Google", googleConfig);
+
+            services.AddSingleton(tokenConfig);
+            services.AddSingleton(googleConfig);
         }
     }
 }

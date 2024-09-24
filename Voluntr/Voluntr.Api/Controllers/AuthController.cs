@@ -22,7 +22,7 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
             var response = await authenticationServiceApp.Register(viewModel);
@@ -37,7 +37,7 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestViewModel viewModel)
         {
             var response = await authenticationServiceApp.Login(viewModel);

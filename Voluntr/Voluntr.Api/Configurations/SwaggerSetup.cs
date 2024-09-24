@@ -23,10 +23,11 @@ namespace Voluntr.Api.Configurations
 
                 config.AddSecurity("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme.Example: \"Authorization: Bearer {token}\"",
+                    Description = "Insira o token JWT no formato Bearer {token}",
                     Name = "Authorization",
                     In = OpenApiSecurityApiKeyLocation.Header,
-                    Type = OpenApiSecuritySchemeType.ApiKey
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
 
                 config.PostProcess = document =>

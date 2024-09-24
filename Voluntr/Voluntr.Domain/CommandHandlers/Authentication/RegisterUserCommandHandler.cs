@@ -46,6 +46,8 @@ namespace Voluntr.Domain.CommandHandlers
             }
             else
                 NotifyError(Values.Message.DefaultError);
+
+            return null;
         }
     }
 }
