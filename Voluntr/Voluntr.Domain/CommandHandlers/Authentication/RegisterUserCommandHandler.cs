@@ -20,7 +20,7 @@ namespace Voluntr.Domain.CommandHandlers
         public override async Task<CommandResponseDto> AfterValidation(RegisterUserCommand request)
         {
             var userExists = await userRepository.ExistsByExpressionAsync(
-                x => x.Email == request.Email
+                x => x.Email == request.Email.Trim()
             );
 
             if (userExists)
@@ -31,9 +31,9 @@ namespace Voluntr.Domain.CommandHandlers
 
             var user = new User
             {
-                Email = request.Email,
-                Name = request.Name,
-                Password = cryptographyService.Encrypt(request.Password)
+                Email = request.Email.Trim(),
+                Name = request.Name.Trim(),
+                Password = cryptographyService.Encrypt(request.Password.Trim())
             };
 
             await userRepository.InsertAsync(user);
