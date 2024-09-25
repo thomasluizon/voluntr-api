@@ -47,8 +47,6 @@ namespace Voluntr.Domain.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, cryptographyService.Encrypt(user.Id.ToString())),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("name", user.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -56,7 +54,7 @@ namespace Voluntr.Domain.Services
                 issuer: tokenConfig.Issuer,
                 audience: tokenConfig.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(tokenConfig.ExpiryMinutes),
+                expires: DateTime.Now.AddMinutes(tokenConfig.ExpiryMinutes),
                 signingCredentials: credentials
             );
 

@@ -5,18 +5,23 @@ namespace Voluntr.Api.Conventions
 {
     public class ControllerDocumentationConvention : IControllerModelConvention
     {
-        void IControllerModelConvention.Apply(ControllerModel controller)
+        public void Apply(ControllerModel controller)
         {
             if (controller == null)
                 return;
 
-            foreach (var attribute in controller.Attributes)
+            var lowercaseControllerName = controller.ControllerName.ToLowerInvariant();
+
+            foreach (var selector in controller.Selectors)
             {
-                if (attribute.GetType() == typeof(RouteAttribute))
+                if (selector.AttributeRouteModel != null)
                 {
-                    var routeAttribute = (RouteAttribute)attribute;
-                    if (!string.IsNullOrWhiteSpace(routeAttribute.Name))
-                        controller.ControllerName = routeAttribute.Name;
+                    var template = selector.AttributeRouteModel.Template;
+
+                    if (!string.IsNullOrEmpty(template) && template.Contains("[controller]"))
+                    {
+                        selector.AttributeRouteModel.Template = template.Replace("[controller]", lowercaseControllerName);
+                    }
                 }
             }
         }

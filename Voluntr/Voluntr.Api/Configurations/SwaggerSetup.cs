@@ -1,4 +1,4 @@
-﻿using NSwag;
+﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace Voluntr.Api.Configurations
@@ -7,58 +7,90 @@ namespace Voluntr.Api.Configurations
     {
         public static void AddSwaggerSetup(this IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
+            ArgumentNullException.ThrowIfNull(services);
 
             services.AddSwaggerGen(c =>
             {
+                // Inclui comentários XML
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-            });
 
-            services.AddSwaggerDocument(config =>
-            {
-                config.UseControllerSummaryAsTagDescription = true;
-
-                config.AddSecurity("Bearer", new OpenApiSecurityScheme
+                // Definição do esquema de segurança JWT
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
+                    In = ParameterLocation.Header,
                     Description = "Insira o token JWT no formato Bearer {token}",
                     Name = "Authorization",
-                    In = OpenApiSecurityApiKeyLocation.Header,
-                    Type = OpenApiSecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
                 });
 
-                config.PostProcess = document =>
+                // Requisito de segurança global
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    document.Info.Version = "v1";
-                    document.Info.Title = "Documentação API Voluntr";
-                    document.Info.Description = "API de serviços voltados a plataforma Voluntr";
-                };
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+
+                // Configurações da documentação da API
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Documentação API Voluntr",
+                    Description = "API de serviços voltados à plataforma Voluntr",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Equipe Voluntr",
+                        Email = "thomaslrgregorio@gmail.com"
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
+                });
+
+                // Agrupa as ações pelos controladores
+                c.TagActionsBy(api =>
+                {
+                    return new List<string> { api.GroupName ?? api.ActionDescriptor.RouteValues["controller"] };
+                });
+
+                // Outras configurações, se necessário
             });
         }
 
         public static void UseSwaggerSetup(this IApplicationBuilder app)
         {
-            if (app == null)
-                throw new ArgumentNullException(nameof(app));
+            ArgumentNullException.ThrowIfNull(app);
 
-            app.UseOpenApi();
-            app.UseReDoc(opt =>
-            {
-                opt.Path = "/docs";
-            });
+            // Gera o documento Swagger JSON
+            app.UseSwagger();
 
-            app.UseSwagger(u =>
-            {
-                u.RouteTemplate = "swagger/{documentName}/swagger.json";
-            });
-
+            // Configura o Swagger UI
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = "swagger";
-                c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Voluntr");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voluntr API v1");
+            });
+
+            // Configura o ReDoc usando Swashbuckle
+            app.UseReDoc(c =>
+            {
+                c.RoutePrefix = "docs";
+                c.SpecUrl = "/swagger/v1/swagger.json";
+                c.DocumentTitle = "Voluntr API Documentation";
             });
         }
     }
