@@ -50,13 +50,27 @@ namespace Voluntr.Domain.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var token = new JwtSecurityToken(
-                issuer: tokenConfig.Issuer,
-                audience: tokenConfig.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(tokenConfig.ExpiryMinutes),
-                signingCredentials: credentials
-            );
+            JwtSecurityToken token;
+
+            if (tokenConfig.ExpiryMinutes == 0)
+            {
+                token = new JwtSecurityToken(
+                    issuer: tokenConfig.Issuer,
+                    audience: tokenConfig.Audience,
+                    claims: claims,
+                    signingCredentials: credentials
+                );
+            }
+            else
+            {
+                token = new JwtSecurityToken(
+                    issuer: tokenConfig.Issuer,
+                    audience: tokenConfig.Audience,
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(tokenConfig.ExpiryMinutes),
+                    signingCredentials: credentials
+                );
+            }
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
