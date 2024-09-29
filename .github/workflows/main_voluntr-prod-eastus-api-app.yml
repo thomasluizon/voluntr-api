@@ -21,8 +21,14 @@ jobs:
       - name: Build with dotnet
         run: dotnet build Voluntr/Voluntr.sln --configuration Release
 
-      - name: dotnet publish
-        run: dotnet publish Voluntr/Voluntr.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Publish each project individually
+        run: |
+          dotnet publish Voluntr/Voluntr.Crosscutting.Domain/Voluntr.Crosscutting.Domain.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Crosscutting.Domain
+          dotnet publish Voluntr/Voluntr.Crosscutting.Infrastructure/Voluntr.Crosscutting.Infrastructure.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Crosscutting.Infrastructure
+          dotnet publish Voluntr/Voluntr.Domain/Voluntr.Domain.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Domain
+          dotnet publish Voluntr/Voluntr.IoC/Voluntr.IoC.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.IoC
+          dotnet publish Voluntr/Voluntr.Infrastructure/Voluntr.Infrastructure.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Infrastructure
+          dotnet publish Voluntr/Voluntr.Application/Voluntr.Application.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Application
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
