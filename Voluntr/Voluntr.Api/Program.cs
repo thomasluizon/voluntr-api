@@ -3,7 +3,6 @@ using System.IO.Compression;
 using System.Text.Json.Serialization;
 using Voluntr.Api.Configurations;
 using Voluntr.Api.Conventions;
-using Voluntr.Api.Extensions;
 using Voluntr.Crosscutting.Domain.Middlewares;
 using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Crosscutting.Infrastructure.Contexts.SqlServer;
