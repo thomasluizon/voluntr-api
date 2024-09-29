@@ -1,7 +1,9 @@
 name: voluntr-dev-to-main-branch-protection
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   check-branch:
