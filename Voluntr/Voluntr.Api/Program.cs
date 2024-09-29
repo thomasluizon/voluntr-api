@@ -11,11 +11,9 @@ using Voluntr.Infrastructure.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure application settings
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 var configuration = builder.Configuration;
 
