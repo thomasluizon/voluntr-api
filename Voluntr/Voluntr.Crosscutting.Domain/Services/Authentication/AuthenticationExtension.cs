@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,61 +11,85 @@ namespace Voluntr.Crosscutting.Domain.Services.Authentication
 {
     public static class AuthenticationExtension
     {
-        public static AuthenticationBuilder AddVoluntrAuthentication(this IServiceCollection services)
+        public static AuthenticationBuilder AddVoluntrAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            return services.AddAuthentication(sharedOptions =>
+            services.Configure<TokenConfig>(configuration.GetSection("Authentication:TokenCredentials"));
+            //services.Configure<GoogleConfig>(configuration.GetSection("Authentication:Google"));
+
+            services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
+            //services.AddSingleton<IConfigureOptions<GoogleOptions>, ConfigureGoogleOptions>();
+
+            var authenticationBuilder = services.AddAuthentication(options =>
             {
-                sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                sharedOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddVoluntrAuthentication();
-        }
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer();
 
-        public static AuthenticationBuilder AddVoluntrAuthentication(this AuthenticationBuilder builder)
-            => builder.AddVoluntrAuthentication(_ => { });
+            //authenticationBuilder.AddGoogle();
 
-        public static AuthenticationBuilder AddVoluntrAuthentication(
-            this AuthenticationBuilder builder,
-            Action<TokenConfig> configureOptions
-        )
-        {
-            builder.Services.Configure(configureOptions);
-            builder.Services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
-            builder.AddJwtBearer();
-
-            return builder;
+            return authenticationBuilder;
         }
 
         private class ConfigureJwtOptions : IConfigureNamedOptions<JwtBearerOptions>
         {
             private readonly TokenConfig tokenConfig;
 
-            public ConfigureJwtOptions(TokenConfig tokenConfig)
+            public ConfigureJwtOptions(IOptions<TokenConfig> tokenConfigOptions)
             {
-                this.tokenConfig = tokenConfig;
+                tokenConfig = tokenConfigOptions.Value;
 
-                if (string.IsNullOrEmpty(this.tokenConfig.HmacSecretKey))
+                if (string.IsNullOrEmpty(tokenConfig.Secret))
                 {
-                    throw new Exception("HmacSecretKey is not definied. Perhaps TokenCredentials is not presented at appsettings.json.");
+                    throw new Exception("Secret está indefinido. Verifique se 'JwtSettings:Secret' está configurado no appsettings.json.");
                 }
             }
 
             public void Configure(string name, JwtBearerOptions options)
             {
-                var paramsValidation = options.TokenValidationParameters;
+                var key = Encoding.UTF8.GetBytes(tokenConfig.Secret);
 
-                paramsValidation.ValidateIssuerSigningKey = true;
-                paramsValidation.ValidateLifetime = true;
-                paramsValidation.ClockSkew = TimeSpan.Zero;
-                paramsValidation.IssuerSigningKey = new SymmetricSecurityKey
-                (
-                    Encoding.UTF8.GetBytes(tokenConfig.HmacSecretKey)
-                );
-                paramsValidation.ValidAudience = tokenConfig.Audience;
-                paramsValidation.ValidIssuer = tokenConfig.Issuer;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = tokenConfig.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = tokenConfig.Audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
             }
 
             public void Configure(JwtBearerOptions options)
+            {
+                Configure(Options.DefaultName, options);
+            }
+        }
+
+        private class ConfigureGoogleOptions : IConfigureNamedOptions<GoogleOptions>
+        {
+            private readonly GoogleConfig googleConfig;
+
+            public ConfigureGoogleOptions(IOptions<GoogleConfig> googleConfigOptions)
+            {
+                googleConfig = googleConfigOptions.Value;
+
+                if (string.IsNullOrEmpty(googleConfig.ClientId) || string.IsNullOrEmpty(googleConfig.ClientSecret))
+                {
+                    throw new Exception("ClientId ou ClientSecret do Google estão indefinidos. Verifique se 'Authentication:Google:ClientId' e 'Authentication:Google:ClientSecret' estão configurados no appsettings.json.");
+                }
+            }
+
+            public void Configure(string name, GoogleOptions options)
+            {
+                options.ClientId = googleConfig.ClientId;
+                options.ClientSecret = googleConfig.ClientSecret;
+                options.CallbackPath = googleConfig.CallbackPath;
+            }
+
+            public void Configure(GoogleOptions options)
             {
                 Configure(Options.DefaultName, options);
             }
