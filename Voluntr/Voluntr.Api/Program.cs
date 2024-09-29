@@ -3,7 +3,6 @@ using System.IO.Compression;
 using System.Text.Json.Serialization;
 using Voluntr.Api.Configurations;
 using Voluntr.Api.Conventions;
-using Voluntr.Api.Extensions;
 using Voluntr.Crosscutting.Domain.Middlewares;
 using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Crosscutting.Infrastructure.Contexts.SqlServer;
@@ -47,11 +46,8 @@ var app = builder.Build();
 // Apply migrations and seed database
 app.MigrationAndSeedDatabase();
 
-// Configure middleware
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerSetup();
-}
+// Configure middlewares
+app.UseSwaggerSetup();
 
 app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
