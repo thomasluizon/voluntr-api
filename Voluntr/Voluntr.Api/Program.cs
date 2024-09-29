@@ -3,7 +3,9 @@ using System.IO.Compression;
 using System.Text.Json.Serialization;
 using Voluntr.Api.Configurations;
 using Voluntr.Api.Conventions;
+using Voluntr.Api.Extensions;
 using Voluntr.Crosscutting.Domain.Middlewares;
+using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Crosscutting.Infrastructure.Contexts.SqlServer;
 using Voluntr.Infrastructure.Contexts;
 
@@ -11,34 +13,41 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-    .AddEnvironmentVariables();
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-IConfiguration configuration = builder.Configuration;
+var configuration = builder.Configuration;
 
-// Add services to the container.
-
+// Register services
+builder.AddAzureKeyVaultSetup();
+builder.AddLoggingSetup();
 builder.Services.AddDependencyInjectionSetup();
-//builder.Services.AddVoluntrAuthentication();
-builder.Services.AddAutoMapperSetup();
-builder.Services.AddSwaggerSetup();
-builder.Services.AddSqlContext<SqlContext>(configuration);
-builder.Services.AddResponseCompression();
-builder.Services.Configure<GzipCompressionProviderOptions>(opt => opt.Level = CompressionLevel.Optimal);
-builder.Services.AddCryptographySetup(configuration);
-builder.Services.AddControllers(x => x.Conventions.Add(new ControllerDocumentationConvention()))
-    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-builder.Services.AddOptions();
-builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<Program>());
-builder.Services.AddAzureBlobSetup(configuration);
 builder.Services.AddTokenCredentialSetup(configuration);
+builder.Services.AddVoluntrAuthentication(configuration);
+builder.Services.AddCryptographySetup(configuration);
+builder.Services.AddAutoMapperSetup();
+builder.Services.AddSqlContext<SqlContext>(configuration);
+builder.Services.AddAzureBlobSetup(configuration);
+
+builder.Services.AddControllers(options =>
+    options.Conventions.Add(new ControllerDocumentationConvention()))
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddSwaggerSetup();
+builder.Services.AddResponseCompression();
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+    options.Level = CompressionLevel.Optimal);
+builder.Services.AddOptions();
+builder.Services.AddMediatR(options =>
+    options.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
+// Apply migrations and seed database
 app.MigrationAndSeedDatabase();
 
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerSetup();
@@ -46,17 +55,18 @@ if (app.Environment.IsDevelopment())
 
 app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
 
 app.UseCors(cors =>
 {
     cors.AllowAnyHeader();
     cors.AllowAnyMethod();
-    cors.WithOrigins(["http://localhost:8080", "https://deploy-voluntr-web.com"]);
+    cors.WithOrigins("http://localhost:8080", "https://deploy-voluntr-web.com");
 });
 
 app.MapControllers();
