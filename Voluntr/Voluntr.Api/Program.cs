@@ -27,7 +27,7 @@ builder.Services.AddCryptographySetup(configuration);
 builder.Services.AddAutoMapperSetup();
 builder.Services.AddSqlContext<SqlContext>(configuration);
 builder.Services.AddAzureBlobSetup(configuration);
-//
+
 builder.Services.AddControllers(options =>
     options.Conventions.Add(new ControllerDocumentationConvention()))
     .AddJsonOptions(options =>
