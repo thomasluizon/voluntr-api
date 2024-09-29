@@ -6,9 +6,6 @@ namespace Voluntr.Api.Configurations
     {
         public static void AddCryptographySetup(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
             var config = new CryptographyConfig();
             configuration.Bind("Cryptography", config);
 

@@ -6,12 +6,9 @@ namespace Voluntr.Api.Configurations
     {
         public static void AddAzureBlobSetup(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
             var config = new StorageConfig
             {
-                ConnectionString = configuration.GetConnectionString("AzureBlob")
+                ConnectionString = configuration.GetConnectionString("BlobStorage")
             };
 
             services.AddSingleton(config);

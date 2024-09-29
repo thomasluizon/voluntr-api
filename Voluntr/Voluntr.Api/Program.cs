@@ -46,11 +46,8 @@ var app = builder.Build();
 // Apply migrations and seed database
 app.MigrationAndSeedDatabase();
 
-// Configure middleware
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerSetup();
-}
+// Configure middlewares
+app.UseSwaggerSetup();
 
 app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
