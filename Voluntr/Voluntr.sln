@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voluntr.IoC", "Voluntr.IoC\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Crosscutting", "Crosscutting", "{B79EA099-EEF4-4905-9E77-2D4743196401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voluntr.Crosscutting.Domain", "Voluntr.Crosscutting.Domain\Voluntr.Crosscutting.Domain.csproj", "{00777864-ADF3-413B-8B6B-B55CE797B22E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voluntr.Crosscutting.Domain", "Voluntr.Crosscutting.Domain\Voluntr.Crosscutting.Domain.csproj", "{00777864-ADF3-413B-8B6B-B55CE797B22E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voluntr.Crosscutting.Infrastructure", "Voluntr.Crosscutting.Infrastructure\Voluntr.Crosscutting.Infrastructure.csproj", "{E9140462-F21D-4232-AB78-CDC9433B6BC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voluntr.Crosscutting.Infrastructure", "Voluntr.Crosscutting.Infrastructure\Voluntr.Crosscutting.Infrastructure.csproj", "{E9140462-F21D-4232-AB78-CDC9433B6BC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

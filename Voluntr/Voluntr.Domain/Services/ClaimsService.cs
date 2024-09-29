@@ -1,56 +1,78 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Voluntr.Crosscutting.Domain.Events.Notifications;
 using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.Helpers.Validators;
 using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
+using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Services;
+using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Services
 {
     public class ClaimsService(
        ICryptographyService cryptographyService,
        ClaimsPrincipal claims,
-       IMediatorHandler mediator
+       IMediatorHandler mediator,
+       TokenConfig tokenConfig
     ) : IClaimsService
     {
-        public Guid GetCurrentUserId()
+        public Guid? GetCurrentUserId()
         {
-            string userId = claims.GetUserIdFromToken();
+            var userId = claims.GetUserIdFromToken();
 
-            if (!string.IsNullOrEmpty(userId))
-            {
-                userId = cryptographyService.Decrypt(userId);
+            if (string.IsNullOrEmpty(userId))
+                return null;
 
-                if (!Validator.IsGuid(userId))
-                {
-                    NotifyError(Values.Message.UserRequestNotFound);
-                    return Guid.Empty;
-                }
-            }
+            userId = cryptographyService.Decrypt(userId);
 
-            return Guid.Parse(userId);
-        }
-
-        public string GetCurrentUserRole()
-        {
-            var role = claims.GetRolesFromToken();
-
-            if (string.IsNullOrEmpty(role))
+            if (!Validator.IsGuid(userId))
             {
                 NotifyError(Values.Message.UserRequestNotFound);
                 return null;
             }
 
-            return cryptographyService.Decrypt(role);
+            return Guid.Parse(userId);
         }
 
-        public bool IsAdmin()
+        public string GenerateToken(User user)
         {
-            var roles = GetCurrentUserRole();
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            return roles.Contains("Admin");
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, cryptographyService.Encrypt(user.Id.ToString())),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            JwtSecurityToken token;
+
+            if (tokenConfig.ExpiryMinutes == 0)
+            {
+                token = new JwtSecurityToken(
+                    issuer: tokenConfig.Issuer,
+                    audience: tokenConfig.Audience,
+                    claims: claims,
+                    signingCredentials: credentials
+                );
+            }
+            else
+            {
+                token = new JwtSecurityToken(
+                    issuer: tokenConfig.Issuer,
+                    audience: tokenConfig.Audience,
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(tokenConfig.ExpiryMinutes),
+                    signingCredentials: credentials
+                );
+            }
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         protected void NotifyError(string message) => NotifyError(string.Empty, message);

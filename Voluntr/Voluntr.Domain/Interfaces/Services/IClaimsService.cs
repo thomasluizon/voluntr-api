@@ -1,9 +1,10 @@
-﻿namespace Voluntr.Domain.Interfaces.Services
+﻿using Voluntr.Domain.Models;
+
+namespace Voluntr.Domain.Interfaces.Services
 {
     public interface IClaimsService
     {
-        Guid GetCurrentUserId();
-        string GetCurrentUserRole();
-        bool IsAdmin();
+        Guid? GetCurrentUserId();
+        string GenerateToken(User user);
     }
 }
