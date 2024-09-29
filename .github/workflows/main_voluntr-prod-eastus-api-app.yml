@@ -18,6 +18,13 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Clean the solution
+        run: dotnet clean Voluntr/Voluntr.sln --configuration Release
+
+      - name: Remove Previous Output Files
+        run: |
+          sudo rm -rf ${{env.DOTNET_ROOT}}/myapp/*
+
       - name: Build with dotnet
         run: dotnet build Voluntr/Voluntr.sln --configuration Release
 
