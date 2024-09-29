@@ -58,7 +58,8 @@ namespace Voluntr.Domain.Services
                     issuer: tokenConfig.Issuer,
                     audience: tokenConfig.Audience,
                     claims: claims,
-                    signingCredentials: credentials
+                    signingCredentials: credentials,
+                    expires: DateTime.Now.AddYears(200)
                 );
             }
             else

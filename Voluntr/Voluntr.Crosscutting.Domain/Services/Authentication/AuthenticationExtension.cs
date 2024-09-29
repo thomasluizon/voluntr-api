@@ -13,8 +13,10 @@ namespace Voluntr.Crosscutting.Domain.Services.Authentication
     {
         public static AuthenticationBuilder AddVoluntrAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<TokenConfig>(configuration.GetSection("Authentication:TokenCredentials"));
-            //services.Configure<GoogleConfig>(configuration.GetSection("Authentication:Google"));
+            var authenticationSection = configuration.GetSection("Authentication");
+
+            services.Configure<TokenConfig>(authenticationSection.GetSection("TokenCredentials"));
+            //services.Configure<GoogleConfig>(authenticationSection.GetSection("Google"));
 
             services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
             //services.AddSingleton<IConfigureOptions<GoogleOptions>, ConfigureGoogleOptions>();
