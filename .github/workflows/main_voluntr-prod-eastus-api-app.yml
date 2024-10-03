@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - voluntr-prod-eastus-api-app
+name: voluntr-prod-eastus-api-app
 
 on:
   push:
@@ -11,64 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
         with:
-          dotnet-version: '8.x'
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Clean the solution
-        run: dotnet clean Voluntr/Voluntr.sln --configuration Release
-
-      - name: Remove Previous Output Files
+      - name: Build and push Docker image to Production
         run: |
-          sudo rm -rf ${{env.DOTNET_ROOT}}/myapp/*
-
-      - name: Build with dotnet
-        run: dotnet build Voluntr/Voluntr.sln --configuration Release
-
-      - name: Publish each project individually
-        run: |
-          dotnet publish Voluntr/Voluntr.Crosscutting.Domain/Voluntr.Crosscutting.Domain.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Crosscutting.Domain
-          dotnet publish Voluntr/Voluntr.Crosscutting.Infrastructure/Voluntr.Crosscutting.Infrastructure.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Crosscutting.Infrastructure
-          dotnet publish Voluntr/Voluntr.Domain/Voluntr.Domain.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Domain
-          dotnet publish Voluntr/Voluntr.IoC/Voluntr.IoC.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.IoC
-          dotnet publish Voluntr/Voluntr.Infrastructure/Voluntr.Infrastructure.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Infrastructure
-          dotnet publish Voluntr/Voluntr.Application/Voluntr.Application.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp/Voluntr.Application
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/voluntr-api:prod .
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/voluntr-api:prod
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write # This is required for requesting the JWT
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
-      
-      - name: Login to Azure
+      - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F839942241424678AE0C3C6D35546227 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_93D096DE3B8947F689A2AE10163A8B8E }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A5AA843CE8A54402A4F8110215F7B772 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App using Docker
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'voluntr-prod-eastus-api-app'
-          slot-name: 'Production'
-          package: .
+          images: '${{ secrets.ACR_LOGIN_SERVER }}/voluntr-api:prod'
