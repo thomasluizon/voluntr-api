@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Voluntr.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Voluntr.Api.Controllers.AuthController.Register(Voluntr.Application.ViewModels.RegisterUserViewModel)">
+            <summary>
+            Realiza o cadastro do usuário
+            </summary>
+            <param name="viewModel">Dados do usuário</param>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.AuthController.Login(Voluntr.Application.ViewModels.AuthenticationRequestViewModel)">
+            <summary>
+            Realiza o login do usuário
+            </summary>
+            <param name="viewModel">Dados do login</param>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">
+            <summary>
+            Realiza a consulta de todos os voluntários
+            </summary>
+        </member>
+    </members>
+</doc>
