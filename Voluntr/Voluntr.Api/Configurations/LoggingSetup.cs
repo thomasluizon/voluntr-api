@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging.ApplicationInsights;
+﻿using Microsoft.ApplicationInsights.Extensibility;
 
 namespace Voluntr.Api.Configurations
 {
@@ -6,26 +6,25 @@ namespace Voluntr.Api.Configurations
     {
         public static void AddLoggingSetup(this WebApplicationBuilder builder)
         {
-            var appInsightsConnectionString = builder.Configuration.GetConnectionString("ApplicationInsights");
+            var appInsightsConnectionString = builder.Configuration.GetValue<string>("APPLICATIONINSIGHTS_CONNECTION_STRING");
 
-            if (string.IsNullOrEmpty(appInsightsConnectionString)) 
+            if (string.IsNullOrEmpty(appInsightsConnectionString))
                 return;
-
-            builder.Logging.ClearProviders();
-            builder.Logging.AddConsole();
-
-            builder.Logging.AddApplicationInsights(
-                configureTelemetryConfiguration: (config) => config.ConnectionString = appInsightsConnectionString,
-                configureApplicationInsightsLoggerOptions: (options) => { }
-            );
-
-            builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
 
             builder.Services.AddApplicationInsightsTelemetry(options =>
             {
                 options.ConnectionString = appInsightsConnectionString;
-                options.EnableAdaptiveSampling = false;
             });
+
+            builder.Logging.AddApplicationInsights(
+                configureTelemetryConfiguration: (config) =>
+                {
+                    config.ConnectionString = appInsightsConnectionString;
+                },
+                configureApplicationInsightsLoggerOptions: (options) => { }
+            );
+
+            builder.Services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
         }
     }
 }
