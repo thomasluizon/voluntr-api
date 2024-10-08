@@ -1,0 +1,61 @@
+name: Build and deploy ASP.Net Core app to Azure Web App - voluntr-prod-eastus-app
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Build with dotnet
+        run: dotnet build Voluntr/Voluntr.Api/Voluntr.Api.csproj --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish Voluntr/Voluntr.Api/Voluntr.Api.csproj -c Release -o ${{ github.workspace }}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{ github.workspace }}/myapp
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9DA1E9AF51B842E8A71FC20F0249A80C }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2ABC8FEA960B474C953E54C8312F5658 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_95827D33641F4DA28F8B97BE9888F79D }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'voluntr-prod-eastus-app'
+          slot-name: 'Production'
+          package: .
