@@ -31,6 +31,7 @@ builder.Services.AddSendGridSetup(configuration);
 builder.Services.AddSwaggerSetup();
 builder.Services.AddResponseCompression();
 builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+builder.Services.AddSignalR();
 builder.Services.AddOptions();
 builder.Services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddEndpointsApiExplorer();
