@@ -62,7 +62,10 @@ app.UseCors(cors =>
 {
     cors.AllowAnyHeader();
     cors.AllowAnyMethod();
-    cors.WithOrigins("http://localhost:8080", "https://deploy-voluntr-web.com");
+    cors.WithOrigins(
+        "http://localhost:3000",
+        app.Configuration.GetSection("Urls").GetValue<string>("VoluntrWeb")
+    );
 });
 
 app.MapControllers();
