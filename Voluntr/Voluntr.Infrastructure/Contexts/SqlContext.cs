@@ -16,6 +16,12 @@ namespace Voluntr.Infrastructure.Contexts
 
             #endregion
 
+            #region Email
+
+            modelBuilder.ApplyConfiguration(new EmailMap());
+
+            #endregion
+
             base.OnModelCreating(modelBuilder);
         }
     }

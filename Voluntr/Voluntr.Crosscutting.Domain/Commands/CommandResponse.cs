@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using System.Text.Json.Serialization;
 using Voluntr.Crosscutting.Domain.Commands.Events;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 
 namespace Voluntr.Crosscutting.Domain.Commands
 {
@@ -12,7 +13,7 @@ namespace Voluntr.Crosscutting.Domain.Commands
         public string Language { get; set; }
 
         [JsonIgnore]
-        public DateTime Timestamp { get; private set; } = DateTime.Now;
+        public DateTime Timestamp { get; private set; } = DateTime.Now.ToBrazilianTimezone();
 
         [JsonIgnore]
         public bool ExecutedSuccessfullyCommand { get; set; } = false;

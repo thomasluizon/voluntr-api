@@ -297,7 +297,7 @@ namespace Voluntr.Crosscutting.Infrastructure.Repositories
                 await DbSet().AddAsync(entity);
             else
             {
-                entity.UpdatedAt = DateTime.Now;
+                entity.UpdatedAt = DateTime.Now.ToBrazilianTimezone();
 
                 Context.Entry(contextEntity).CurrentValues.SetValues(entity);
                 Context.Entry(contextEntity).State = EntityState.Modified;
@@ -306,7 +306,7 @@ namespace Voluntr.Crosscutting.Infrastructure.Repositories
 
         public async Task UpdateAsync(TEntity entity)
         {
-            entity.UpdatedAt = DateTime.Now;
+            entity.UpdatedAt = DateTime.Now.ToBrazilianTimezone();
 
             Context.Entry(entity).CurrentValues.SetValues(entity);
             Context.Entry(entity).State = EntityState.Modified;

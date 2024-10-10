@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using System.Text.Json.Serialization;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.Queries.Events;
 
 namespace Voluntr.Crosscutting.Domain.Queries
@@ -11,7 +12,7 @@ namespace Voluntr.Crosscutting.Domain.Queries
         [JsonIgnore]
         public string Route { get; set; }
 
-        public DateTime CreatedAt { get; private set; } = DateTime.Now;
+        public DateTime CreatedAt { get; private set; } = DateTime.Now.ToBrazilianTimezone();
 
         public ValidationResult ValidationResult { get; set; } = new();
 

@@ -6,8 +6,8 @@ namespace Voluntr.Domain.Models
 {
     public class Notification : Entity
     {
-        // Definir estrutura de Id externo
-
+        // TODO: Definir estrutura de Id externo
+        public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
         public string Level { get; set; }

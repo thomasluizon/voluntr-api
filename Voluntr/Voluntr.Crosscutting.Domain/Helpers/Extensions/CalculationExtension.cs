@@ -4,9 +4,9 @@
     {
         public static int CalculateAge(this DateTime birthDate)
         {
-            int age = DateTime.Now.Year - birthDate.Year;
+            int age = DateTime.Now.ToBrazilianTimezone().Year - birthDate.Year;
 
-            if (DateTime.Now.DayOfYear < birthDate.DayOfYear)
+            if (DateTime.Now.ToBrazilianTimezone().DayOfYear < birthDate.DayOfYear)
                 age -= 1;
 
             return age;

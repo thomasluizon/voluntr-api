@@ -11,12 +11,10 @@ namespace Voluntr.Api.Configurations
 
             services.AddSwaggerGen(c =>
             {
-                // Inclui comentários XML
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
-                // Definição do esquema de segurança JWT
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -27,7 +25,6 @@ namespace Voluntr.Api.Configurations
                     BearerFormat = "JWT"
                 });
 
-                // Requisito de segurança global
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -43,7 +40,6 @@ namespace Voluntr.Api.Configurations
                     }
                 });
 
-                // Configurações da documentação da API
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -61,13 +57,10 @@ namespace Voluntr.Api.Configurations
                     }
                 });
 
-                // Agrupa as ações pelos controladores
                 c.TagActionsBy(api =>
                 {
-                    return new List<string> { api.GroupName ?? api.ActionDescriptor.RouteValues["controller"] };
+                    return [api.GroupName ?? api.ActionDescriptor.RouteValues["controller"]];
                 });
-
-                // Outras configurações, se necessário
             });
         }
 
@@ -75,17 +68,14 @@ namespace Voluntr.Api.Configurations
         {
             ArgumentNullException.ThrowIfNull(app);
 
-            // Gera o documento Swagger JSON
             app.UseSwagger();
 
-            // Configura o Swagger UI
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = "swagger";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voluntr API v1");
             });
 
-            // Configura o ReDoc usando Swashbuckle
             app.UseReDoc(c =>
             {
                 c.RoutePrefix = "docs";

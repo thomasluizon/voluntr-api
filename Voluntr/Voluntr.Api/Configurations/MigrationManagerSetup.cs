@@ -7,11 +7,10 @@ namespace Voluntr.Api.Configurations
     {
         public static IHost MigrationAndSeedDatabase(this IHost host)
         {
-            using (var scope = host.Services.CreateScope())
-            {
-                using var context = (SqlContext)scope.ServiceProvider.GetService(typeof(SqlContext));
-                context.Database.Migrate();
-            }
+            using var scope = host.Services.CreateScope();
+            using var context = (SqlContext)scope.ServiceProvider.GetService(typeof(SqlContext));
+
+            context.Database.Migrate();
 
             return host;
         }
