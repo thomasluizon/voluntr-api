@@ -59,7 +59,7 @@ namespace Voluntr.Domain.Services
                     audience: tokenConfig.Audience,
                     claims: claims,
                     signingCredentials: credentials,
-                    expires: DateTime.Now.AddYears(200)
+                    expires: DateTime.Now.ToBrazilianTimezone().AddYears(200)
                 );
             }
             else
@@ -68,7 +68,7 @@ namespace Voluntr.Domain.Services
                     issuer: tokenConfig.Issuer,
                     audience: tokenConfig.Audience,
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(tokenConfig.ExpiryMinutes),
+                    expires: DateTime.Now.ToBrazilianTimezone().AddMinutes(tokenConfig.ExpiryMinutes),
                     signingCredentials: credentials
                 );
             }

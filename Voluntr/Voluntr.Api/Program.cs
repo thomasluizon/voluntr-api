@@ -19,6 +19,7 @@ var configuration = builder.Configuration;
 // Register services
 builder.AddAzureKeyVaultSetup();
 builder.AddLoggingSetup();
+
 builder.Services.AddDependencyInjectionSetup();
 builder.Services.AddTokenCredentialSetup(configuration);
 builder.Services.AddVoluntrAuthentication(configuration);
@@ -26,20 +27,18 @@ builder.Services.AddCryptographySetup(configuration);
 builder.Services.AddAutoMapperSetup();
 builder.Services.AddSqlContext<SqlContext>(configuration);
 builder.Services.AddAzureBlobSetup(configuration);
-
-builder.Services.AddControllers(options =>
-    options.Conventions.Add(new ControllerDocumentationConvention()))
-    .AddJsonOptions(options =>
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
+builder.Services.AddSendGridSetup(configuration);
 builder.Services.AddSwaggerSetup();
 builder.Services.AddResponseCompression();
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-    options.Level = CompressionLevel.Optimal);
+builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+builder.Services.AddSignalR();
 builder.Services.AddOptions();
-builder.Services.AddMediatR(options =>
-    options.RegisterServicesFromAssemblyContaining<Program>());
+builder.Services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services
+    .AddControllers(options => options.Conventions.Add(new ControllerDocumentationConvention()))
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 
@@ -48,15 +47,13 @@ app.MigrationAndSeedDatabase();
 
 // Configure middlewares
 app.UseSwaggerSetup();
-
 app.ConfigureExceptionHandler();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 app.UseCors(cors =>
 {
@@ -67,7 +64,5 @@ app.UseCors(cors =>
         app.Configuration.GetSection("Urls").GetValue<string>("VoluntrWeb")
     );
 });
-
-app.MapControllers();
 
 app.Run();
