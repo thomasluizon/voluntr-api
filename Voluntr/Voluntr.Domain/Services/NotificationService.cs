@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Hubs;
+using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Domain.Models;
@@ -51,7 +54,7 @@ namespace Voluntr.Domain.Services
                     Level = notification.Level,
                     Title = notification.Title,
                     Url = notification.Url,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now.ToBrazilianTimezone()
                 };
 
                 await notificationRepository.InsertAsync(newNotification);
