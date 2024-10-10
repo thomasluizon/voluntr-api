@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
+    .AddEnvironmentVariables()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 var configuration = builder.Configuration;
@@ -59,8 +60,8 @@ app.UseCors(cors =>
 {
     cors.AllowAnyHeader();
     cors.AllowAnyMethod();
-    cors.WithOrigins(
-        "http://localhost:3000",
+    cors.WithOrigins("" +
+        "http://localhost:3000", 
         app.Configuration.GetSection("Urls").GetValue<string>("VoluntrWeb")
     );
 });
