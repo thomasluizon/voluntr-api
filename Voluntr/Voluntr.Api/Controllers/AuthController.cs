@@ -44,11 +44,5 @@ namespace Voluntr.Api.Controllers
 
             return Response(response);
         }
-
-        [HttpGet("exception")]
-        public Task<IActionResult> Exception()
-        {
-            throw new Exception("Teste exception");
-        }
     }
 }

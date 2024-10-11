@@ -16,6 +16,12 @@
             </summary>
             <param name="viewModel">Dados do login</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.ExceptionController.Exception">
+            <summary>
+            Sobe uma exception de teste
+            </summary>
+            <exception cref="M:Voluntr.Api.Controllers.ExceptionController.Exception">Exception de teste</exception>
+        </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">
             <summary>
             Realiza a consulta de todos os voluntários
