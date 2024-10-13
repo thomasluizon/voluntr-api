@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Voluntr.Api\Voluntr.Api.csproj" />
     <ProjectReference Include="..\Voluntr.Application\Voluntr.Application.csproj" />
   </ItemGroup>
 
