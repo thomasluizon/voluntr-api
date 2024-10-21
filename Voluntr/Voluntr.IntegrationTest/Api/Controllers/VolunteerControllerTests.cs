@@ -13,48 +13,48 @@ namespace Voluntr.IntegrationTest.Api.Controllers
         [Fact]
         public async Task GetVolunteers_ReturnsOkResponse_WithVolunteerList()
         {
-            // Arrange: Fazer login e obter o token JWT
+            // Arrange: Login and get JWT Token
             await client.LoginAsync();
 
-            // Act: Fazer uma requisição GET para o endpoint de voluntários
+            // Act: GET request to the volunteers endpoint
             var response = await client.GetAsync("/volunteer");
 
-            // Assert: Verificar se o status retornado é 200 (OK)
+            // Assert: Check if the status code is 200 (OK)
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            // Assert: Verificar o conteúdo da resposta (voluntários)
+            // Assert: Check the response content (volunteers)
             var volunteers = await response.Content.ReadFromJsonAsync<List<VolunteerResponseViewModel>>();
 
             Assert.NotNull(volunteers);
-            Assert.NotEmpty(volunteers);  // Verificar que a lista não está vazia
+            Assert.NotEmpty(volunteers);
         }
 
         [Fact]
         public async Task GetVolunteers_WhenNoVolunteersExist_ReturnsEmptyList()
         {
-            // Arrange: Fazer login e obter o token JWT
+            // Arrange: Login and get JWT Token
             await client.LoginAsync();
 
-            // Act: Fazer uma requisição GET para o endpoint de voluntários
+            // Act: GET request to the volunteers endpoint
             var response = await client.GetAsync("/volunteer");
 
-            // Assert: Verificar se o status retornado é 200 (OK)
+            // Assert: Check if the status code is 200 (OK)
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            // Assert: Verificar o conteúdo da resposta (voluntários)
+            // Assert: Check the response content (volunteers)
             var volunteers = await response.Content.ReadFromJsonAsync<List<VolunteerResponseViewModel>>();
 
             Assert.NotNull(volunteers);
-            Assert.Empty(volunteers);  // Espera uma lista vazia quando não há voluntários
+            Assert.Empty(volunteers);
         }
 
         [Fact]
         public async Task GetVolunteers_UnauthorizedAccess_ReturnsUnauthorizedResponse()
         {
-            // Act: Tentar acessar o endpoint de voluntários sem autenticação
+            // Act: Try to access the volunteers endpoint without logging in
             var response = await client.GetAsync("/volunteer");
 
-            // Assert: Verificar se o status retornado é 401 (Unauthorized)
+            // Assert: Check if the status code is 401 (Unauthorized)
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
     }
