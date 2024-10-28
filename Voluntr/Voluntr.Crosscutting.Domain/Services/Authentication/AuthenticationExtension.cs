@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -13,41 +11,18 @@ namespace Voluntr.Crosscutting.Domain.Services.Authentication
     {
         public static AuthenticationBuilder AddVoluntrAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var authenticationSection = configuration.GetSection("Authentication");
+            var tokenConfig = new TokenConfig();
+            configuration.GetSection("Authentication:TokenCredentials").Bind(tokenConfig);
 
-            services.Configure<TokenConfig>(authenticationSection.GetSection("TokenCredentials"));
-            //services.Configure<GoogleConfig>(authenticationSection.GetSection("Google"));
-
-            services.AddSingleton<IConfigureOptions<JwtBearerOptions>, ConfigureJwtOptions>();
-            //services.AddSingleton<IConfigureOptions<GoogleOptions>, ConfigureGoogleOptions>();
+            var azureAdB2CConfig = new AzureAdB2CConfig();
+            configuration.GetSection("Authentication:AzureAdB2C").Bind(azureAdB2CConfig);
 
             var authenticationBuilder = services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = "AzureAdB2C";
             })
-            .AddJwtBearer();
-
-            //authenticationBuilder.AddGoogle();
-
-            return authenticationBuilder;
-        }
-
-        private class ConfigureJwtOptions : IConfigureNamedOptions<JwtBearerOptions>
-        {
-            private readonly TokenConfig tokenConfig;
-
-            public ConfigureJwtOptions(IOptions<TokenConfig> tokenConfigOptions)
-            {
-                tokenConfig = tokenConfigOptions.Value;
-
-                if (string.IsNullOrEmpty(tokenConfig.Secret))
-                {
-                    throw new Exception("Secret está indefinido. Verifique se 'JwtSettings:Secret' está configurado no appsettings.json.");
-                }
-            }
-
-            public void Configure(string name, JwtBearerOptions options)
+            .AddJwtBearer(options =>
             {
                 var key = Encoding.UTF8.GetBytes(tokenConfig.Secret);
 
@@ -62,39 +37,23 @@ namespace Voluntr.Crosscutting.Domain.Services.Authentication
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
-            }
-
-            public void Configure(JwtBearerOptions options)
+            })
+            .AddOpenIdConnect("AzureAdB2C", options =>
             {
-                Configure(Options.DefaultName, options);
-            }
-        }
-
-        private class ConfigureGoogleOptions : IConfigureNamedOptions<GoogleOptions>
-        {
-            private readonly GoogleConfig googleConfig;
-
-            public ConfigureGoogleOptions(IOptions<GoogleConfig> googleConfigOptions)
-            {
-                googleConfig = googleConfigOptions.Value;
-
-                if (string.IsNullOrEmpty(googleConfig.ClientId) || string.IsNullOrEmpty(googleConfig.ClientSecret))
+                options.Authority = $"{azureAdB2CConfig.Instance}{azureAdB2CConfig.Domain}/{azureAdB2CConfig.SignUpSignInPolicyId}/v2.0";
+                options.ClientId = azureAdB2CConfig.ClientId;
+                options.ClientSecret = azureAdB2CConfig.ClientSecret;
+                options.ResponseType = "code";
+                options.SaveTokens = true;
+                options.CallbackPath = azureAdB2CConfig.CallbackPath;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    throw new Exception("ClientId ou ClientSecret do Google estão indefinidos. Verifique se 'Authentication:Google:ClientId' e 'Authentication:Google:ClientSecret' estão configurados no appsettings.json.");
-                }
-            }
+                    NameClaimType = "name",
+                    ValidateIssuer = true,
+                };
+            });
 
-            public void Configure(string name, GoogleOptions options)
-            {
-                options.ClientId = googleConfig.ClientId;
-                options.ClientSecret = googleConfig.ClientSecret;
-                options.CallbackPath = googleConfig.CallbackPath;
-            }
-
-            public void Configure(GoogleOptions options)
-            {
-                Configure(Options.DefaultName, options);
-            }
+            return authenticationBuilder;
         }
     }
 }
