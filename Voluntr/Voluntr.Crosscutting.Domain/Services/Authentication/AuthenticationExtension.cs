@@ -38,6 +38,7 @@ namespace Voluntr.Crosscutting.Domain.Services.Authentication
                     ClockSkew = TimeSpan.Zero
                 };
             })
+            .AddCookie()
             .AddOpenIdConnect("AzureAdB2C", options =>
             {
                 options.Authority = $"{azureAdB2CConfig.Instance}{azureAdB2CConfig.Domain}/{azureAdB2CConfig.SignUpSignInPolicyId}/v2.0";
