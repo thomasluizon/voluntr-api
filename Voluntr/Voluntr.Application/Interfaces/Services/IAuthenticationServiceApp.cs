@@ -6,6 +6,6 @@ namespace Voluntr.Application.Interfaces.Services
     {
         Task<AuthenticationResponseViewModel> Login(AuthenticationRequestViewModel viewModel);
         Task<CommandResponseViewModel> Register(RegisterUserViewModel viewModel);
-        Task<AuthenticationResponseViewModel> HandleGoogleCallback();
+        Task<AuthenticationResponseViewModel> HandleGoogleCallback(string code, string state);
     }
 }

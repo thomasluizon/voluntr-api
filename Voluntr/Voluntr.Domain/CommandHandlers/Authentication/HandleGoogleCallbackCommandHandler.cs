@@ -12,29 +12,42 @@ using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Domain.Models;
+using Microsoft.Identity.Client;
 
 namespace Voluntr.Domain.CommandHandlers
 {
     public class HandleGoogleCallbackCommandHandler(
         IMediatorHandler mediator,
-        IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository,
         IClaimsService claimsService,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        IConfidentialClientApplication confidentialClientApplication // Assumindo que você configurou esse client para troca de token
     ) : MediatorResponseCommandHandler<HandleGoogleCallbackCommand, AuthenticationDto>(mediator)
     {
         public override async Task<AuthenticationDto> AfterValidation(HandleGoogleCallbackCommand request)
         {
-            var authenticateResult = await httpContextAccessor.HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
-
-            if (!authenticateResult.Succeeded)
+            AuthenticationResult authResult;
+            try
             {
-                NotifyError("Falha ao autenticar via Google");
+                authResult = await confidentialClientApplication.AcquireTokenByAuthorizationCode(new[] { "User.Read" }, request.Code).ExecuteAsync();
+            }
+            catch (MsalServiceException ex)
+            {
+                NotifyError("Erro ao trocar o código de autorização pelo token: " + ex.Message);
                 return null;
             }
 
-            var email = authenticateResult.Principal.FindFirstValue(ClaimTypes.Email);
-            var name = authenticateResult.Principal.FindFirstValue(ClaimTypes.Name);
+            var idToken = authResult.IdToken;
+            var claimsPrincipal = ParseIdToken(idToken);
+
+            var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+            var name = claimsPrincipal.FindFirstValue(ClaimTypes.Name);
+
+            if (string.IsNullOrEmpty(email))
+            {
+                NotifyError("Email não encontrado no token recebido");
+                return null;
+            }
 
             var user = await userRepository.GetFirstByExpressionAsync(x => x.Email == email);
 
@@ -62,9 +75,18 @@ namespace Voluntr.Domain.CommandHandlers
                 };
             }
             else
+            {
                 NotifyError(Values.Message.DefaultError);
+            }
 
             return null;
+        }
+
+        private static ClaimsPrincipal ParseIdToken(string idToken)
+        {
+            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(idToken) as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+            return new ClaimsPrincipal(new ClaimsIdentity(jsonToken.Claims, "jwt"));
         }
     }
 }

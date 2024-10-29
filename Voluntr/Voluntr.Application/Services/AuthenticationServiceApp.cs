@@ -27,9 +27,14 @@ namespace Voluntr.Application.Services
             return mapper.Map<CommandResponseViewModel>(response);
         }
 
-        public async Task<AuthenticationResponseViewModel> HandleGoogleCallback()
+        public async Task<AuthenticationResponseViewModel> HandleGoogleCallback(string code, string state)
         {
-            var command = new HandleGoogleCallbackCommand();
+            var command = new HandleGoogleCallbackCommand
+            {
+                Code = code,
+                State = state
+            };
+
             var response = await mediator.SendCommandResponse(command);
 
             return mapper.Map<AuthenticationResponseViewModel>(response);

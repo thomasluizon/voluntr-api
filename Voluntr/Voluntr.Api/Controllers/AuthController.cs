@@ -70,12 +70,12 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Callback após autenticação via Google (recebe o authorization code)
         /// </summary>
-        [HttpGet("google-callback")]
+        [HttpPost("google-callback")]
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GoogleCallback()
+        public async Task<IActionResult> GoogleCallback([FromForm] string code, [FromForm] string state)
         {
-            var response = await authenticationServiceApp.HandleGoogleCallback();
+            var response = await authenticationServiceApp.HandleGoogleCallback(code, state);
 
             return Response(response);
         }
