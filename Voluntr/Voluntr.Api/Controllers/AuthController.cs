@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -11,7 +12,8 @@ namespace Voluntr.Api.Controllers
     [Produces("application/json")]
     public class AuthController(
         IMediatorHandler mediator,
-        IAuthenticationServiceApp authenticationServiceApp
+        IAuthenticationServiceApp authenticationServiceApp,
+        IConfiguration configuration
     ) : ApiController(mediator)
     {
 
@@ -21,7 +23,6 @@ namespace Voluntr.Api.Controllers
         /// <param name="viewModel">Dados do usuário</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
@@ -36,7 +37,6 @@ namespace Voluntr.Api.Controllers
         /// <param name="viewModel">Dados do login</param>
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestViewModel viewModel)
         {
@@ -45,10 +45,39 @@ namespace Voluntr.Api.Controllers
             return Response(response);
         }
 
-        [HttpGet("exception")]
-        public Task<IActionResult> Exception()
+        /// <summary>
+        /// Redireciona o usuário para o Azure AD B2C para autenticação
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [HttpGet("login/google")]
+        public IActionResult GoogleLogin()
         {
-            throw new Exception("Teste exception");
+            var url = configuration.GetSection("Urls").GetValue<string>("VoluntrApi");
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                return Challenge(new AuthenticationProperties
+                {
+                    RedirectUri = $"{url}/auth/google-callback"
+                },
+                "AzureAdB2C");
+            }
+
+            return StatusCode(500);
+        }
+
+        /// <summary>
+        /// Callback após autenticação via Google (recebe o authorization code)
+        /// </summary>
+        [HttpGet("google-callback")]
+        [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GoogleCallback()
+        {
+            var response = await authenticationServiceApp.HandleGoogleCallback();
+
+            return Response(response);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Voluntr.Crosscutting.Infrastructure.Mappings;
 using Voluntr.Domain.Models;
 
@@ -19,6 +20,16 @@ namespace Voluntr.Infrastructure.Mappings
             builder.Property(x => x.Password)
                 .HasMaxLength(100)
                 .IsRequired(false);
+
+            builder.Property(x => x.OAuth)
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            builder.Property(x => x.OAuthProvider)
+                .HasMaxLength(100)
+                .IsRequired(false);
+
+            builder.Ignore(x => x.OAuthProviderEnum);
 
             base.Configure(builder);
         }

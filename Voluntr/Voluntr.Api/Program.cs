@@ -49,7 +49,12 @@ app.MigrationAndSeedDatabase();
 // Configure middlewares
 app.UseSwaggerSetup();
 app.ConfigureExceptionHandler();
-app.UseHttpsRedirection();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
@@ -60,10 +65,15 @@ app.UseCors(cors =>
 {
     cors.AllowAnyHeader();
     cors.AllowAnyMethod();
+    cors.AllowCredentials();
     cors.WithOrigins("" +
-        "http://localhost:3000", 
-        app.Configuration.GetSection("Urls").GetValue<string>("VoluntrWeb")
+        "http://localhost:3000",
+        "http://localhost:5000",
+        app.Configuration.GetSection("Urls").GetValue<string>("VoluntrWeb"),
+        app.Configuration.GetSection("Urls").GetValue<string>("VoluntrApi")
     );
 });
 
 app.Run();
+
+public partial class Program { }
