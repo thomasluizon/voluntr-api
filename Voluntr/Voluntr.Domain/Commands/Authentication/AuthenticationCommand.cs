@@ -9,5 +9,6 @@ namespace Voluntr.Domain.Commands
         public string Password { get; set; }
         public string Code { get; set; }
         public string State { get; set; }
+        public string GoogleToken { get; set; }
     }
 }

@@ -14,8 +14,13 @@ namespace Voluntr.Application.Mappings
 
             CreateMap<Volunteer, VolunteerDto>();
 
+            #endregion
+
+            #region Authentication
+
             CreateMap<RegisterUserViewModel, RegisterUserCommand>();
             CreateMap<AuthenticationRequestViewModel, LoginUserCommand>();
+            CreateMap<GoogleAuthenticationRequestViewModel, LoginWithGoogleUserCommand>();
 
             #endregion
         }

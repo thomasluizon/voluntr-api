@@ -28,5 +28,19 @@ namespace Voluntr.Domain.Validations
                 .NotNull().NotEmpty().WithMessage("O nome do usuário é obrigatório")
                 .MaximumLength(100).WithMessage("O nome do usuário deve conter no máximo 100 caracteres");
         }
+
+        #region OAuth
+
+        #region Google
+
+        protected void ValidateGoogleToken()
+        {
+            RuleFor(c => c.GoogleToken)
+                .NotNull().NotEmpty().WithMessage("O token do google é obrigatório");
+        }
+
+        #endregion
+
+        #endregion
     }
 }
