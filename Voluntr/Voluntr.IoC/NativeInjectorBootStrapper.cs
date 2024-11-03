@@ -25,6 +25,7 @@ namespace Voluntr.IoC
             #endregion
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpClient();
 
             services.Scan(s => s
                .FromApplicationDependencies(a => a.FullName.StartsWith("Voluntr"))
