@@ -44,15 +44,15 @@ namespace Voluntr.Api.Controllers
         }
 
         /// <summary>
-        /// Realiza o login do usuário pelo Google
+        /// Realiza o login do usuário por OAuth
         /// </summary>
-        /// <param name="viewModel">Dados do login pelo Google</param>
+        /// <param name="viewModel">Dados do login por OAuth</param>
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [HttpPost("login/google")]
-        public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleAuthenticationRequestViewModel viewModel)
+        [HttpPost("login/oauth")]
+        public async Task<IActionResult> OAuthLogin([FromBody] OAuthAuthenticationRequestViewModel viewModel)
         {
-            var response = await authenticationServiceApp.LoginWithGoogle(viewModel);
+            var response = await authenticationServiceApp.OAuthLogin(viewModel);
 
             return Ok(response);
         }

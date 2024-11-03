@@ -1,9 +1,10 @@
 ﻿using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Interfaces.Services
 {
     public interface IOAuthService
     {
-        Task<GoogleOAuthUserDto> ValidateGoogleTokenAsync(string token);
+        Task<OAuthUserDto> ValidateOAuthTokenAsync(string token, OAuthProvider OAuthProvider);
     }
 }

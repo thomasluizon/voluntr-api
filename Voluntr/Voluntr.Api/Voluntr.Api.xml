@@ -16,11 +16,11 @@
             </summary>
             <param name="viewModel">Dados do login</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.LoginWithGoogle(Voluntr.Application.ViewModels.GoogleAuthenticationRequestViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AuthController.OAuthLogin(Voluntr.Application.ViewModels.OAuthAuthenticationRequestViewModel)">
             <summary>
-            Realiza o login do usuário pelo Google
+            Realiza o login do usuário por OAuth
             </summary>
-            <param name="viewModel">Dados do login pelo Google</param>
+            <param name="viewModel">Dados do login por OAuth</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ExceptionController.Exception">
             <summary>

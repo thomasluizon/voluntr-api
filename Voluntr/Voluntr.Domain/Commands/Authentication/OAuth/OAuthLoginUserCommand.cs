@@ -3,11 +3,11 @@ using Voluntr.Domain.Validations;
 
 namespace Voluntr.Domain.Commands
 {
-    public class LoginWithGoogleUserCommand : AuthenticationCommand<AuthenticationDto>
+    public class OAuthLoginUserCommand : AuthenticationCommand<AuthenticationDto>
     {
         public override bool IsValid()
         {
-            ValidationResult = new LoginWithGoogleUserValidation().Validate(this);
+            ValidationResult = new OAuthLoginUserValidation().Validate(this);
 
             return ValidationResult.IsValid;
         }

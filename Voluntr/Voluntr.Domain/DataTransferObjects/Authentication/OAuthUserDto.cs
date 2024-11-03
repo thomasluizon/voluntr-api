@@ -1,6 +1,6 @@
 ﻿namespace Voluntr.Domain.DataTransferObjects
 {
-    public class GoogleOAuthUserDto
+    public class OAuthUserDto
     {
         public string Email { get; set; }
         public string Name { get; set; }

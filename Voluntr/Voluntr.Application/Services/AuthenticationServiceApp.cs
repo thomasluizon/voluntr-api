@@ -27,9 +27,9 @@ namespace Voluntr.Application.Services
             return mapper.Map<CommandResponseViewModel>(response);
         }
 
-        public async Task<AuthenticationResponseViewModel> LoginWithGoogle(GoogleAuthenticationRequestViewModel viewModel)
+        public async Task<AuthenticationResponseViewModel> OAuthLogin(OAuthAuthenticationRequestViewModel viewModel)
         {
-            var command = mapper.Map<LoginWithGoogleUserCommand>(viewModel);
+            var command = mapper.Map<OAuthLoginUserCommand>(viewModel);
             var response = await mediator.SendCommandResponse(command);
 
             return mapper.Map<AuthenticationResponseViewModel>(response);

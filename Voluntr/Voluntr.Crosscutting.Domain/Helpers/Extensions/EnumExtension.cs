@@ -19,7 +19,7 @@ namespace Voluntr.Crosscutting.Domain.Helpers.Extensions
             return string.Join(", ", description);
         }
 
-        public static T GetEnumerator<T>(string description)
+        public static T GetEnumerator<T>(this string description)
         {
             if (description == null)
                 return default;

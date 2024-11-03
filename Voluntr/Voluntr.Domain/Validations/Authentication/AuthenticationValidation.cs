@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.Commands;
+using Voluntr.Domain.Enumerators;
 
 namespace Voluntr.Domain.Validations
 {
@@ -33,10 +35,19 @@ namespace Voluntr.Domain.Validations
 
         #region Google
 
-        protected void ValidateGoogleToken()
+        protected void ValidateOAuth()
         {
-            RuleFor(c => c.GoogleToken)
-                .NotNull().NotEmpty().WithMessage("O token do google é obrigatório");
+            RuleFor(c => c.OAuthToken)
+                .NotNull().NotEmpty().WithMessage("O token é obrigatório");
+
+            RuleFor(c => c.OAuthProviderName)
+                .NotNull().NotEmpty().WithMessage("O provedor de autenticação é obrigatório")
+                .Must(ValidateOAuthProvider).WithMessage("Não é possível fazer login com o provedor de autenticação informado");
+        }
+
+        private bool ValidateOAuthProvider(string provider)
+        {
+            return provider.Trim() == OAuthProviderNameEnum.Google.GetDescription();
         }
 
         #endregion

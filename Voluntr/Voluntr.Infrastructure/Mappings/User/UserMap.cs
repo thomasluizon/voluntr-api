@@ -9,6 +9,9 @@ namespace Voluntr.Infrastructure.Mappings
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(x => x.OAuthProviderId)
+                .IsRequired(false);
+
             builder.Property(x => x.Name)
                 .HasMaxLength(100)
                 .IsRequired();
@@ -21,15 +24,10 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasMaxLength(100)
                 .IsRequired(false);
 
-            builder.Property(x => x.OAuth)
-                .HasDefaultValue(false)
-                .IsRequired();
-
-            builder.Property(x => x.OAuthProvider)
-                .HasMaxLength(100)
-                .IsRequired(false);
-
-            builder.Ignore(x => x.OAuthProviderEnum);
+            builder.HasOne(x => x.OAuthProvider)
+                .WithMany()
+                .HasForeignKey(x => x.OAuthProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.Configure(builder);
         }

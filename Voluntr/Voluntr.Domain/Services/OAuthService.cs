@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
-using System.Net.Http;
 using Voluntr.Domain.DataTransferObjects;
 using Voluntr.Domain.Interfaces.Services;
+using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Services
 {
@@ -10,9 +10,9 @@ namespace Voluntr.Domain.Services
         HttpClient httpClient
     ) : IOAuthService
     {
-        public async Task<GoogleOAuthUserDto> ValidateGoogleTokenAsync(string token)
+        public async Task<OAuthUserDto> ValidateOAuthTokenAsync(string token, OAuthProvider OAuthProvider)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "https://www.googleapis.com/oauth2/v2/userinfo");
+            var request = new HttpRequestMessage(HttpMethod.Get, OAuthProvider.UserInfoApiUrl);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var userInfoResponse = await httpClient.SendAsync(request);
@@ -24,11 +24,11 @@ namespace Voluntr.Domain.Services
 
             var payload = JObject.Parse(await userInfoResponse.Content.ReadAsStringAsync());
 
-            return new GoogleOAuthUserDto
+            return new OAuthUserDto
             {
-                Email = payload.Value<string>("email"),
-                Name = payload.Value<string>("name"),
-                Picture = payload.Value<string>("picture")
+                Email = payload.Value<string>(OAuthProvider.EmailProperty),
+                Name = payload.Value<string>(OAuthProvider.NameProperty),
+                Picture = payload.Value<string>(OAuthProvider.PictureProperty)
             };
         }
     }

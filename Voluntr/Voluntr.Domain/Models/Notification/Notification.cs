@@ -12,6 +12,8 @@ namespace Voluntr.Domain.Models
         public string Url { get; set; }
         public string Level { get; set; }
 
+        public virtual User User { get; set; }
+
         public NotificationLevelEnum NotificationLevelEnum
         {
             get { return EnumExtension.GetEnumerator<NotificationLevelEnum>(Level?.Trim()); }

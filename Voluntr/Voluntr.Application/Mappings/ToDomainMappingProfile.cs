@@ -20,7 +20,7 @@ namespace Voluntr.Application.Mappings
 
             CreateMap<RegisterUserViewModel, RegisterUserCommand>();
             CreateMap<AuthenticationRequestViewModel, LoginUserCommand>();
-            CreateMap<GoogleAuthenticationRequestViewModel, LoginWithGoogleUserCommand>();
+            CreateMap<OAuthAuthenticationRequestViewModel, OAuthLoginUserCommand>();
 
             #endregion
         }
