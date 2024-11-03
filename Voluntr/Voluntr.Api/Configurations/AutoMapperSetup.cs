@@ -7,9 +7,6 @@ namespace Voluntr.Api.Configurations
     {
         public static void AddAutoMapperSetup(this IServiceCollection services)
         {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
             var config = new MapperConfiguration(x =>
             {
                 x.AddProfile(new ToViewModelMappingProfile());

@@ -9,6 +9,12 @@ namespace Voluntr.Infrastructure.Contexts
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Authentication
+
+            modelBuilder.ApplyConfiguration(new OAuthProviderMap());
+
+            #endregion
+
             #region User
 
             modelBuilder.ApplyConfiguration(new VolunteerMap());

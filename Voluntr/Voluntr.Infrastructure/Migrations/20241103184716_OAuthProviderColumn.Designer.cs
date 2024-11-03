@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntr.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using Voluntr.Infrastructure.Contexts;
 namespace Voluntr.Infrastructure.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20241103184716_OAuthProviderColumn")]
+    partial class OAuthProviderColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,46 +51,6 @@ namespace Voluntr.Infrastructure.Migrations
                     b.ToTable("Email");
                 });
 
-            modelBuilder.Entity("Voluntr.Domain.Models.OAuthProvider", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EmailProperty")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("NameProperty")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PictureProperty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserInfoApiUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OAuthProvider");
-                });
-
             modelBuilder.Entity("Voluntr.Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -107,8 +70,14 @@ namespace Voluntr.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("OAuthProviderId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool>("OAuth")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("OAuthProvider")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Password")
                         .HasMaxLength(100)
@@ -118,8 +87,6 @@ namespace Voluntr.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OAuthProviderId");
 
                     b.ToTable("User");
                 });
@@ -144,16 +111,6 @@ namespace Voluntr.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Volunteer");
-                });
-
-            modelBuilder.Entity("Voluntr.Domain.Models.User", b =>
-                {
-                    b.HasOne("Voluntr.Domain.Models.OAuthProvider", "OAuthProvider")
-                        .WithMany()
-                        .HasForeignKey("OAuthProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("OAuthProvider");
                 });
 #pragma warning restore 612, 618
         }

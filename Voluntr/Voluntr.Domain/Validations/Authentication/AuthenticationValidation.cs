@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.Commands;
+using Voluntr.Domain.Enumerators;
 
 namespace Voluntr.Domain.Validations
 {
@@ -28,5 +30,28 @@ namespace Voluntr.Domain.Validations
                 .NotNull().NotEmpty().WithMessage("O nome do usuário é obrigatório")
                 .MaximumLength(100).WithMessage("O nome do usuário deve conter no máximo 100 caracteres");
         }
+
+        #region OAuth
+
+        #region Google
+
+        protected void ValidateOAuth()
+        {
+            RuleFor(c => c.OAuthToken)
+                .NotNull().NotEmpty().WithMessage("O token é obrigatório");
+
+            RuleFor(c => c.OAuthProviderName)
+                .NotNull().NotEmpty().WithMessage("O provedor de autenticação é obrigatório")
+                .Must(ValidateOAuthProvider).WithMessage("Não é possível fazer login com o provedor de autenticação informado");
+        }
+
+        private bool ValidateOAuthProvider(string provider)
+        {
+            return provider.Trim() == OAuthProviderNameEnum.Google.GetDescription();
+        }
+
+        #endregion
+
+        #endregion
     }
 }
