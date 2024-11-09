@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -9,6 +10,7 @@ namespace Voluntr.Api.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize]
     public class AuthController(
         IMediatorHandler mediator,
         IAuthenticationServiceApp authenticationServiceApp
@@ -21,6 +23,7 @@ namespace Voluntr.Api.Controllers
         /// <param name="viewModel">Dados do usuário</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
@@ -35,6 +38,7 @@ namespace Voluntr.Api.Controllers
         /// <param name="viewModel">Dados do login</param>
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestViewModel viewModel)
         {
@@ -43,18 +47,38 @@ namespace Voluntr.Api.Controllers
             return Response(response);
         }
 
+        #region OAuth
+
         /// <summary>
         /// Realiza o login do usuário por OAuth
         /// </summary>
         /// <param name="viewModel">Dados do login por OAuth</param>
         [ProducesResponseType(typeof(AuthenticationResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [HttpPost("login/oauth")]
+        [AllowAnonymous]
+        [HttpPost("oauth/login")]
         public async Task<IActionResult> OAuthLogin([FromBody] OAuthAuthenticationRequestViewModel viewModel)
         {
             var response = await authenticationServiceApp.OAuthLogin(viewModel);
 
-            return Ok(response);
+            return Response(response);
         }
+
+        /// <summary>
+        /// Realiza a vinculação do usuário com um provedor de OAuth, ou desvincula caso já esteja vinculado
+        /// </summary>
+        /// <param name="OAuthProviderName">Provider do OAuth (Google)</param>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPost("oauth/link/{OAuthProviderName}")]
+        public async Task<IActionResult> LinkOAuth([FromRoute] string OAuthProviderName)
+        {
+            await authenticationServiceApp.LinkOAuth(OAuthProviderName);
+
+            return Response();
+        }
+
+        #endregion
     }
 }
