@@ -3,12 +3,11 @@ using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class OAuthLoginUserValidation : AuthenticationValidation<OAuthLoginUserCommand, AuthenticationDto>
+    public class LinkUserOAuthValidation : AuthenticationValidation<LinkUserOAuthCommand, AuthenticationDto>
     {
-        public OAuthLoginUserValidation()
+        public LinkUserOAuthValidation()
         {
             ValidateOAuthProvider();
-            ValidateOAuthToken();
         }
     }
 }
