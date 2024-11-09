@@ -17,8 +17,10 @@ namespace Voluntr.Infrastructure.Contexts
 
             #region User
 
-            modelBuilder.ApplyConfiguration(new VolunteerMap());
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new VolunteerMap());
+            modelBuilder.ApplyConfiguration(new NgoMap());
+            modelBuilder.ApplyConfiguration(new CompanyMap());
 
             #endregion
 
