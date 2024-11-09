@@ -53,15 +53,11 @@ namespace Voluntr.Domain.CommandHandlers
                     OAuthProviderId = OAuthProvider.Id,
                 };
 
-                // TODO: Set profile pic on azure if he has one, if not, set default
-
                 await userRepository.InsertAsync(user);
             }
             else if (!user.OAuthProviderId.HasValue)
             {
                 user.OAuthProviderId = OAuthProvider.Id;
-
-                // TODO: Update profile pic on azure if he has one, if not, set default
 
                 await userRepository.UpdateAsync(user);
             }
@@ -69,9 +65,6 @@ namespace Voluntr.Domain.CommandHandlers
             {
                 NotifyError("Já existe um usuário com o email informado vinculado a outro provedor.");
                 return null;
-            } else
-            {
-                // TODO: Update profile pic on azure if user changed it
             }
 
             if (!HasNotification() && await unitOfWork.CommitAsync())

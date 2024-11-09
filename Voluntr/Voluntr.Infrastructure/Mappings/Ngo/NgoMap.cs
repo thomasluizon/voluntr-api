@@ -5,9 +5,9 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Infrastructure.Mappings
 {
-    public class VolunteerMap : EntityTypeConfigurationBase<Volunteer>
+    public class NgoMap : EntityTypeConfigurationBase<Ngo>
     {
-        public override void Configure(EntityTypeBuilder<Volunteer> builder)
+        public override void Configure(EntityTypeBuilder<Ngo> builder)
         {
             builder.Property(x => x.UserId)
                 .IsRequired();
