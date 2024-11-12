@@ -33,13 +33,14 @@ namespace Voluntr.Domain.Validations
 
         #region OAuth
 
-        #region Google
-
-        protected void ValidateOAuth()
+        protected void ValidateOAuthToken()
         {
             RuleFor(c => c.OAuthToken)
                 .NotNull().NotEmpty().WithMessage("O token é obrigatório");
+        }
 
+        protected void ValidateOAuthProvider()
+        {
             RuleFor(c => c.OAuthProviderName)
                 .NotNull().NotEmpty().WithMessage("O provedor de autenticação é obrigatório")
                 .Must(ValidateOAuthProvider).WithMessage("Não é possível fazer login com o provedor de autenticação informado");
@@ -49,8 +50,6 @@ namespace Voluntr.Domain.Validations
         {
             return provider.Trim() == OAuthProviderNameEnum.Google.GetDescription();
         }
-
-        #endregion
 
         #endregion
     }

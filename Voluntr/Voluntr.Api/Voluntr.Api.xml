@@ -22,6 +22,12 @@
             </summary>
             <param name="viewModel">Dados do login por OAuth</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.AuthController.LinkOAuth(System.String)">
+            <summary>
+            Realiza a vinculação do usuário com um provedor de OAuth, ou desvincula caso já esteja vinculado
+            </summary>
+            <param name="OAuthProviderName">Provider do OAuth (Google)</param>
+        </member>
         <member name="M:Voluntr.Api.Controllers.ExceptionController.Exception">
             <summary>
             Sobe uma exception de teste

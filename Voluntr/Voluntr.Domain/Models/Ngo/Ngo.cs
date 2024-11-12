@@ -2,7 +2,7 @@
 
 namespace Voluntr.Domain.Models
 {
-    public class Volunteer : Entity
+    public class Ngo : Entity
     {
         public Guid UserId { get; set; }
 

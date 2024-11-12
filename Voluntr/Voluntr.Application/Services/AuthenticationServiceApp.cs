@@ -34,5 +34,12 @@ namespace Voluntr.Application.Services
 
             return mapper.Map<AuthenticationResponseViewModel>(response);
         }
+
+        public async Task LinkOAuth(string OAuthProviderName)
+        {
+            var command = new LinkUserOAuthCommand { OAuthProviderName = OAuthProviderName };
+
+            await mediator.SendCommandResponse(command);
+        }
     }
 }
