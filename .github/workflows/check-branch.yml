@@ -1,4 +1,4 @@
-name: voluntr-dev-to-main-branch-protection
+name: check-branch
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ jobs:
   check-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch
+      - name: Check Branch
         run: |
           if [[ ${GITHUB_HEAD_REF} != dev ]] && ! [[ ${GITHUB_HEAD_REF} =~ ^hotfix/ ]]; 
           then
