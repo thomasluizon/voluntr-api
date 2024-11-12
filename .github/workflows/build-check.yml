@@ -32,10 +32,3 @@ jobs:
       - name: Run Tests
         run: dotnet test --configuration Release --verbosity normal
         working-directory: ./Voluntr
-
-      - name: Debug Information
-        if: failure()
-        run: |
-          ls -R
-          dotnet --info
-        working-directory: ./Voluntr
