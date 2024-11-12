@@ -1,4 +1,4 @@
-name: Build Check
+name: build-check
 
 on:
   pull_request:
@@ -6,10 +6,10 @@ on:
       - main
 
 jobs:
-  build:
+  build-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Set up .NET
@@ -17,11 +17,14 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restore Dependencies
         run: dotnet restore
+        working-directory: ./Voluntr
 
-      - name: Build solution
+      - name: Build Solution
         run: dotnet build --no-restore --configuration Release
+        working-directory: ./Voluntr
 
-      - name: Run tests
+      - name: Run Tests
         run: dotnet test --no-build --verbosity normal
+        working-directory: ./Voluntr
