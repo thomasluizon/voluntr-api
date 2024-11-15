@@ -47,6 +47,25 @@ namespace Voluntr.Api.Controllers
             return Response(response);
         }
 
+        #region Reset Password
+
+        /// <summary>
+        /// Realiza uma requisição de redefinição de senha para o usuário não logado
+        /// </summary>
+        /// <param name="viewModel">Dados da requisição da redefinição de senha</param>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
+        [HttpPost("reset-password-request")]
+        public async Task<IActionResult> ResetPasswordRequest([FromBody] ResetPasswordRequestViewModel viewModel)
+        {
+            await authenticationServiceApp.ResetPasswordRequest(viewModel);
+
+            return Response();
+        }
+
+        #endregion
+
         #region OAuth
 
         /// <summary>

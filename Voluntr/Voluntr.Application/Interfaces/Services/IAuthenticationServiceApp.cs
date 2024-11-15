@@ -8,5 +8,6 @@ namespace Voluntr.Application.Interfaces.Services
         Task<CommandResponseViewModel> Register(RegisterUserViewModel viewModel);
         Task<AuthenticationResponseViewModel> OAuthLogin(OAuthAuthenticationRequestViewModel viewModel);
         Task LinkOAuth(string OAuthProviderName);
+        Task ResetPasswordRequest(ResetPasswordRequestViewModel viewModel);
     }
 }
