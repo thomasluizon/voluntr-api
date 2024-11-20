@@ -16,6 +16,12 @@
             </summary>
             <param name="viewModel">Dados do login</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.AuthController.ResetPasswordRequest(Voluntr.Application.ViewModels.ResetPasswordRequestViewModel)">
+            <summary>
+            Realiza uma requisição de redefinição de senha para o usuário não logado
+            </summary>
+            <param name="viewModel">Dados da requisição da redefinição de senha</param>
+        </member>
         <member name="M:Voluntr.Api.Controllers.AuthController.OAuthLogin(Voluntr.Application.ViewModels.OAuthAuthenticationRequestViewModel)">
             <summary>
             Realiza o login do usuário por OAuth

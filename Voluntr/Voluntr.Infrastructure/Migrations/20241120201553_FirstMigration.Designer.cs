@@ -12,8 +12,8 @@ using Voluntr.Infrastructure.Contexts;
 namespace Voluntr.Infrastructure.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20241109020129_CompanyNGOModels")]
-    partial class CompanyNGOModels
+    [Migration("20241120201553_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,18 +105,20 @@ namespace Voluntr.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Level")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NotificationLevelEnum")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
@@ -167,6 +169,32 @@ namespace Voluntr.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OAuthProvider");
+                });
+
+            modelBuilder.Entity("Voluntr.Domain.Models.ResetPasswordTry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResetToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ResetPasswordTry");
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.User", b =>
@@ -253,6 +281,17 @@ namespace Voluntr.Infrastructure.Migrations
                 {
                     b.HasOne("Voluntr.Domain.Models.User", "User")
                         .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Voluntr.Domain.Models.ResetPasswordTry", b =>
+                {
+                    b.HasOne("Voluntr.Domain.Models.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

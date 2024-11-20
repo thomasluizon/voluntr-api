@@ -23,6 +23,7 @@ builder.AddLoggingSetup();
 
 builder.Services.AddDependencyInjectionSetup();
 builder.Services.AddTokenCredentialSetup(configuration);
+builder.Services.AddUrlsSetup(configuration);
 builder.Services.AddVoluntrAuthentication(configuration);
 builder.Services.AddCryptographySetup(configuration);
 builder.Services.AddAutoMapperSetup();
