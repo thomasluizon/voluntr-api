@@ -31,6 +31,12 @@ namespace Voluntr.Domain.Validations
                 .MaximumLength(100).WithMessage("O nome do usuário deve conter no máximo 100 caracteres");
         }
 
+        protected void ValidateToken()
+        {
+            RuleFor(c => c.Token)
+                .NotNull().NotEmpty().WithMessage("O token é obrigatório");
+        }
+
         #region OAuth
 
         protected void ValidateOAuthToken()
