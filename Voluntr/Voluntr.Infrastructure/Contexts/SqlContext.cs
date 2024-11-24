@@ -12,6 +12,7 @@ namespace Voluntr.Infrastructure.Contexts
             #region Authentication
 
             modelBuilder.ApplyConfiguration(new OAuthProviderMap());
+            modelBuilder.ApplyConfiguration(new ResetPasswordTryMap());
 
             #endregion
 
@@ -21,6 +22,12 @@ namespace Voluntr.Infrastructure.Contexts
             modelBuilder.ApplyConfiguration(new VolunteerMap());
             modelBuilder.ApplyConfiguration(new NgoMap());
             modelBuilder.ApplyConfiguration(new CompanyMap());
+
+            #endregion
+
+            #region Notification
+
+            modelBuilder.ApplyConfiguration(new NotificationMap());
 
             #endregion
 

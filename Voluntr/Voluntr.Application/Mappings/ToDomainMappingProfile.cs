@@ -21,6 +21,8 @@ namespace Voluntr.Application.Mappings
             CreateMap<RegisterUserViewModel, RegisterUserCommand>();
             CreateMap<AuthenticationRequestViewModel, LoginUserCommand>();
             CreateMap<OAuthAuthenticationRequestViewModel, OAuthLoginUserCommand>();
+            CreateMap<ResetPasswordRequestViewModel, ResetPasswordRequestCommand>();
+            CreateMap<ResetPasswordViewModel, ResetPasswordCommand>();
 
             #endregion
         }

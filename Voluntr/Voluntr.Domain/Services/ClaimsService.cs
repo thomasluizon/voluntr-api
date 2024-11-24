@@ -76,6 +76,57 @@ namespace Voluntr.Domain.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+
+        public string GenerateResetToken(User user, int expiryMinutes = 15)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim("UserId", cryptographyService.Encrypt(user.Id.ToString())),
+                new Claim("Email", user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: tokenConfig.Issuer,
+                audience: tokenConfig.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public bool IsTokenValid(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.UTF8.GetBytes(tokenConfig.Secret);
+
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = tokenConfig.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = tokenConfig.Audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         protected void NotifyError(string message) => NotifyError(string.Empty, message);
 
         protected void NotifyError(string code, string message)
