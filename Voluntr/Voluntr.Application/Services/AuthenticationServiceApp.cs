@@ -55,5 +55,12 @@ namespace Voluntr.Application.Services
 
             await mediator.SendCommandResponse(command);
         }
+
+        public async Task UpdatePassword(UpdatePasswordViewModel viewModel)
+        {
+            var command = mapper.Map<UpdatePasswordCommand>(viewModel);
+
+            await mediator.SendCommandResponse(command);
+        }
     }
 }

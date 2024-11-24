@@ -10,5 +10,6 @@ namespace Voluntr.Application.Interfaces.Services
         Task LinkOAuth(string OAuthProviderName);
         Task ResetPasswordRequest(ResetPasswordRequestViewModel viewModel);
         Task ResetPassword(ResetPasswordViewModel viewModel);
+        Task UpdatePassword(UpdatePasswordViewModel viewModel);
     }
 }
