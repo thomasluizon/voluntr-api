@@ -71,10 +71,24 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [AllowAnonymous]
-        [HttpPost("reset-password")]
+        [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel viewModel)
         {
             await authenticationServiceApp.ResetPassword(viewModel);
+
+            return Response();
+        }
+
+        /// <summary>
+        /// Realiza a alteração da senha do usuário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPut("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordViewModel viewModel)
+        {
+            await authenticationServiceApp.UpdatePassword(viewModel);
 
             return Response();
         }

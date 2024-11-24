@@ -24,6 +24,14 @@ namespace Voluntr.Domain.Validations
                 .MaximumLength(100).WithMessage("A senha deve conter no máximo 100 caracteres");
         }
 
+        protected void ValidateNewPassword()
+        {
+            RuleFor(c => c.NewPassword)
+                .NotNull().NotEmpty().WithMessage("A nova senha é obrigatória")
+                .MinimumLength(6).WithMessage("A nova senha deve conter no mínimo 6 caracteres")
+                .MaximumLength(100).WithMessage("A nova senha deve conter no máximo 100 caracteres");
+        }
+
         protected void ValidateName()
         {
             RuleFor(c => c.Name)
