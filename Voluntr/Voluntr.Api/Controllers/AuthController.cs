@@ -16,7 +16,6 @@ namespace Voluntr.Api.Controllers
         IAuthenticationServiceApp authenticationServiceApp
     ) : ApiController(mediator)
     {
-
         /// <summary>
         /// Realiza o cadastro do usuário
         /// </summary>

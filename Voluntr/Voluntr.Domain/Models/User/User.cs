@@ -8,6 +8,7 @@ namespace Voluntr.Domain.Models
         public string Email { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
+        public bool Paused { get; set; }
 
         public ICollection<Notification> Notifications { get; set; } = [];
         public virtual OAuthProvider OAuthProvider { get; set; }
