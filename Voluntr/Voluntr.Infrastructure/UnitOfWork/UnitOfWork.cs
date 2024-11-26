@@ -1,4 +1,5 @@
-﻿using Voluntr.Domain.Interfaces.UnitOfWork;
+﻿using Microsoft.EntityFrameworkCore;
+using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Infrastructure.Contexts;
 
 namespace Voluntr.Infrastructure.UnitOfWork
@@ -7,15 +8,32 @@ namespace Voluntr.Infrastructure.UnitOfWork
     {
         public async Task<bool> CommitAsync()
         {
-            using var transaction = context.Database.BeginTransaction();
-            bool success = (await context.SaveChangesAsync()) > 0;
+            var executionStrategy = context.Database.CreateExecutionStrategy();
 
-            if (success)
-                await transaction.CommitAsync();
-            else
-                await transaction.RollbackAsync();
+            return await executionStrategy.ExecuteAsync(async () =>
+            {
+                using var transaction = await context.Database.BeginTransactionAsync();
+                try
+                {
+                    bool success = (await context.SaveChangesAsync()) > 0;
 
-            return success;
+                    if (success)
+                    {
+                        await transaction.CommitAsync();
+                    }
+                    else
+                    {
+                        await transaction.RollbackAsync();
+                    }
+
+                    return success;
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            });
         }
 
         public void Dispose()

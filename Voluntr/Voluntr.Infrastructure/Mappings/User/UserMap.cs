@@ -24,6 +24,10 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasMaxLength(100)
                 .IsRequired(false);
 
+            builder.Property(x => x.Paused)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.HasOne(x => x.OAuthProvider)
                 .WithMany()
                 .HasForeignKey(x => x.OAuthProviderId)

@@ -28,6 +28,11 @@
             </summary>
             <param name="viewModel">Dados da redefinição de senha</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.AuthController.UpdatePassword(Voluntr.Application.ViewModels.UpdatePasswordViewModel)">
+            <summary>
+            Realiza a alteração da senha do usuário
+            </summary>
+        </member>
         <member name="M:Voluntr.Api.Controllers.AuthController.OAuthLogin(Voluntr.Application.ViewModels.OAuthAuthenticationRequestViewModel)">
             <summary>
             Realiza o login do usuário por OAuth
@@ -45,6 +50,11 @@
             Sobe uma exception de teste
             </summary>
             <exception cref="M:Voluntr.Api.Controllers.ExceptionController.Exception">Exception de teste</exception>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.ToggleUserPause">
+            <summary>
+            Pausa/Despausa a conta do usuário
+            </summary>
         </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">
             <summary>
