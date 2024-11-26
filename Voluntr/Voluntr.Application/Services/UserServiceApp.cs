@@ -1,12 +1,20 @@
-﻿using Voluntr.Application.Interfaces.Services;
+﻿using AutoMapper;
+using Voluntr.Application.Interfaces.Services;
+using Voluntr.Crosscutting.Domain.MediatR;
+using Voluntr.Domain.Commands;
 
 namespace Voluntr.Application.Services
 {
-    public class UserServiceApp : IUserServiceApp
+    public class UserServiceApp(
+        IMediatorHandler mediator,
+        IMapper mapper
+    ) : IUserServiceApp
     {
         public async Task ToggleUserPause()
         {
-            throw new NotImplementedException();
+            var command = new ToggleUserPauseCommand();
+
+            await mediator.SendCommand(command);
         }
     }
 }
