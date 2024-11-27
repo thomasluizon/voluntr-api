@@ -10,9 +10,16 @@ namespace Voluntr.Application.Services
         IMapper mapper
     ) : IUserServiceApp
     {
-        public async Task ToggleUserPause()
+        public async Task TogglePause()
         {
-            var command = new ToggleUserPauseCommand();
+            var command = new TogglePauseCommand();
+
+            await mediator.SendCommand(command);
+        }
+
+        public async Task DeleteAccount()
+        {
+            var command = new DeleteAccountCommand();
 
             await mediator.SendCommand(command);
         }

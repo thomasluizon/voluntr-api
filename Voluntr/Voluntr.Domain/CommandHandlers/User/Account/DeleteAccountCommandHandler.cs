@@ -8,14 +8,14 @@ using Voluntr.Domain.Interfaces.UnitOfWork;
 
 namespace Voluntr.Domain.CommandHandlers
 {
-    public class ToggleUserPauseCommandHandler(
+    public class DeleteAccountCommandHandler(
         IMediatorHandler mediator,
         IUserRepository userRepository,
         IClaimsService claimsService,
         IUnitOfWork unitOfWork
-    ) : MediatorCommandHandler<ToggleUserPauseCommand>(mediator)
+    ) : MediatorCommandHandler<DeleteAccountCommand>(mediator)
     {
-        public override async Task AfterValidation(ToggleUserPauseCommand request)
+        public override async Task AfterValidation(DeleteAccountCommand request)
         {
             var user = await userRepository.GetByIdAsync(claimsService.GetCurrentUserId().Value);
 
@@ -25,9 +25,9 @@ namespace Voluntr.Domain.CommandHandlers
                 return;
             }
 
-            user.Paused = !user.Paused;
+            // TODO: Delete everything related to the user on azure
 
-            await userRepository.UpdateAsync(user);
+            await userRepository.DeleteByIdAsync(user.Id);
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
                 request.ExecutedSuccessfullyCommand = true;

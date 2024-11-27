@@ -51,9 +51,14 @@
             </summary>
             <exception cref="M:Voluntr.Api.Controllers.ExceptionController.Exception">Exception de teste</exception>
         </member>
-        <member name="M:Voluntr.Api.Controllers.UserController.ToggleUserPause">
+        <member name="M:Voluntr.Api.Controllers.UserController.TogglePause">
             <summary>
             Pausa/Despausa a conta do usuário
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.DeleteAccount">
+            <summary>
+            Deleta a conta do usuário
             </summary>
         </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">
