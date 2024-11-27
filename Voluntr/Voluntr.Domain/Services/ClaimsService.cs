@@ -85,7 +85,6 @@ namespace Voluntr.Domain.Services
             var claims = new[]
             {
                 new Claim("UserId", cryptographyService.Encrypt(user.Id.ToString())),
-                new Claim("Email", user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -125,6 +124,24 @@ namespace Voluntr.Domain.Services
             {
                 return false;
             }
+        }
+
+        public Guid? GetUserIdFromToken(string token)
+        {
+            var userId = claims.GetUserIdFromToken();
+
+            if (string.IsNullOrEmpty(userId))
+                return null;
+
+            userId = cryptographyService.Decrypt(userId);
+
+            if (!Validator.IsGuid(userId))
+            {
+                NotifyError(Values.Message.UserRequestNotFound);
+                return null;
+            }
+
+            return Guid.Parse(userId);
         }
 
         protected void NotifyError(string message) => NotifyError(string.Empty, message);

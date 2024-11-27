@@ -9,14 +9,12 @@ using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
-using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.CommandHandlers
 {
     public class ResetPasswordRequestCommandHandler(
         IMediatorHandler mediator,
         IUserRepository userRepository,
-        IResetPasswordTryRepository resetPasswordTryRepository,
         IClaimsService claimsService,
         IEmailService emailService,
         IUnitOfWork unitOfWork,
@@ -34,35 +32,25 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
-            await resetPasswordTryRepository.DeleteByExpressionAsync(x => x.UserId == user.Id);
-
             var resetToken = claimsService.GenerateResetToken(user);
 
-            var resetPasswordTry = new ResetPasswordTry
-            {
-                UserId = user.Id,
-                ResetToken = resetToken
-            };
+            var buttonHref = string.Format(urls.ResetPassword, resetToken);
+            var year = DateTime.Now.ToBrazilianTimezone().Year.ToString();
 
-            await resetPasswordTryRepository.InsertAsync(resetPasswordTry);
+            await emailService.SendEmail(
+                EmailTypeEnum.PasswordRecovery,
+                user.Name,
+                user.Email,
+                new Dictionary<string, string>
+                {
+                    { "button-href", buttonHref },
+                    { "year", year }
+                }
+            );
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
             {
                 request.ExecutedSuccessfullyCommand = true;
-
-                var buttonHref = string.Format(urls.ResetPassword, resetToken);
-                var year = DateTime.Now.ToBrazilianTimezone().Year.ToString();
-
-                await emailService.SendEmail(
-                    EmailTypeEnum.PasswordRecovery,
-                    user.Name,
-                    user.Email,
-                    new Dictionary<string, string>
-                    {
-                        { "button-href", buttonHref },
-                        { "year", year }
-                    }
-                );
             }
             else
                 NotifyError(Values.Message.DefaultError);

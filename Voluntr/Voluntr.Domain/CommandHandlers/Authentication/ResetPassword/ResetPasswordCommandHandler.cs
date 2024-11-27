@@ -11,7 +11,6 @@ namespace Voluntr.Domain.CommandHandlers
 {
     public class ResetPasswordCommandHandler(
         IMediatorHandler mediator,
-        IResetPasswordTryRepository resetPasswordTryRepository,
         IUserRepository userRepository,
         IUnitOfWork unitOfWork,
         IClaimsService claimsService
@@ -19,29 +18,23 @@ namespace Voluntr.Domain.CommandHandlers
     {
         public override async Task<AuthenticationDto> AfterValidation(ResetPasswordCommand request)
         {
-            var resetPassword = await resetPasswordTryRepository.GetFirstByExpressionAsync(
-                x => x.ResetToken == request.Token,
-                x => x.User
-            );
-
-            if (resetPassword == null)
+            if (!claimsService.IsTokenValid(request.Token))
             {
-                NotifyError("A tentativa de redefinição de senha do usuário não foi encontrada");
+                NotifyError("O token de redefinição de senha informado expirou ou não é valido");
                 return null;
             }
 
-            if (!claimsService.IsTokenValid(resetPassword.ResetToken)) 
+            var user = await userRepository.GetByIdAsync(claimsService.GetUserIdFromToken(request.Token).Value);
+
+            if (user == null)
             {
-                NotifyError("O token de redefinição de senha informado não é mais válido");
+                NotifyError("O usuário informado não foi encontrado");
                 return null;
             }
 
-            var user = resetPassword.User;
             user.Password = request.Password;
 
             await userRepository.UpdateAsync(user);
-
-            await resetPasswordTryRepository.DeleteByExpressionAsync(x => x.UserId == user.Id);
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
             {

@@ -8,5 +8,6 @@ namespace Voluntr.Domain.Interfaces.Services
         string GenerateToken(User user);
         string GenerateResetToken(User user, int expiryMinutes = 15);
         bool IsTokenValid(string token);
+        Guid? GetUserIdFromToken(string token);
     }
 }
