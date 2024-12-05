@@ -3,6 +3,7 @@ using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Events;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 
@@ -26,6 +27,19 @@ namespace Voluntr.Domain.CommandHandlers
             )
             {
                 NotifyError("Credenciais inválidas");
+                return null;
+            }
+
+            if (!user.EmailVerified)
+            {
+                var emailActivationToken = claimsService.GenerateGenericToken(user);
+
+                await mediator.PublishEvent(new EmailActivationEvent
+                {
+                    EmailActivationToken = emailActivationToken,
+                    User = user
+                });
+
                 return null;
             }
 

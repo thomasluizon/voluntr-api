@@ -82,6 +82,9 @@ namespace Voluntr.Domain.CommandHandlers
                         EmailActivationToken = emailActivationToken,
                         User = user
                     });
+
+                    NotifyError(Values.Message.EmailNotVerifiedError);
+                    return null;
                 }
 
                 return new AuthenticationDto
