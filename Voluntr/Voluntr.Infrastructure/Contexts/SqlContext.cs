@@ -12,7 +12,6 @@ namespace Voluntr.Infrastructure.Contexts
             #region Authentication
 
             modelBuilder.ApplyConfiguration(new OAuthProviderMap());
-            modelBuilder.ApplyConfiguration(new ResetPasswordTryMap());
 
             #endregion
 

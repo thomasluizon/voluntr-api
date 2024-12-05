@@ -28,6 +28,10 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(x => x.EmailVerified)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.HasOne(x => x.OAuthProvider)
                 .WithMany()
                 .HasForeignKey(x => x.OAuthProviderId)

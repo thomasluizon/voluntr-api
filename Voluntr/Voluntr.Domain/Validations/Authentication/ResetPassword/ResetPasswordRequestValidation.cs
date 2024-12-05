@@ -3,7 +3,7 @@ using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class ResetPasswordRequestValidation : AuthenticationValidation<ResetPasswordRequestCommand, AuthenticationDto>
+    public class ResetPasswordRequestValidation : AccountValidation<ResetPasswordRequestCommand, AuthenticationDto>
     {
         public ResetPasswordRequestValidation()
         {

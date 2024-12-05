@@ -4,56 +4,61 @@
         <name>Voluntr.Api</name>
     </assembly>
     <members>
-        <member name="M:Voluntr.Api.Controllers.AuthController.Register(Voluntr.Application.ViewModels.RegisterUserViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.Register(Voluntr.Application.ViewModels.RegisterUserViewModel)">
             <summary>
             Realiza o cadastro do usuário
             </summary>
             <param name="viewModel">Dados do usuário</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.Login(Voluntr.Application.ViewModels.AuthenticationRequestViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.Login(Voluntr.Application.ViewModels.AuthenticationRequestViewModel)">
             <summary>
             Realiza o login do usuário
             </summary>
             <param name="viewModel">Dados do login</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.ResetPasswordRequest(Voluntr.Application.ViewModels.ResetPasswordRequestViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.ResetPasswordRequest(Voluntr.Application.ViewModels.ResetPasswordRequestViewModel)">
             <summary>
             Realiza uma requisição de redefinição de senha para o usuário não logado
             </summary>
             <param name="viewModel">Dados da requisição da redefinição de senha</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.ResetPassword(Voluntr.Application.ViewModels.ResetPasswordViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.ResetPassword(Voluntr.Application.ViewModels.ResetPasswordViewModel)">
             <summary>
             Realiza a redefinição de senha para o usuário não logado
             </summary>
             <param name="viewModel">Dados da redefinição de senha</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.UpdatePassword(Voluntr.Application.ViewModels.UpdatePasswordViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.UpdatePassword(Voluntr.Application.ViewModels.UpdatePasswordViewModel)">
             <summary>
             Realiza a alteração da senha do usuário
             </summary>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.OAuthLogin(Voluntr.Application.ViewModels.OAuthAuthenticationRequestViewModel)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.OAuthLogin(Voluntr.Application.ViewModels.OAuthAuthenticationRequestViewModel)">
             <summary>
             Realiza o login do usuário por OAuth
             </summary>
             <param name="viewModel">Dados do login por OAuth</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.AuthController.LinkOAuth(System.String)">
+        <member name="M:Voluntr.Api.Controllers.AccountController.LinkOAuth(System.String)">
             <summary>
             Realiza a vinculação do usuário com um provedor de OAuth, ou desvincula caso já esteja vinculado
             </summary>
             <param name="OAuthProviderName">Provider do OAuth (Google)</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.ExceptionController.Exception">
+        <member name="M:Voluntr.Api.Controllers.AccountController.VerifyAccount(Voluntr.Application.ViewModels.VerifyAccountViewModel)">
             <summary>
-            Sobe uma exception de teste
+            Realiza a ativação da conta do usuário
             </summary>
-            <exception cref="M:Voluntr.Api.Controllers.ExceptionController.Exception">Exception de teste</exception>
+            <param name="viewModel">Dados da ativação da conta do usuário</param>
         </member>
-        <member name="M:Voluntr.Api.Controllers.UserController.ToggleUserPause">
+        <member name="M:Voluntr.Api.Controllers.UserController.TogglePause">
             <summary>
             Pausa/Despausa a conta do usuário
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.DeleteAccount">
+            <summary>
+            Deleta a conta do usuário
             </summary>
         </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">

@@ -21,10 +21,24 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost("toggle-user-pause")]
-        public async Task<IActionResult> ToggleUserPause()
+        [HttpPost("toggle-pause")]
+        public async Task<IActionResult> TogglePause()
         {
-            await userServiceApp.ToggleUserPause();
+            await userServiceApp.TogglePause();
+
+            return Response();
+        }
+
+        /// <summary>
+        /// Deleta a conta do usuário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            await userServiceApp.DeleteAccount();
 
             return Response();
         }
