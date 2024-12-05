@@ -51,6 +51,7 @@ namespace Voluntr.Domain.CommandHandlers
                     Email = OAuthUser.Email.Trim(),
                     Name = OAuthUser.Name.Trim(),
                     OAuthProviderId = OAuthProvider.Id,
+                    EmailVerified = OAuthUser.EmailVerified
                 };
 
                 await userRepository.InsertAsync(user);
@@ -70,6 +71,11 @@ namespace Voluntr.Domain.CommandHandlers
             if (!HasNotification() && await unitOfWork.CommitAsync())
             {
                 request.ExecutedSuccessfullyCommand = true;
+
+                if (!user.EmailVerified)
+                {
+                    // TODO: Send verification email
+                }
 
                 return new AuthenticationDto
                 {

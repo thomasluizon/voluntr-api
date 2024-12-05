@@ -26,6 +26,9 @@ namespace Voluntr.Infrastructure.Mappings
             builder.Property(x => x.PictureProperty)
                 .IsRequired();
 
+            builder.Property(x => x.EmailVerifiedProperty)
+                .IsRequired();
+
             builder.Ignore(x => x.NameEnum);
 
             base.Configure(builder);

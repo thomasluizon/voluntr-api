@@ -35,7 +35,7 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost("delete-account")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAccount()
         {
             await userServiceApp.DeleteAccount();

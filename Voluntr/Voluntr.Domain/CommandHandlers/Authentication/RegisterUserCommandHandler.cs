@@ -42,6 +42,8 @@ namespace Voluntr.Domain.CommandHandlers
             {
                 request.ExecutedSuccessfullyCommand = true;
 
+                // TODO: Send verification email
+
                 return new CommandResponseDto { Id = user.Id };
             }
             else

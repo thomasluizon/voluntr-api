@@ -28,7 +28,7 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            builder.Property(x => x.EmailActivated)
+            builder.Property(x => x.EmailVerified)
                 .HasDefaultValue(false)
                 .IsRequired();
 

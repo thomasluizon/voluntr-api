@@ -28,7 +28,8 @@ namespace Voluntr.Domain.Services
             {
                 Email = payload.Value<string>(OAuthProvider.EmailProperty),
                 Name = payload.Value<string>(OAuthProvider.NameProperty),
-                Picture = payload.Value<string>(OAuthProvider.PictureProperty)
+                Picture = payload.Value<string>(OAuthProvider.PictureProperty),
+                EmailVerified = payload.Value<bool>(OAuthProvider.EmailVerifiedProperty),
             };
         }
     }
