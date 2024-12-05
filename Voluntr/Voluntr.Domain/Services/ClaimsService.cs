@@ -127,20 +127,45 @@ namespace Voluntr.Domain.Services
 
         public Guid? GetUserIdFromToken(string token)
         {
-            var userId = claims.GetUserIdFromToken();
-
-            if (string.IsNullOrEmpty(userId))
-                return null;
-
-            userId = cryptographyService.Decrypt(userId);
-
-            if (!Validator.IsGuid(userId))
+            if (string.IsNullOrEmpty(token))
             {
-                NotifyError(Values.Message.UserRequestNotFound);
+                NotifyError("Token is required.");
                 return null;
             }
 
-            return Guid.Parse(userId);
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+
+                if (handler.ReadToken(token) is not JwtSecurityToken jwtToken)
+                {
+                    NotifyError("Invalid token format.");
+                    return null;
+                }
+
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim))
+                {
+                    NotifyError("User ID not found in token.");
+                    return null;
+                }
+
+                var decryptedUserId = cryptographyService.Decrypt(userIdClaim);
+
+                if (!Validator.IsGuid(decryptedUserId))
+                {
+                    NotifyError(Values.Message.UserRequestNotFound);
+                    return null;
+                }
+
+                return Guid.Parse(decryptedUserId);
+            }
+            catch (Exception ex)
+            {
+                NotifyError($"Error parsing token: {ex.Message}");
+                return null;
+            }
         }
 
         protected void NotifyError(string message) => NotifyError(string.Empty, message);

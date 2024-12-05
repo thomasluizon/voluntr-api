@@ -6,7 +6,7 @@ using Voluntr.Domain.Commands;
 
 namespace Voluntr.Application.Services
 {
-    public class AuthenticationServiceApp(
+    public class AccountServiceApp(
         IMediatorHandler mediator,
         IMapper mapper
     ) : IAccountServiceApp
