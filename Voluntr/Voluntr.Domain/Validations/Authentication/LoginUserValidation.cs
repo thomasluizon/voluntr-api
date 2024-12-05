@@ -3,7 +3,7 @@ using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class LoginUserValidation : AuthenticationValidation<LoginUserCommand, AuthenticationDto>
+    public class LoginUserValidation : AccountValidation<LoginUserCommand, AuthenticationDto>
     {
         public LoginUserValidation()
         {

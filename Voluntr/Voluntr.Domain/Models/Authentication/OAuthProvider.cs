@@ -12,6 +12,7 @@ namespace Voluntr.Domain.Models
         public string EmailProperty { get; set; }
         public string NameProperty { get; set; }
         public string PictureProperty { get; set; }
+        public string EmailVerifiedProperty { get; set; }
 
         public OAuthProviderNameEnum NameEnum
         {

@@ -39,7 +39,7 @@ namespace Voluntr.Domain.Services
             return Guid.Parse(userId);
         }
 
-        public string GenerateToken(User user)
+        public string GenerateAuthToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -76,8 +76,7 @@ namespace Voluntr.Domain.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
-        public string GenerateResetToken(User user, int expiryMinutes = 15)
+        public string GenerateGenericToken(User user, int expiryMinutes = 15)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -85,7 +84,6 @@ namespace Voluntr.Domain.Services
             var claims = new[]
             {
                 new Claim("UserId", cryptographyService.Encrypt(user.Id.ToString())),
-                new Claim("Email", user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -124,6 +122,49 @@ namespace Voluntr.Domain.Services
             catch
             {
                 return false;
+            }
+        }
+
+        public Guid? GetUserIdFromToken(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                NotifyError("Token is required.");
+                return null;
+            }
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+
+                if (handler.ReadToken(token) is not JwtSecurityToken jwtToken)
+                {
+                    NotifyError("Invalid token format.");
+                    return null;
+                }
+
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+                if (string.IsNullOrEmpty(userIdClaim))
+                {
+                    NotifyError("User ID not found in token.");
+                    return null;
+                }
+
+                var decryptedUserId = cryptographyService.Decrypt(userIdClaim);
+
+                if (!Validator.IsGuid(decryptedUserId))
+                {
+                    NotifyError(Values.Message.UserRequestNotFound);
+                    return null;
+                }
+
+                return Guid.Parse(decryptedUserId);
+            }
+            catch (Exception ex)
+            {
+                NotifyError($"Error parsing token: {ex.Message}");
+                return null;
             }
         }
 

@@ -18,6 +18,8 @@ namespace Voluntr.Domain.Services.Email
         {
             string templateId = await GetEmailTemplate(emailType);
 
+            data.Add("year", DateTime.Now.ToBrazilianTimezone().Year.ToString());
+
             SendGridClient client = new(configuration.Key);
             EmailAddress from = new(configuration.Email, configuration.LabelName);
             EmailAddress to = new(recipientEmail, recipientName);
