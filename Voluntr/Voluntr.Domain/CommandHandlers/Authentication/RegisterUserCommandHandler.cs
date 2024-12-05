@@ -3,8 +3,10 @@ using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Events;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
+using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Domain.Models;
 
@@ -14,6 +16,7 @@ namespace Voluntr.Domain.CommandHandlers
         IMediatorHandler mediator,
         IUserRepository userRepository,
         ICryptographyService cryptographyService,
+        IClaimsService claimsService,
         IUnitOfWork unitOfWork
     ) : MediatorResponseCommandHandler<RegisterUserCommand, CommandResponseDto>(mediator)
     {
@@ -42,7 +45,13 @@ namespace Voluntr.Domain.CommandHandlers
             {
                 request.ExecutedSuccessfullyCommand = true;
 
-                // TODO: Send verification email
+                var emailActivationToken = claimsService.GenerateGenericToken(user);
+
+                await mediator.PublishEvent(new EmailActivationEvent
+                {
+                    EmailActivationToken = emailActivationToken,
+                    User = user
+                });
 
                 return new CommandResponseDto { Id = user.Id };
             }

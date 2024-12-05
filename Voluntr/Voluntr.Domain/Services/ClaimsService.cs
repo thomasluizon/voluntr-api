@@ -39,7 +39,7 @@ namespace Voluntr.Domain.Services
             return Guid.Parse(userId);
         }
 
-        public string GenerateToken(User user)
+        public string GenerateAuthToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -76,8 +76,7 @@ namespace Voluntr.Domain.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
-        public string GenerateResetToken(User user, int expiryMinutes = 15)
+        public string GenerateGenericToken(User user, int expiryMinutes = 15)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

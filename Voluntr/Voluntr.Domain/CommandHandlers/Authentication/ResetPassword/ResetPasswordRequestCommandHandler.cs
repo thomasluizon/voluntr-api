@@ -1,5 +1,4 @@
 ﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
-using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.Config;
@@ -8,7 +7,6 @@ using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
-using Voluntr.Domain.Interfaces.UnitOfWork;
 
 namespace Voluntr.Domain.CommandHandlers
 {
@@ -17,7 +15,6 @@ namespace Voluntr.Domain.CommandHandlers
         IUserRepository userRepository,
         IClaimsService claimsService,
         IEmailService emailService,
-        IUnitOfWork unitOfWork,
         Urls urls
     ) : MediatorResponseCommandHandler<ResetPasswordRequestCommand, AuthenticationDto>(mediator)
     {
@@ -32,10 +29,7 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
-            var resetToken = claimsService.GenerateResetToken(user);
-
-            var buttonHref = string.Format(urls.ResetPassword, resetToken);
-            var year = DateTime.Now.ToBrazilianTimezone().Year.ToString();
+            var resetToken = claimsService.GenerateGenericToken(user);
 
             await emailService.SendEmail(
                 EmailTypeEnum.PasswordRecovery,
@@ -43,12 +37,11 @@ namespace Voluntr.Domain.CommandHandlers
                 user.Email,
                 new Dictionary<string, string>
                 {
-                    { "button-href", buttonHref },
-                    { "year", year }
+                    { "button-href", string.Format(urls.ResetPassword, resetToken) }
                 }
             );
 
-            if (!HasNotification() && await unitOfWork.CommitAsync())
+            if (!HasNotification())
             {
                 request.ExecutedSuccessfullyCommand = true;
             }

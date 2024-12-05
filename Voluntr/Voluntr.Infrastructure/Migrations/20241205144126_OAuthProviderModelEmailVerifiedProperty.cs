@@ -15,12 +15,22 @@ namespace Voluntr.Infrastructure.Migrations
                 table: "User",
                 newName: "EmailVerified");
 
-            migrationBuilder.AddColumn<bool>(
+            migrationBuilder.AlterColumn<string>(
+                name: "PictureProperty",
+                table: "OAuthProvider",
+                type: "nvarchar(100)",
+                maxLength: 100,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
+
+            migrationBuilder.AddColumn<string>(
                 name: "EmailVerifiedProperty",
                 table: "OAuthProvider",
-                type: "bit",
+                type: "nvarchar(100)",
+                maxLength: 100,
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
@@ -34,6 +44,15 @@ namespace Voluntr.Infrastructure.Migrations
                 name: "EmailVerified",
                 table: "User",
                 newName: "EmailActivated");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "PictureProperty",
+                table: "OAuthProvider",
+                type: "nvarchar(max)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(100)",
+                oldMaxLength: 100);
         }
     }
 }

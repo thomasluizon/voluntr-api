@@ -31,7 +31,7 @@ namespace Voluntr.Domain.CommandHandlers
 
             return new AuthenticationDto
             {
-                AccessToken = claimsService.GenerateToken(user),
+                AccessToken = claimsService.GenerateAuthToken(user),
             };
         }
     }

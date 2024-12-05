@@ -12,7 +12,7 @@ using Voluntr.Infrastructure.Contexts;
 namespace Voluntr.Infrastructure.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20241205143346_OAuthProviderModelEmailVerifiedProperty")]
+    [Migration("20241205144126_OAuthProviderModelEmailVerifiedProperty")]
     partial class OAuthProviderModelEmailVerifiedProperty
     {
         /// <inheritdoc />
@@ -145,8 +145,10 @@ namespace Voluntr.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("EmailVerifiedProperty")
-                        .HasColumnType("bit");
+                    b.Property<string>("EmailVerifiedProperty")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -160,7 +162,8 @@ namespace Voluntr.Infrastructure.Migrations
 
                     b.Property<string>("PictureProperty")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

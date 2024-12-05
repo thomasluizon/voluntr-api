@@ -24,9 +24,11 @@ namespace Voluntr.Infrastructure.Mappings
                 .IsRequired();
 
             builder.Property(x => x.PictureProperty)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(x => x.EmailVerifiedProperty)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Ignore(x => x.NameEnum);

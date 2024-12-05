@@ -2,6 +2,7 @@
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Events;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
@@ -74,12 +75,18 @@ namespace Voluntr.Domain.CommandHandlers
 
                 if (!user.EmailVerified)
                 {
-                    // TODO: Send verification email
+                    var emailActivationToken = claimsService.GenerateGenericToken(user);
+
+                    await mediator.PublishEvent(new EmailActivationEvent
+                    {
+                        EmailActivationToken = emailActivationToken,
+                        User = user
+                    });
                 }
 
                 return new AuthenticationDto
                 {
-                    AccessToken = claimsService.GenerateToken(user)
+                    AccessToken = claimsService.GenerateAuthToken(user)
                 };
             }
             else
