@@ -1,4 +1,4 @@
-﻿using Voluntr.Crosscutting.Domain.Events;
+﻿using MediatR;
 using Voluntr.Domain.Config;
 using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Events;
@@ -9,17 +9,17 @@ namespace Voluntr.Domain.EventHandlers
     public class EmailEventHandler(
         IEmailService emailService,
         Urls urls
-    ) : IHandler<EmailActivationEvent>
+    ) : INotificationHandler<EmailActivationEvent>
     {
-        public async void Handle(EmailActivationEvent message)
+        public async Task Handle(EmailActivationEvent notification, CancellationToken cancellationToken)
         {
             await emailService.SendEmail(
                 EmailTypeEnum.EmailVerification,
-                message.User.Name,
-                message.User.Email,
+                notification.User.Name,
+                notification.User.Email,
                 new Dictionary<string, string>
                 {
-                    { "button-href", string.Format(urls.EmailActivation, message.EmailActivationToken) }
+                    { "button-href", string.Format(urls.EmailActivation, notification.EmailActivationToken) }
                 }
             );
         }

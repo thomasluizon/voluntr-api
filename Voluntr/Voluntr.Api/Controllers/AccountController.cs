@@ -11,11 +11,13 @@ namespace Voluntr.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize]
-    public class AuthController(
+    public class AccountController(
         IMediatorHandler mediator,
-        IAuthenticationServiceApp authenticationServiceApp
+        IAccountServiceApp accountServiceApp
     ) : ApiController(mediator)
     {
+        #region Authentication
+
         /// <summary>
         /// Realiza o cadastro do usuário
         /// </summary>
@@ -26,7 +28,7 @@ namespace Voluntr.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel viewModel)
         {
-            var response = await authenticationServiceApp.Register(viewModel);
+            var response = await accountServiceApp.Register(viewModel);
 
             return Response(response);
         }
@@ -41,7 +43,7 @@ namespace Voluntr.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestViewModel viewModel)
         {
-            var response = await authenticationServiceApp.Login(viewModel);
+            var response = await accountServiceApp.Login(viewModel);
 
             return Response(response);
         }
@@ -58,7 +60,7 @@ namespace Voluntr.Api.Controllers
         [HttpPost("reset-password-request")]
         public async Task<IActionResult> ResetPasswordRequest([FromBody] ResetPasswordRequestViewModel viewModel)
         {
-            await authenticationServiceApp.ResetPasswordRequest(viewModel);
+            await accountServiceApp.ResetPasswordRequest(viewModel);
 
             return Response();
         }
@@ -73,7 +75,7 @@ namespace Voluntr.Api.Controllers
         [HttpPut("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel viewModel)
         {
-            await authenticationServiceApp.ResetPassword(viewModel);
+            await accountServiceApp.ResetPassword(viewModel);
 
             return Response();
         }
@@ -87,7 +89,7 @@ namespace Voluntr.Api.Controllers
         [HttpPut("update-password")]
         public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordViewModel viewModel)
         {
-            await authenticationServiceApp.UpdatePassword(viewModel);
+            await accountServiceApp.UpdatePassword(viewModel);
 
             return Response();
         }
@@ -106,7 +108,7 @@ namespace Voluntr.Api.Controllers
         [HttpPost("oauth/login")]
         public async Task<IActionResult> OAuthLogin([FromBody] OAuthAuthenticationRequestViewModel viewModel)
         {
-            var response = await authenticationServiceApp.OAuthLogin(viewModel);
+            var response = await accountServiceApp.OAuthLogin(viewModel);
 
             return Response(response);
         }
@@ -121,11 +123,28 @@ namespace Voluntr.Api.Controllers
         [HttpPost("oauth/link/{OAuthProviderName}")]
         public async Task<IActionResult> LinkOAuth([FromRoute] string OAuthProviderName)
         {
-            await authenticationServiceApp.LinkOAuth(OAuthProviderName);
+            await accountServiceApp.LinkOAuth(OAuthProviderName);
 
             return Response();
         }
 
         #endregion
+
+        #endregion
+
+        /// <summary>
+        /// Realiza a ativação da conta do usuário
+        /// </summary>
+        /// <param name="viewModel">Dados da ativação da conta do usuário</param>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [AllowAnonymous]
+        [HttpPost("activate")]
+        public async Task<IActionResult> VerifyAccount([FromBody] VerifyAccountViewModel viewModel)
+        {
+            await accountServiceApp.VerifyAccount(viewModel);
+
+            return Response();
+        }
     }
 }

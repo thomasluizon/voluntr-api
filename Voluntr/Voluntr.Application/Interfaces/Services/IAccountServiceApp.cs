@@ -2,7 +2,7 @@
 
 namespace Voluntr.Application.Interfaces.Services
 {
-    public interface IAuthenticationServiceApp
+    public interface IAccountServiceApp
     {
         Task<AuthenticationResponseViewModel> Login(AuthenticationRequestViewModel viewModel);
         Task<CommandResponseViewModel> Register(RegisterUserViewModel viewModel);
@@ -11,5 +11,6 @@ namespace Voluntr.Application.Interfaces.Services
         Task ResetPasswordRequest(ResetPasswordRequestViewModel viewModel);
         Task ResetPassword(ResetPasswordViewModel viewModel);
         Task UpdatePassword(UpdatePasswordViewModel viewModel);
+        Task VerifyAccount(VerifyAccountViewModel viewModel);
     }
 }

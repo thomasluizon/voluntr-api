@@ -9,7 +9,7 @@ namespace Voluntr.Application.Services
     public class AuthenticationServiceApp(
         IMediatorHandler mediator,
         IMapper mapper
-    ) : IAuthenticationServiceApp
+    ) : IAccountServiceApp
     {
         public async Task<AuthenticationResponseViewModel> Login(AuthenticationRequestViewModel viewModel)
         {
@@ -59,6 +59,13 @@ namespace Voluntr.Application.Services
         public async Task UpdatePassword(UpdatePasswordViewModel viewModel)
         {
             var command = mapper.Map<UpdatePasswordCommand>(viewModel);
+
+            await mediator.SendCommandResponse(command);
+        }
+
+        public async Task VerifyAccount(VerifyAccountViewModel viewModel)
+        {
+            var command = mapper.Map<VerifyAccountCommand>(viewModel);
 
             await mediator.SendCommandResponse(command);
         }

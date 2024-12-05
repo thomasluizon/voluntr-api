@@ -3,11 +3,11 @@ using Voluntr.Domain.Validations;
 
 namespace Voluntr.Domain.Commands
 {
-    public class ResetPasswordRequestCommand : AuthenticationCommand<AuthenticationDto>
+    public class ResetPasswordCommand : AccountCommand<AuthenticationDto>
     {
         public override bool IsValid()
         {
-            ValidationResult = new ResetPasswordRequestValidation().Validate(this);
+            ValidationResult = new ResetPasswordValidation().Validate(this);
 
             return ValidationResult.IsValid;
         }

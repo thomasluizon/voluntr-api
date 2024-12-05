@@ -3,11 +3,11 @@ using Voluntr.Domain.Validations;
 
 namespace Voluntr.Domain.Commands
 {
-    public class UpdatePasswordCommand : AuthenticationCommand<AuthenticationDto>
+    public class LoginUserCommand : AccountCommand<AuthenticationDto>
     {
         public override bool IsValid()
         {
-            ValidationResult = new UpdatePasswordValidation().Validate(this);
+            ValidationResult = new LoginUserValidation().Validate(this);
 
             return ValidationResult.IsValid;
         }

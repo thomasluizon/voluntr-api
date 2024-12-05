@@ -3,12 +3,11 @@ using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class ResetPasswordValidation : AccountValidation<ResetPasswordCommand, AuthenticationDto>
+    public class VerifyAccountValidation : AccountValidation<VerifyAccountCommand, CommandResponseDto>
     {
-        public ResetPasswordValidation()
+        public VerifyAccountValidation()
         {
             ValidateToken();
-            ValidatePassword();
         }
     }
 }

@@ -5,8 +5,8 @@ using Voluntr.Domain.Enumerators;
 
 namespace Voluntr.Domain.Validations
 {
-    public class AuthenticationValidation<TCommand, TResponse>
-        : AbstractValidator<TCommand> where TCommand : AuthenticationCommand<TResponse>
+    public class AccountValidation<TCommand, TResponse>
+        : AbstractValidator<TCommand> where TCommand : AccountCommand<TResponse>
     {
         protected void ValidateEmail()
         {

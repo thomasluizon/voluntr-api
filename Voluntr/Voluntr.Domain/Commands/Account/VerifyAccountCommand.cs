@@ -3,11 +3,11 @@ using Voluntr.Domain.Validations;
 
 namespace Voluntr.Domain.Commands
 {
-    public class LinkUserOAuthCommand : AuthenticationCommand<AuthenticationDto>
+    public class VerifyAccountCommand : AccountCommand<CommandResponseDto>
     {
         public override bool IsValid()
         {
-            ValidationResult = new LinkUserOAuthValidation().Validate(this);
+            ValidationResult = new VerifyAccountValidation().Validate(this);
 
             return ValidationResult.IsValid;
         }

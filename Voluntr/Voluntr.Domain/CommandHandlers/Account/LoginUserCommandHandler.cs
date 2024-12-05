@@ -4,6 +4,7 @@ using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
 using Voluntr.Domain.Events;
+using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 
@@ -40,6 +41,7 @@ namespace Voluntr.Domain.CommandHandlers
                     User = user
                 });
 
+                NotifyError(Values.Message.EmailNotVerifiedError);
                 return null;
             }
 
