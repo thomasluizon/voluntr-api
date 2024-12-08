@@ -13,9 +13,9 @@
         public string Neighbourhood { get; set; }
 
         /// <summary>
-        /// Estado do usuário
+        /// UF do usuário
         /// </summary>
-        public string State { get; set; }
+        public string Uf { get; set; }
 
         /// <summary>
         /// Cidade do usuário

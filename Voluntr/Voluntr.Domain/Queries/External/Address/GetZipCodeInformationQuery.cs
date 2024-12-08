@@ -2,7 +2,7 @@
 
 namespace Voluntr.Domain.Queries
 {
-    public class GetZipCodeInformationQuery : ZipCodeQuery<ZipCodeInformationDto>
+    public class GetZipCodeInformationQuery : AddressQuery<ZipCodeInformationDto>
     {
         public override bool IsValid()
         {

@@ -20,10 +20,36 @@ namespace Voluntr.Api.Controllers
         /// <param name="zipCode">CEP do usuário</param>
         [ProducesResponseType(typeof(ZipCodeInformationViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [HttpGet("zip-code")]
+        [HttpGet("address/zip-code")]
         public async Task<IActionResult> GetZipCodeInformation([FromQuery] string zipCode)
         {
             var response = await externalServiceApp.GetZipCodeInformation(zipCode);
+
+            return Response(response);
+        }
+
+        /// <summary>
+        /// Retorna todos os UFs do brasil
+        /// </summary>
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [HttpGet("address/ufs")]
+        public async Task<IActionResult> GetUfs()
+        {
+            var response = await externalServiceApp.GetUfs();
+
+            return Response(response);
+        }
+
+        /// <summary>
+        /// Retorna todos os UFs do brasil
+        /// </summary>
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [HttpGet("address/{uf}/cities")]
+        public async Task<IActionResult> GetCities([FromRoute] string uf)
+        {
+            var response = await externalServiceApp.GetCities(uf);
 
             return Response(response);
         }

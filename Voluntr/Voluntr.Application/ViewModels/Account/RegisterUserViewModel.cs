@@ -23,6 +23,16 @@
         public string UserType { get; set; }
 
         /// <summary>
+        /// Número de telefone do usuário
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Endereço do usuário
+        /// </summary>
+        public AddressViewModel AddressViewModel { get; set; }
+
+        /// <summary>
         /// Dados do voluntário
         /// </summary>
         public VolunteerRegisterViewModel VolunteerRegisterViewModel { get; set; }

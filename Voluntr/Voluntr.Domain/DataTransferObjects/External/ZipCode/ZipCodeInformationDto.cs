@@ -11,7 +11,7 @@ namespace Voluntr.Domain.DataTransferObjects
         public string Neighbourhood { get; set; }
 
         [JsonPropertyName("uf")]
-        public string State { get; set; }
+        public string Uf { get; set; }
 
         [JsonPropertyName("localidade")]
         public string City { get; set; }
