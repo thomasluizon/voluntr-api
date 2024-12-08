@@ -6,5 +6,6 @@
         public string VoluntrApi { get; set; }
         public string ResetPassword { get; set; }
         public string EmailActivation { get; set; }
+        public string ViaCep { get; set; }
     }
 }

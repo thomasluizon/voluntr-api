@@ -28,6 +28,12 @@ namespace Voluntr.Application.Mappings
             CreateMap<AuthenticationDto, AuthenticationResponseViewModel>();
 
             #endregion
+
+            #region External
+
+            CreateMap<ZipCodeInformationDto, ZipCodeInformationViewModel>();
+
+            #endregion
         }
     }
 }

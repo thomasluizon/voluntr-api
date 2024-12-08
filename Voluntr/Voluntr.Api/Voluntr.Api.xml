@@ -51,6 +51,12 @@
             </summary>
             <param name="viewModel">Dados da ativação da conta do usuário</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.ExternalController.GetZipCodeInformation(System.String)">
+            <summary>
+            Retorna as informações do endereço do usuário baseado no CEP
+            </summary>
+            <param name="zipCode">CEP do usuário</param>
+        </member>
         <member name="M:Voluntr.Api.Controllers.UserController.TogglePause">
             <summary>
             Pausa/Despausa a conta do usuário
