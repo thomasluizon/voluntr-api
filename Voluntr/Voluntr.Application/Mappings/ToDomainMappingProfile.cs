@@ -13,6 +13,10 @@ namespace Voluntr.Application.Mappings
             #region User
 
             CreateMap<Volunteer, VolunteerDto>();
+            CreateMap<AddressCommand, Address>();
+            CreateMap<CompanyRegisterCommand, CompanyRegisterViewModel>();
+            CreateMap<NgoRegisterCommand, NgoRegisterViewModel>();
+            CreateMap<VolunteerRegisterCommand, VolunteerRegisterViewModel>();
 
             #endregion
 

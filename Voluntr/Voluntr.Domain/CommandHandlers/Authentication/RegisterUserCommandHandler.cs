@@ -1,4 +1,5 @@
-﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
+﻿using AutoMapper;
+using Voluntr.Crosscutting.Domain.Commands.Handlers;
 using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
@@ -19,7 +20,9 @@ namespace Voluntr.Domain.CommandHandlers
         IUserRepository userRepository,
         ICryptographyService cryptographyService,
         IClaimsService claimsService,
-        IUnitOfWork unitOfWork
+        IMapper mapper,
+        IUnitOfWork unitOfWork,
+        IVolunteerRepository volunteerRepository
     ) : MediatorResponseCommandHandler<RegisterUserCommand, CommandResponseDto>(mediator)
     {
         public override async Task<CommandResponseDto> AfterValidation(RegisterUserCommand request)
@@ -38,12 +41,23 @@ namespace Voluntr.Domain.CommandHandlers
             {
                 Email = request.Email.Trim(),
                 Name = request.Name.Trim(),
-                Password = cryptographyService.Encrypt(request.Password.Trim())
+                Password = cryptographyService.Encrypt(request.Password.Trim()),
+                Phone = request.Phone.Trim(),
+                Address = mapper.Map<Address>(request.Address),
             };
+
+            await userRepository.InsertAsync(user);
 
             if (request.UserType == UserTypeEnum.Volunteer.GetDescription())
             {
+                var volunteer = new Volunteer
+                {
+                    BirthDate = request.VolunteerRegister.BirthDate,
+                    Surname = request.VolunteerRegister.Surname,
+                    UserId = user.Id
+                };
 
+                await volunteerRepository.InsertAsync(volunteer);
             }
             else if (request.UserType == UserTypeEnum.Ngo.GetDescription())
             {
@@ -53,8 +67,6 @@ namespace Voluntr.Domain.CommandHandlers
             {
 
             }
-
-            await userRepository.InsertAsync(user);
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
             {

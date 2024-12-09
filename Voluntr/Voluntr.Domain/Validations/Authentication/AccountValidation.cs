@@ -108,7 +108,7 @@ namespace Voluntr.Domain.Validations
             if (string.IsNullOrEmpty(phone))
                 return true;
 
-            var numericPhone = new string(phone.Where(char.IsDigit).ToArray());
+            var numericPhone = phone.Where(char.IsDigit).ToArray().ToString();
 
             return numericPhone.Length == 11;
         }

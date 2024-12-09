@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 using Voluntr.Crosscutting.Infrastructure.Mappings;
 using Voluntr.Domain.Models;
 
@@ -40,6 +41,13 @@ namespace Voluntr.Infrastructure.Mappings
                 .WithMany()
                 .HasForeignKey(x => x.OAuthProviderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(x => x.Address)
+               .HasConversion(
+                   address => JsonSerializer.Serialize(address, new JsonSerializerOptions { WriteIndented = false }),
+                   addressJson => JsonSerializer.Deserialize<Address>(addressJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+               )
+               .HasColumnType("nvarchar(max)");
 
             base.Configure(builder);
         }
