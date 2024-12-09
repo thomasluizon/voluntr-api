@@ -30,21 +30,21 @@
         /// <summary>
         /// Endereço do usuário
         /// </summary>
-        public AddressViewModel AddressViewModel { get; set; }
+        public AddressViewModel Address { get; set; }
 
         /// <summary>
         /// Dados do voluntário
         /// </summary>
-        public VolunteerRegisterViewModel VolunteerRegisterViewModel { get; set; }
+        public VolunteerRegisterViewModel VolunteerRegister { get; set; }
 
         /// <summary>
         /// Dados da ONG
         /// </summary>
-        public NgoRegisterViewModel NgoRegisterViewModel { get; set; }
+        public NgoRegisterViewModel NgoRegister { get; set; }
 
         /// <summary>
         /// Dados da empresa
         /// </summary>
-        public CompanyRegisterViewModel CompanyRegisterViewModel { get; set; }
+        public CompanyRegisterViewModel CompanyRegister { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Events;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
@@ -38,6 +40,19 @@ namespace Voluntr.Domain.CommandHandlers
                 Name = request.Name.Trim(),
                 Password = cryptographyService.Encrypt(request.Password.Trim())
             };
+
+            if (request.UserType == UserTypeEnum.Volunteer.GetDescription())
+            {
+
+            }
+            else if (request.UserType == UserTypeEnum.Ngo.GetDescription())
+            {
+
+            }
+            else if (request.UserType == UserTypeEnum.Company.GetDescription())
+            {
+
+            }
 
             await userRepository.InsertAsync(user);
 
