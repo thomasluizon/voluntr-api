@@ -24,6 +24,10 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasMaxLength(100)
                 .IsRequired(false);
 
+            builder.Property(x => x.Phone)
+                .HasMaxLength(11)
+                .IsRequired(false);
+
             builder.Property(x => x.Paused)
                 .HasDefaultValue(false)
                 .IsRequired();
