@@ -108,7 +108,7 @@ namespace Voluntr.Domain.Validations
             if (string.IsNullOrEmpty(phone))
                 return true;
 
-            var numericPhone = phone.Where(char.IsDigit).ToArray().ToString();
+            var numericPhone = new string(phone.Where(char.IsDigit).ToArray());
 
             return numericPhone.Length == 11;
         }
@@ -116,8 +116,8 @@ namespace Voluntr.Domain.Validations
         private bool ValidateUserType(string userType)
         {
             return userType.Trim() == UserTypeEnum.Volunteer.GetDescription()
-                && userType.Trim() == UserTypeEnum.Ngo.GetDescription()
-                && userType.Trim() == UserTypeEnum.Company.GetDescription();
+                || userType.Trim() == UserTypeEnum.Ngo.GetDescription()
+                || userType.Trim() == UserTypeEnum.Company.GetDescription();
         }
 
         #region OAuth

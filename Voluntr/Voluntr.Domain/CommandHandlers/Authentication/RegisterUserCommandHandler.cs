@@ -42,7 +42,7 @@ namespace Voluntr.Domain.CommandHandlers
                 Email = request.Email.Trim(),
                 Name = request.Name.Trim(),
                 Password = cryptographyService.Encrypt(request.Password.Trim()),
-                Phone = request.Phone.Trim(),
+                Phone = new string(request.Phone.Where(char.IsDigit).ToArray()),
                 Address = mapper.Map<Address>(request.Address),
             };
 
