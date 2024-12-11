@@ -11,5 +11,10 @@
         /// Provider do OAuth (Google)
         /// </summary>
         public string OAuthProviderName { get; set; }
+
+        /// <summary>
+        /// Tipo do usuário (Voluntário, Ong ou Empresa)
+        /// </summary>
+        public string UserType { get; set; }
     }
 }

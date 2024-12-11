@@ -17,6 +17,13 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Property(x => x.Surname)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(x => x.BirthDate)
+                .IsRequired();
+
             base.Configure(builder);
         }
     }
