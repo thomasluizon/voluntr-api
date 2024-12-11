@@ -10,6 +10,8 @@ namespace Voluntr.Domain.Validations
             ValidateEmail();
             ValidatePassword();
             ValidateName();
+            ValidateRegister();
+            ValidateAddress();
         }
     }
 }
