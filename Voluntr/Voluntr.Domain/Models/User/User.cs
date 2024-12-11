@@ -12,6 +12,7 @@ namespace Voluntr.Domain.Models
         public bool Paused { get; set; }
         public bool EmailVerified { get; set; }
         public Address Address { get; set; }
+        public string Picture { get; set; }
 
         public ICollection<Notification> Notifications { get; set; } = [];
         public virtual OAuthProvider OAuthProvider { get; set; }

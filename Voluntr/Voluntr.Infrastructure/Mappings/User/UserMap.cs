@@ -37,6 +37,9 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            builder.Property(x => x.Picture)
+                .IsRequired(false);
+
             builder.HasOne(x => x.OAuthProvider)
                 .WithMany()
                 .HasForeignKey(x => x.OAuthProviderId)
