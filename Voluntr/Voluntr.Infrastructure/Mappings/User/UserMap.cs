@@ -45,13 +45,6 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasForeignKey(x => x.OAuthProviderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(x => x.Address)
-               .HasConversion(
-                   address => JsonSerializer.Serialize(address, new JsonSerializerOptions { WriteIndented = false }),
-                   addressJson => JsonSerializer.Deserialize<Address>(addressJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-               )
-               .HasColumnType("nvarchar(max)");
-
             base.Configure(builder);
         }
     }

@@ -43,7 +43,7 @@ namespace Voluntr.Domain.CommandHandlers
                 Name = request.Name.Trim(),
                 Password = cryptographyService.Encrypt(request.Password.Trim()),
                 Phone = new string(request.Phone.Where(char.IsDigit).ToArray()),
-                Address = mapper.Map<Address>(request.Address),
+                Addresses = [mapper.Map<Address>(request.Address)],
             };
 
             await userRepository.InsertAsync(user);

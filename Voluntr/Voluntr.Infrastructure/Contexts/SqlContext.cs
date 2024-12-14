@@ -18,6 +18,8 @@ namespace Voluntr.Infrastructure.Contexts
             #region User
 
             modelBuilder.ApplyConfiguration(new UserMap());
+            modelBuilder.ApplyConfiguration(new AddressMap());
+            modelBuilder.ApplyConfiguration(new UserAddressMap());
             modelBuilder.ApplyConfiguration(new VolunteerMap());
             modelBuilder.ApplyConfiguration(new NgoMap());
             modelBuilder.ApplyConfiguration(new CompanyMap());
