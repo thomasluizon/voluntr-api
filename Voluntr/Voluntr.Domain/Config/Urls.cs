@@ -9,5 +9,6 @@
         public string ViaCep { get; set; }
         public string Uf { get; set; }
         public string Cities { get; set; }
+        public string BlobStorage { get; set; }
     }
 }

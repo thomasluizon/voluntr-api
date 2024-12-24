@@ -1,6 +1,8 @@
-﻿namespace Voluntr.Domain.Models
+﻿using Voluntr.Crosscutting.Domain.Models;
+
+namespace Voluntr.Domain.Models
 {
-    public class Address
+    public class Address : Entity
     {
         public string ZipCode { get; set; }
         public string Street { get; set; }
