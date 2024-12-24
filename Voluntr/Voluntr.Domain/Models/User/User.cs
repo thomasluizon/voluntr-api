@@ -33,6 +33,24 @@ namespace Voluntr.Domain.Models
             }
         }
 
+        public virtual ICollection<UserAchievement> UserAchievements { get; set; } = [];
+        public virtual ICollection<Achievement> Achievements
+        {
+            get => UserAchievements.Select(ua => ua.Achievement).ToList();
+            set
+            {
+                UserAchievements.Clear();
+                foreach (var achievement in value)
+                {
+                    UserAchievements.Add(new UserAchievement
+                    {
+                        User = this,
+                        Achievement = achievement
+                    });
+                }
+            }
+        }
+
         public virtual OAuthProvider OAuthProvider { get; set; }
     }
 }
