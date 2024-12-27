@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
+using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Models;
 
 namespace Voluntr.Infrastructure.Contexts
@@ -107,6 +109,33 @@ namespace Voluntr.Infrastructure.Contexts
                 ("Guardião das Artes", 50));
 
             modelBuilder.Entity<Achievement>().HasData(achievements);
+        }
+
+        public static void SeedOnboardingTasks(this ModelBuilder modelBuilder, string blobStorageUrl)
+        {
+            var baseOnboardingUrl = $"{blobStorageUrl}/images/onboarding";
+
+            var onboardingTasks = new[]
+            {
+                new OnboardingTask
+                {
+                    Type = OnboardingTaskEnum.Picture.GetDescription(),
+                    Name = "Apresente-se à comunidade",
+                    Description = "Adicione uma foto à sua conta para que ONGs e outros voluntários o reconheçam.",
+                    Image = $"{baseOnboardingUrl}/photo.png",
+                    Redirect = "/profile"
+                },
+                new OnboardingTask
+                {
+                    Type = OnboardingTaskEnum.Cause.GetDescription(),
+                    Name = "Hora do match",
+                    Description = "Escolha causas que te inspiram. Assim, você verá missões que combinam com seus interesses.",
+                    Image = $"{baseOnboardingUrl}/cause.png",
+                    Redirect = "/profile"
+                }
+            };
+
+            modelBuilder.Entity<OnboardingTask>().HasData(onboardingTasks);
         }
     }
 }

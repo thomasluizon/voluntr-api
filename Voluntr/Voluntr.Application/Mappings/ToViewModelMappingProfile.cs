@@ -19,7 +19,13 @@ namespace Voluntr.Application.Mappings
 
             #region User
 
+
+            #endregion
+
+            #region Volunteer
+
             CreateMap<VolunteerDto, VolunteerResponseViewModel>();
+            CreateMap<OnboardingTaskDto, OnboardingTaskViewModel>();
 
             #endregion
 

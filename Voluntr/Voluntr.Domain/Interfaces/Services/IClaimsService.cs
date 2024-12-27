@@ -6,6 +6,7 @@ namespace Voluntr.Domain.Interfaces.Services
     public interface IClaimsService
     {
         Guid? GetCurrentUserId();
+        string GetCurrentUserType();
         string GenerateAuthToken(User user, UserTypeEnum userType);
         string GenerateGenericToken(User user, int expiryMinutes = 15);
         bool IsTokenValid(string token);

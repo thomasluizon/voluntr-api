@@ -15,16 +15,7 @@ namespace Voluntr.Api.Controllers
         ICauseServiceApp causeServiceApp
     ) : ApiController(mediator)
     {
-        /// <summary>
-        /// Realiza a consulta do progresso do onboarding do usuário
-        /// </summary>
-        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpGet("onboarding")]
-        public async Task<IActionResult> GetOnboarding()
-        {
-            throw new NotImplementedException();
-        }
+        #region Achievements
+        #endregion
     }
 }

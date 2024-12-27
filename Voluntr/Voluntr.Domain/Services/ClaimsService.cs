@@ -40,9 +40,9 @@ namespace Voluntr.Domain.Services
             return Guid.Parse(userId);
         }
 
-        public string GetCurrentUserType(ClaimsPrincipal claimsPrincipal)
+        public string GetCurrentUserType()
         {
-            var userType = claimsPrincipal.GetUserTypeFromToken();
+            var userType = claims.GetUserTypeFromToken();
 
             if (string.IsNullOrEmpty(userType))
             {

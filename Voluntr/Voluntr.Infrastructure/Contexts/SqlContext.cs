@@ -30,10 +30,26 @@ namespace Voluntr.Infrastructure.Contexts
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new AddressMap());
             modelBuilder.ApplyConfiguration(new UserCauseMap());
-            modelBuilder.ApplyConfiguration(new VolunteerMap());
-            modelBuilder.ApplyConfiguration(new NgoMap());
-            modelBuilder.ApplyConfiguration(new CompanyMap());
             modelBuilder.ApplyConfiguration(new UserAchievementMap());
+
+            #endregion
+
+            #region Volunteer
+
+            modelBuilder.ApplyConfiguration(new VolunteerMap());
+            modelBuilder.ApplyConfiguration(new OnboardingTaskMap());
+
+            #endregion
+
+            #region Ngo
+
+            modelBuilder.ApplyConfiguration(new NgoMap());
+
+            #endregion
+
+            #region Company
+
+            modelBuilder.ApplyConfiguration(new CompanyMap());
 
             #endregion
 
@@ -59,6 +75,7 @@ namespace Voluntr.Infrastructure.Contexts
             #region Seed
 
             modelBuilder.SeedAchievements(urls.BlobStorage);
+            modelBuilder.SeedOnboardingTasks(urls.BlobStorage);
 
             #endregion
 
