@@ -20,7 +20,9 @@ namespace Voluntr.Domain.CommandHandlers
         IOAuthService OAuthService,
         IOAuthProviderRepository OAuthProviderRepository,
         IUnitOfWork unitOfWork,
-        IVolunteerRepository volunteerRepository
+        IVolunteerRepository volunteerRepository,
+        ICompanyRepository companyRepository,
+        INgoRepository ngoRepository
     ) : MediatorResponseCommandHandler<OAuthLoginUserCommand, AuthenticationDto>(mediator)
     {
         public override async Task<AuthenticationDto> AfterValidation(OAuthLoginUserCommand request)
@@ -92,6 +94,13 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
+            var userType = await GetUserType(user.Id);
+
+            if (userType == null)
+            {
+                NotifyError(Values.Message.UserTypeNotFound);
+            }
+
             if (!HasNotification() && await unitOfWork.CommitAsync())
             {
                 request.ExecutedSuccessfullyCommand = true;
@@ -112,11 +121,29 @@ namespace Voluntr.Domain.CommandHandlers
 
                 return new AuthenticationDto
                 {
-                    AccessToken = claimsService.GenerateAuthToken(user)
+                    AccessToken = claimsService.GenerateAuthToken(user, userType.Value)
                 };
             }
             else
                 NotifyError(Values.Message.DefaultError);
+
+            return null;
+        }
+
+        private async Task<UserTypeEnum?> GetUserType(Guid id)
+        {
+            if (await volunteerRepository.ExistsByExpressionAsync(x => x.UserId == id))
+            {
+                return UserTypeEnum.Volunteer;
+            }
+            else if (await ngoRepository.ExistsByExpressionAsync(x => x.UserId == id))
+            {
+                return UserTypeEnum.Ngo;
+            }
+            else if (await companyRepository.ExistsByExpressionAsync(x => x.UserId == id))
+            {
+                return UserTypeEnum.Company;
+            }
 
             return null;
         }
