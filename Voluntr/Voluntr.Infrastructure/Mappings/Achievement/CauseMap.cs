@@ -4,9 +4,9 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Infrastructure.Mappings
 {
-    public class AchievementCategoryMap : EntityTypeConfigurationBase<AchievementCategory>
+    public class CauseMap : EntityTypeConfigurationBase<Cause>
     {
-        public override void Configure(EntityTypeBuilder<AchievementCategory> builder)
+        public override void Configure(EntityTypeBuilder<Cause> builder)
         {
             builder.Property(x => x.Name)
                 .HasMaxLength(100)

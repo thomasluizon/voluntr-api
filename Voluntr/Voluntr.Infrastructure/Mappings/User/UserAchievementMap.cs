@@ -16,7 +16,7 @@ namespace Voluntr.Infrastructure.Mappings
                 .IsRequired();
 
             builder.HasOne(x => x.User)
-                .WithMany(u => u.UserAchievements)
+                .WithMany()
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

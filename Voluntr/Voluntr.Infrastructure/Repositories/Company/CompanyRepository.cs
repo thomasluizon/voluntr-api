@@ -5,5 +5,5 @@ using Voluntr.Infrastructure.Contexts;
 
 namespace Voluntr.Infrastructure.Repositories
 {
-    public class VolunteerRepository(SqlContext context): SqlRepository<Volunteer>(context), IVolunteerRepository;
+    public class CompanyRepository(SqlContext context) : SqlRepository<Company>(context), ICompanyRepository;
 }

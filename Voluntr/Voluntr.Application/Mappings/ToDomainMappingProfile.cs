@@ -12,12 +12,23 @@ namespace Voluntr.Application.Mappings
         {
             #region User
 
-            CreateMap<Volunteer, VolunteerDto>();
             CreateMap<AddressViewModel, AddressCommand>();
             CreateMap<AddressCommand, Address>();
-            CreateMap<CompanyRegisterCommand, CompanyRegisterViewModel>();
-            CreateMap<NgoRegisterCommand, NgoRegisterViewModel>();
-            CreateMap<VolunteerRegisterCommand, VolunteerRegisterViewModel>();
+
+            #endregion
+
+            #region Volunteer
+
+            CreateMap<Volunteer, VolunteerDto>();
+            CreateMap<OnboardingTask, OnboardingTaskDto>();
+
+            #endregion
+
+            #region Ngo
+
+            #endregion
+
+            #region Company
 
             #endregion
 
@@ -33,6 +44,9 @@ namespace Voluntr.Application.Mappings
             CreateMap<ResetPasswordViewModel, ResetPasswordCommand>();
             CreateMap<UpdatePasswordViewModel, UpdatePasswordCommand>();
             CreateMap<VerifyAccountViewModel, VerifyAccountCommand>();
+            CreateMap<CompanyRegisterCommand, CompanyRegisterViewModel>();
+            CreateMap<NgoRegisterCommand, NgoRegisterViewModel>();
+            CreateMap<VolunteerRegisterCommand, VolunteerRegisterViewModel>();
 
             #endregion
         }

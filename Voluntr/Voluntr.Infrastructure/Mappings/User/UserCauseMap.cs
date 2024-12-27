@@ -5,24 +5,24 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Infrastructure.Mappings
 {
-    public class UserAddressMap : EntityTypeConfigurationBase<UserAddress>
+    public class UserCauseMap : EntityTypeConfigurationBase<UserCause>
     {
-        public override void Configure(EntityTypeBuilder<UserAddress> builder)
+        public override void Configure(EntityTypeBuilder<UserCause> builder)
         {
             builder.Property(x => x.UserId)
                 .IsRequired();
 
-            builder.Property(x => x.AddressId)
+            builder.Property(x => x.CauseId)
                 .IsRequired();
 
             builder.HasOne(x => x.User)
-                .WithMany(x => x.UserAddresses)
+                .WithMany()
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(x => x.Address)
+            builder.HasOne(x => x.Cause)
                 .WithMany()
-                .HasForeignKey(x => x.AddressId)
+                .HasForeignKey(x => x.CauseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.Configure(builder);

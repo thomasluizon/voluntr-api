@@ -5,5 +5,5 @@ using Voluntr.Infrastructure.Contexts;
 
 namespace Voluntr.Infrastructure.Repositories
 {
-    public class AchievementCategoryRepository(SqlContext context) : SqlRepository<AchievementCategory>(context), IAchievementCategoryRepository;
+    public class CauseRepository(SqlContext context) : SqlRepository<Cause>(context), ICauseRepository;
 }
