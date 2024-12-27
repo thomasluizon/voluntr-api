@@ -3,5 +3,5 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Interfaces.Repositories
 {
-    public interface IAchievementCategoryRepository : ISqlRepository<AchievementCategory>;
+    public interface ICauseRepository : ISqlRepository<Cause>;
 }

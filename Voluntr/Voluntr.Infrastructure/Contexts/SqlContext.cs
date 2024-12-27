@@ -29,7 +29,7 @@ namespace Voluntr.Infrastructure.Contexts
 
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new AddressMap());
-            modelBuilder.ApplyConfiguration(new UserAddressMap());
+            modelBuilder.ApplyConfiguration(new UserCauseMap());
             modelBuilder.ApplyConfiguration(new VolunteerMap());
             modelBuilder.ApplyConfiguration(new NgoMap());
             modelBuilder.ApplyConfiguration(new CompanyMap());
@@ -40,7 +40,7 @@ namespace Voluntr.Infrastructure.Contexts
             #region Achievement
 
             modelBuilder.ApplyConfiguration(new AchievementMap());
-            modelBuilder.ApplyConfiguration(new AchievementCategoryMap());
+            modelBuilder.ApplyConfiguration(new CauseMap());
 
             #endregion
 

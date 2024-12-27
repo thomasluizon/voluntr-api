@@ -28,7 +28,7 @@ namespace Voluntr.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid?>("CauseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -49,468 +49,368 @@ namespace Voluntr.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("CauseId");
 
                     b.ToTable("Achievement");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e5d0214c-53f0-4f18-8d51-2f590048413a"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 976, DateTimeKind.Unspecified).AddTicks(2003),
+                            Id = new Guid("b69311f5-1e5e-46ef-a85d-dd74933846fe"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 70, DateTimeKind.Unspecified).AddTicks(4116),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/arregacando-as-mangas.png",
                             Name = "Arregaçando as Mangas",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("b90e443d-9881-477a-a365-24b1096a426e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 976, DateTimeKind.Unspecified).AddTicks(2552),
+                            Id = new Guid("28c97415-30df-4051-b548-b0700c9f7e21"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 70, DateTimeKind.Unspecified).AddTicks(4646),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/fazedor-de-impacto.png",
                             Name = "Fazedor de Impacto",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("3cc31b59-9765-4825-a3b4-a4de0e0b174b"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 976, DateTimeKind.Unspecified).AddTicks(2563),
+                            Id = new Guid("a82d2e1d-6baf-40ce-8e0e-216497d29d69"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 70, DateTimeKind.Unspecified).AddTicks(4656),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/agente-da-mudanca.png",
                             Name = "Agente de Mudança",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("a3f3899a-43a4-4f83-a122-59df0a549087"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 976, DateTimeKind.Unspecified).AddTicks(2663),
+                            Id = new Guid("7761b02a-8668-47e0-8ca8-41ebc256fc3a"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 70, DateTimeKind.Unspecified).AddTicks(4663),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/heroi-da-comunidade.png",
                             Name = "Heroi da Comunidade",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("d8982807-da0f-4bf8-83a5-f40d23ad5295"),
-                            CategoryId = new Guid("8c31424d-742d-4239-b49c-199303875ab4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 976, DateTimeKind.Unspecified).AddTicks(5219),
+                            Id = new Guid("8e979338-84ed-49a0-957e-97fb765da566"),
+                            CauseId = new Guid("b551d661-ff72-4477-812d-7c323bd25b1c"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 70, DateTimeKind.Unspecified).AddTicks(7986),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/eco-guardiao.png",
                             Name = "Eco-Guardião",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("1b1ccb0c-5e67-4c57-bf0b-6ccb48da9985"),
-                            CategoryId = new Guid("8c31424d-742d-4239-b49c-199303875ab4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(884),
+                            Id = new Guid("e9c6c877-4e62-4cbd-9d2e-8352ca8d31c3"),
+                            CauseId = new Guid("b551d661-ff72-4477-812d-7c323bd25b1c"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(2655),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/protetor-da-terra.png",
                             Name = "Protetor da Terra",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("fd7e941e-2a51-42ef-8b59-0af53d541848"),
-                            CategoryId = new Guid("8c31424d-742d-4239-b49c-199303875ab4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(987),
+                            Id = new Guid("f62cb819-f6ba-4b7e-a443-db9ce01972af"),
+                            CauseId = new Guid("b551d661-ff72-4477-812d-7c323bd25b1c"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(2893),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/herói-verde.png",
                             Name = "Herói Verde",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("0c9d51c0-1e83-4a65-ad91-725852266144"),
-                            CategoryId = new Guid("8c31424d-742d-4239-b49c-199303875ab4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1043),
+                            Id = new Guid("0ebb520d-8bdf-4cee-a7a0-b7b61b54e5e3"),
+                            CauseId = new Guid("b551d661-ff72-4477-812d-7c323bd25b1c"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(2965),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/guardiao-ambiental.png",
                             Name = "Guardião Ambiental",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("464e0a82-b5c2-44f1-bd44-39a67a808a3c"),
-                            CategoryId = new Guid("5d7f3b5a-403a-4ae5-811b-3fd9a07150d5"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1064),
+                            Id = new Guid("eb7782e8-8851-40d4-83d3-072301814d31"),
+                            CauseId = new Guid("3b80c751-1fa7-4575-8ad3-b7eb13a47275"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3028),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/tutor-comunitário.png",
                             Name = "Tutor Comunitário",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("4c6d19f7-d2fc-471d-8c1a-7b505a271b22"),
-                            CategoryId = new Guid("5d7f3b5a-403a-4ae5-811b-3fd9a07150d5"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1077),
+                            Id = new Guid("707787e0-7773-41f8-bfce-baa8a50669dd"),
+                            CauseId = new Guid("3b80c751-1fa7-4575-8ad3-b7eb13a47275"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3039),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/protetor-do-conhecimento.png",
                             Name = "Protetor do Conhecimento",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("64ee0c35-d9f3-471f-8f00-759d24a899de"),
-                            CategoryId = new Guid("5d7f3b5a-403a-4ae5-811b-3fd9a07150d5"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1126),
+                            Id = new Guid("5aeb4147-e4e5-4bb8-8306-cf0718dccda1"),
+                            CauseId = new Guid("3b80c751-1fa7-4575-8ad3-b7eb13a47275"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3048),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/herói-do-futuro.png",
                             Name = "Herói do Futuro",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("2748ff31-5d7c-4805-afe7-5e12c5610487"),
-                            CategoryId = new Guid("5d7f3b5a-403a-4ae5-811b-3fd9a07150d5"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1135),
+                            Id = new Guid("ef84ac94-4242-482b-834c-85f61fa4c4f7"),
+                            CauseId = new Guid("3b80c751-1fa7-4575-8ad3-b7eb13a47275"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3060),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/guardiao-da-transformacao.png",
                             Name = "Guardião da Transformação",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("23649e05-6470-46f1-abf3-a972e5beb695"),
-                            CategoryId = new Guid("39488396-6021-490c-ab77-5c2a0b7faf01"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1147),
+                            Id = new Guid("ee38092d-544c-4bc4-8154-0fe1959b0398"),
+                            CauseId = new Guid("39d0ad63-11ea-4f12-a249-ab09f18f61fa"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3071),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/anjo-dos-animais.png",
                             Name = "Anjo dos Animais",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("16b6c183-8ef1-4c00-ace9-920b6bf983c2"),
-                            CategoryId = new Guid("39488396-6021-490c-ab77-5c2a0b7faf01"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1154),
+                            Id = new Guid("48ee1c7a-4675-44d8-bf3a-a01c1b7ac986"),
+                            CauseId = new Guid("39d0ad63-11ea-4f12-a249-ab09f18f61fa"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3077),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/protetor-da-fauna.png",
                             Name = "Protetor da Fauna",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("578aaa52-95ab-4f07-a0ba-012ed673a08c"),
-                            CategoryId = new Guid("39488396-6021-490c-ab77-5c2a0b7faf01"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1165),
+                            Id = new Guid("7f70a0c3-ae2e-4cef-95ca-0bee367b59d6"),
+                            CauseId = new Guid("39d0ad63-11ea-4f12-a249-ab09f18f61fa"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3088),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/herói-das-patas.png",
                             Name = "Herói das Patas",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("a2f236fd-11d4-4e92-ad7f-75a5e7ad937a"),
-                            CategoryId = new Guid("39488396-6021-490c-ab77-5c2a0b7faf01"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1180),
+                            Id = new Guid("5a5de271-8916-472c-b2c4-a4cc6d639402"),
+                            CauseId = new Guid("39d0ad63-11ea-4f12-a249-ab09f18f61fa"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3096),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/guardiao-dos-animais.png",
                             Name = "Guardião dos Animais",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("d6475000-0596-4731-a72e-bdec9f9b4e2f"),
-                            CategoryId = new Guid("d949ddf8-559e-4bdd-bd98-260b5b6ddba4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1192),
+                            Id = new Guid("ce1fe782-887f-468b-bfda-c7c6b0839c7e"),
+                            CauseId = new Guid("68f9ba3b-bd75-4c2f-ae30-6939d823a573"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3105),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/anjo-da-vida.png",
                             Name = "Anjo da Vida",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("9e4242c5-525d-41a4-8b7f-7531479468bc"),
-                            CategoryId = new Guid("d949ddf8-559e-4bdd-bd98-260b5b6ddba4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1200),
+                            Id = new Guid("fbfe8207-9804-4d67-a337-9d16e5d4442d"),
+                            CauseId = new Guid("68f9ba3b-bd75-4c2f-ae30-6939d823a573"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3112),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/protetor-da-saúde.png",
                             Name = "Protetor da Saúde",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("b101c8d1-093d-4643-84ab-88725e393a20"),
-                            CategoryId = new Guid("d949ddf8-559e-4bdd-bd98-260b5b6ddba4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1207),
+                            Id = new Guid("eea55ed8-32f9-437a-b69e-04a714fe036e"),
+                            CauseId = new Guid("68f9ba3b-bd75-4c2f-ae30-6939d823a573"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3124),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/herói-da-esperanca.png",
                             Name = "Herói da Esperança",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("2c4e76b8-39d3-4063-a905-7e7e8a5b5362"),
-                            CategoryId = new Guid("d949ddf8-559e-4bdd-bd98-260b5b6ddba4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1218),
+                            Id = new Guid("ac0dc5ec-ff0b-47d5-9621-5728afc8092d"),
+                            CauseId = new Guid("68f9ba3b-bd75-4c2f-ae30-6939d823a573"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3133),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/guardiao-da-vida.png",
                             Name = "Guardião da Vida",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("7566575b-352c-4695-abbb-38ccd46b58d1"),
-                            CategoryId = new Guid("0b2a0553-4f69-4419-a4d3-9266d6c1079e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1226),
+                            Id = new Guid("08813912-6305-4bd4-8b2f-415421833cbd"),
+                            CauseId = new Guid("a5e31dfb-2633-47dc-a81c-eb2215c632e8"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3146),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/atleta-solidário.png",
                             Name = "Atleta Solidário",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("d953a37a-125f-4600-a530-0c4b98085b87"),
-                            CategoryId = new Guid("0b2a0553-4f69-4419-a4d3-9266d6c1079e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1245),
+                            Id = new Guid("eb422185-2a70-4d27-bf44-002f21c8d22b"),
+                            CauseId = new Guid("a5e31dfb-2633-47dc-a81c-eb2215c632e8"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3160),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/protetor-esportivo.png",
                             Name = "Protetor Esportivo",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("7bab8d31-cc36-4418-ab20-b49e964108eb"),
-                            CategoryId = new Guid("0b2a0553-4f69-4419-a4d3-9266d6c1079e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1252),
+                            Id = new Guid("a2c7f7be-509f-4ff6-91a8-75536a6ccfed"),
+                            CauseId = new Guid("a5e31dfb-2633-47dc-a81c-eb2215c632e8"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3168),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/herói-do-movimento.png",
                             Name = "Herói do Movimento",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("d3a04f7b-893f-48b5-a1a5-eacd22bf856b"),
-                            CategoryId = new Guid("0b2a0553-4f69-4419-a4d3-9266d6c1079e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1260),
+                            Id = new Guid("4ef7bf31-c1fe-4305-834c-a4d1cf403903"),
+                            CauseId = new Guid("a5e31dfb-2633-47dc-a81c-eb2215c632e8"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3229),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/guardiao-das-medalhas.png",
                             Name = "Guardião das Medalhas",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("18767f7c-74c2-4935-b13d-5c5a4b744215"),
-                            CategoryId = new Guid("60ec27f0-45a0-47aa-a1f7-adf664858497"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1278),
+                            Id = new Guid("e0123a9c-60c2-4139-9e5f-c15fdd77f072"),
+                            CauseId = new Guid("3ee43c2e-d3a5-4416-9689-ce40070f426d"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3245),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/provedor-de-esperanca.png",
                             Name = "Provedor de Esperança",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("9dd50554-12b9-4c9c-a011-d0fff9575696"),
-                            CategoryId = new Guid("60ec27f0-45a0-47aa-a1f7-adf664858497"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1319),
+                            Id = new Guid("e3ced851-597d-40b5-a143-35f1d85e4ec3"),
+                            CauseId = new Guid("3ee43c2e-d3a5-4416-9689-ce40070f426d"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3253),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/protetor-da-esperanca.png",
                             Name = "Protetor da Esperança",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("ebaeb1f7-181d-4fa1-a691-95a3b147ea88"),
-                            CategoryId = new Guid("60ec27f0-45a0-47aa-a1f7-adf664858497"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1326),
+                            Id = new Guid("e9f139f1-be49-4d91-b6ba-1c9fda3b62fb"),
+                            CauseId = new Guid("3ee43c2e-d3a5-4416-9689-ce40070f426d"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3260),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/herói-da-nutricao.png",
                             Name = "Herói da Nutrição",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("0c6b6bf3-6b87-479c-a046-9df88b188b52"),
-                            CategoryId = new Guid("60ec27f0-45a0-47aa-a1f7-adf664858497"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1335),
+                            Id = new Guid("79e2997a-2e79-4400-adea-a14bb7c5e0de"),
+                            CauseId = new Guid("3ee43c2e-d3a5-4416-9689-ce40070f426d"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3268),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/guardiao-da-fome-zero.png",
                             Name = "Guardião da Fome Zero",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("230bc3d0-e762-4d37-bf7b-9def85662c54"),
-                            CategoryId = new Guid("94d277c6-9899-4e2b-9a3e-409eae7efc62"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1349),
+                            Id = new Guid("c40a0035-3aec-4680-9ecd-4325ca0025ee"),
+                            CauseId = new Guid("66bdc4e9-97aa-49ee-9f27-845212d91640"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3277),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/amigo-de-rua.png",
                             Name = "Amigo de Rua",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("177fca7c-07a6-4e93-8eb8-f09a84becf26"),
-                            CategoryId = new Guid("94d277c6-9899-4e2b-9a3e-409eae7efc62"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1356),
+                            Id = new Guid("10221e19-50f0-4b55-9263-44702f089265"),
+                            CauseId = new Guid("66bdc4e9-97aa-49ee-9f27-845212d91640"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3284),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/protetor-da-esperanca.png",
                             Name = "Protetor da Esperança",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("795eeb7a-0a11-4cf2-a5c1-dc89f5c03943"),
-                            CategoryId = new Guid("94d277c6-9899-4e2b-9a3e-409eae7efc62"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1363),
+                            Id = new Guid("96c810b3-29f4-431a-9add-6ea47865700c"),
+                            CauseId = new Guid("66bdc4e9-97aa-49ee-9f27-845212d91640"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3291),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/herói-solidário.png",
                             Name = "Herói Solidário",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("579c8c70-6e44-4f00-a0e2-b1e97228ddb0"),
-                            CategoryId = new Guid("94d277c6-9899-4e2b-9a3e-409eae7efc62"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1371),
+                            Id = new Guid("98937f84-5dda-4f08-91a9-09bc66333846"),
+                            CauseId = new Guid("66bdc4e9-97aa-49ee-9f27-845212d91640"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3304),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/guardiao-da-dignidade.png",
                             Name = "Guardião da Dignidade",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("5f25990b-50db-4d2a-98d4-96aac9985f67"),
-                            CategoryId = new Guid("09f32a7e-53e1-4ead-bb91-9227cad71adc"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1382),
+                            Id = new Guid("a74a5c9f-0151-4e45-bf20-f3a614ff7b4a"),
+                            CauseId = new Guid("7235ed34-4e0c-4e9f-98a0-ed100f0c19f7"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3313),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/construtor-solidário.png",
                             Name = "Construtor Solidário",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("b0957b9e-495c-4e89-80cc-5b89c287295d"),
-                            CategoryId = new Guid("09f32a7e-53e1-4ead-bb91-9227cad71adc"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1390),
+                            Id = new Guid("9dec96c4-960a-4361-bc2d-3985d1c19f07"),
+                            CauseId = new Guid("7235ed34-4e0c-4e9f-98a0-ed100f0c19f7"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3320),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/protetor-dos-lares.png",
                             Name = "Protetor dos Lares",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("da280986-28f6-42fd-b4ec-3874043a4787"),
-                            CategoryId = new Guid("09f32a7e-53e1-4ead-bb91-9227cad71adc"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1406),
+                            Id = new Guid("a21ff111-af63-403b-86e8-1738f2ebbe77"),
+                            CauseId = new Guid("7235ed34-4e0c-4e9f-98a0-ed100f0c19f7"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3332),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/herói-da-moradia.png",
                             Name = "Herói da Moradia",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("12a24dc8-7427-4acc-b140-2eb5f7dcb733"),
-                            CategoryId = new Guid("09f32a7e-53e1-4ead-bb91-9227cad71adc"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1413),
+                            Id = new Guid("975c2ebe-3439-4d7f-a8ea-3418af3e3f21"),
+                            CauseId = new Guid("7235ed34-4e0c-4e9f-98a0-ed100f0c19f7"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3338),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/guardiao-dos-lares.png",
                             Name = "Guardião dos Lares",
                             TaskCount = 50
                         },
                         new
                         {
-                            Id = new Guid("8dd996b0-f044-40f0-9e26-fcb7058b3c55"),
-                            CategoryId = new Guid("5bdd2754-befb-478d-a09d-4a78a93179be"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1422),
+                            Id = new Guid("6d6290e9-5912-4bd9-99be-a8a2adbfea30"),
+                            CauseId = new Guid("8f4cc0a4-9f79-4a13-9019-eba2392fa9cd"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3346),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/curador-comunitário.png",
                             Name = "Curador Comunitário",
                             TaskCount = 5
                         },
                         new
                         {
-                            Id = new Guid("ebc60a7c-e387-4037-b870-02f204fd9d9c"),
-                            CategoryId = new Guid("5bdd2754-befb-478d-a09d-4a78a93179be"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1430),
+                            Id = new Guid("01d6468e-cb5c-499a-bbb8-cd20830d0d67"),
+                            CauseId = new Guid("8f4cc0a4-9f79-4a13-9019-eba2392fa9cd"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3353),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/protetor-da-tradicao.png",
                             Name = "Protetor da Tradição",
                             TaskCount = 10
                         },
                         new
                         {
-                            Id = new Guid("1154cf64-121c-464c-ad4d-260187e392ae"),
-                            CategoryId = new Guid("5bdd2754-befb-478d-a09d-4a78a93179be"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1438),
+                            Id = new Guid("65f18693-f88c-4a8a-a5ed-5a111ee638f3"),
+                            CauseId = new Guid("8f4cc0a4-9f79-4a13-9019-eba2392fa9cd"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3394),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/herói-cultural.png",
                             Name = "Herói Cultural",
                             TaskCount = 20
                         },
                         new
                         {
-                            Id = new Guid("5a393dbf-dbf4-4bb2-b2eb-0c75aa335ac5"),
-                            CategoryId = new Guid("5bdd2754-befb-478d-a09d-4a78a93179be"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 978, DateTimeKind.Unspecified).AddTicks(1446),
+                            Id = new Guid("b6fe59a4-e08b-4240-b46b-e71139ad5aac"),
+                            CauseId = new Guid("8f4cc0a4-9f79-4a13-9019-eba2392fa9cd"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 72, DateTimeKind.Unspecified).AddTicks(3402),
                             ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/guardiao-das-artes.png",
                             Name = "Guardião das Artes",
                             TaskCount = 50
-                        });
-                });
-
-            modelBuilder.Entity("Voluntr.Domain.Models.AchievementCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AchievementCategory");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8c31424d-742d-4239-b49c-199303875ab4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(4995),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/meio-ambiente.png",
-                            Name = "Meio ambiente"
-                        },
-                        new
-                        {
-                            Id = new Guid("5d7f3b5a-403a-4ae5-811b-3fd9a07150d5"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7161),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/educacao.png",
-                            Name = "Educação"
-                        },
-                        new
-                        {
-                            Id = new Guid("39488396-6021-490c-ab77-5c2a0b7faf01"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7188),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/protecao-dos-animais.png",
-                            Name = "Proteção dos animais"
-                        },
-                        new
-                        {
-                            Id = new Guid("d949ddf8-559e-4bdd-bd98-260b5b6ddba4"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7199),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/saude.png",
-                            Name = "Saúde"
-                        },
-                        new
-                        {
-                            Id = new Guid("0b2a0553-4f69-4419-a4d3-9266d6c1079e"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7211),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/esporte.png",
-                            Name = "Esporte"
-                        },
-                        new
-                        {
-                            Id = new Guid("60ec27f0-45a0-47aa-a1f7-adf664858497"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7217),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/doacao-de-alimento.png",
-                            Name = "Doação"
-                        },
-                        new
-                        {
-                            Id = new Guid("94d277c6-9899-4e2b-9a3e-409eae7efc62"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7221),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/sem-teto.png",
-                            Name = "Apoio aos sem-teto"
-                        },
-                        new
-                        {
-                            Id = new Guid("09f32a7e-53e1-4ead-bb91-9227cad71adc"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7232),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/moradia.png",
-                            Name = "Moradia"
-                        },
-                        new
-                        {
-                            Id = new Guid("5bdd2754-befb-478d-a09d-4a78a93179be"),
-                            CreatedAt = new DateTime(2024, 12, 19, 17, 5, 21, 975, DateTimeKind.Unspecified).AddTicks(7238),
-                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/cultura.png",
-                            Name = "Cultura"
                         });
                 });
 
@@ -555,7 +455,7 @@ namespace Voluntr.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ZipCode")
@@ -567,6 +467,101 @@ namespace Voluntr.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("Voluntr.Domain.Models.Cause", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cause");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b551d661-ff72-4477-812d-7c323bd25b1c"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(6832),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/meio-ambiente/meio-ambiente.png",
+                            Name = "Meio ambiente"
+                        },
+                        new
+                        {
+                            Id = new Guid("3b80c751-1fa7-4575-8ad3-b7eb13a47275"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9094),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/educacao/educacao.png",
+                            Name = "Educação"
+                        },
+                        new
+                        {
+                            Id = new Guid("39d0ad63-11ea-4f12-a249-ab09f18f61fa"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9128),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/protecao-dos-animais/protecao-dos-animais.png",
+                            Name = "Proteção dos animais"
+                        },
+                        new
+                        {
+                            Id = new Guid("68f9ba3b-bd75-4c2f-ae30-6939d823a573"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9145),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/saude/saude.png",
+                            Name = "Saúde"
+                        },
+                        new
+                        {
+                            Id = new Guid("a5e31dfb-2633-47dc-a81c-eb2215c632e8"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9158),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/esporte/esporte.png",
+                            Name = "Esporte"
+                        },
+                        new
+                        {
+                            Id = new Guid("3ee43c2e-d3a5-4416-9689-ce40070f426d"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9168),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/doacao-de-alimento/doacao-de-alimento.png",
+                            Name = "Doação"
+                        },
+                        new
+                        {
+                            Id = new Guid("66bdc4e9-97aa-49ee-9f27-845212d91640"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9174),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/sem-teto/sem-teto.png",
+                            Name = "Apoio aos sem-teto"
+                        },
+                        new
+                        {
+                            Id = new Guid("7235ed34-4e0c-4e9f-98a0-ed100f0c19f7"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9179),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/moradia/moradia.png",
+                            Name = "Moradia"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f4cc0a4-9f79-4a13-9019-eba2392fa9cd"),
+                            CreatedAt = new DateTime(2024, 12, 26, 23, 42, 19, 69, DateTimeKind.Unspecified).AddTicks(9196),
+                            ImageUrl = "https://voluntrprodeastusst.blob.core.windows.net/images/achievements/cultura/cultura.png",
+                            Name = "Cultura"
+                        });
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.Company", b =>
@@ -801,13 +796,13 @@ namespace Voluntr.Infrastructure.Migrations
                     b.ToTable("UserAchievement");
                 });
 
-            modelBuilder.Entity("Voluntr.Domain.Models.UserAddress", b =>
+            modelBuilder.Entity("Voluntr.Domain.Models.UserCause", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid>("CauseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -821,11 +816,11 @@ namespace Voluntr.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("CauseId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserAddress");
+                    b.ToTable("UserCause");
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.Volunteer", b =>
@@ -860,23 +855,23 @@ namespace Voluntr.Infrastructure.Migrations
 
             modelBuilder.Entity("Voluntr.Domain.Models.Achievement", b =>
                 {
-                    b.HasOne("Voluntr.Domain.Models.AchievementCategory", "Category")
+                    b.HasOne("Voluntr.Domain.Models.Cause", "Cause")
                         .WithMany("Achievements")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CauseId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Voluntr.Domain.Models.User", null)
-                        .WithMany("Achievements")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Category");
+                    b.Navigation("Cause");
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.Address", b =>
                 {
-                    b.HasOne("Voluntr.Domain.Models.User", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId");
+                    b.HasOne("Voluntr.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.Company", b =>
@@ -931,7 +926,7 @@ namespace Voluntr.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Voluntr.Domain.Models.User", "User")
-                        .WithMany("UserAchievements")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -941,21 +936,21 @@ namespace Voluntr.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Voluntr.Domain.Models.UserAddress", b =>
+            modelBuilder.Entity("Voluntr.Domain.Models.UserCause", b =>
                 {
-                    b.HasOne("Voluntr.Domain.Models.Address", "Address")
+                    b.HasOne("Voluntr.Domain.Models.Cause", "Cause")
                         .WithMany()
-                        .HasForeignKey("AddressId")
+                        .HasForeignKey("CauseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Voluntr.Domain.Models.User", "User")
-                        .WithMany("UserAddresses")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("Cause");
 
                     b.Navigation("User");
                 });
@@ -971,22 +966,14 @@ namespace Voluntr.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Voluntr.Domain.Models.AchievementCategory", b =>
+            modelBuilder.Entity("Voluntr.Domain.Models.Cause", b =>
                 {
                     b.Navigation("Achievements");
                 });
 
             modelBuilder.Entity("Voluntr.Domain.Models.User", b =>
                 {
-                    b.Navigation("Achievements");
-
-                    b.Navigation("Addresses");
-
                     b.Navigation("Notifications");
-
-                    b.Navigation("UserAchievements");
-
-                    b.Navigation("UserAddresses");
                 });
 #pragma warning restore 612, 618
         }

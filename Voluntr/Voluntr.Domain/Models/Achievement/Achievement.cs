@@ -7,8 +7,8 @@ namespace Voluntr.Domain.Models
         public string Name { get; set; }
         public int TaskCount { get; set; }
         public string ImageUrl { get; set; }
-        public Guid? CategoryId { get; set; }
+        public Guid? CauseId { get; set; }
 
-        public virtual AchievementCategory Category { get; set; }
+        public virtual Cause Cause { get; set; }
     }
 }
