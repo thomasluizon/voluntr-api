@@ -82,5 +82,10 @@
             Realiza a consulta de todos os voluntários
             </summary>
         </member>
+        <member name="M:Voluntr.Api.Controllers.VolunteerController.GetOnboarding">
+            <summary>
+            Realiza a consulta do progresso do onboarding do voluntário
+            </summary>
+        </member>
     </members>
 </doc>

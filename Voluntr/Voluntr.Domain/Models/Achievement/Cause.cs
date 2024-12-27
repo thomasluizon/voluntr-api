@@ -2,7 +2,7 @@
 
 namespace Voluntr.Domain.Models
 {
-    public class AchievementCategory : Entity
+    public class Cause : Entity
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -8,6 +8,7 @@ using Voluntr.Crosscutting.Domain.Helpers.Validators;
 using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Crosscutting.Domain.Services.Authentication;
+using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Models;
@@ -39,7 +40,20 @@ namespace Voluntr.Domain.Services
             return Guid.Parse(userId);
         }
 
-        public string GenerateAuthToken(User user)
+        public string GetCurrentUserType()
+        {
+            var userType = claims.GetUserTypeFromToken();
+
+            if (string.IsNullOrEmpty(userType))
+            {
+                NotifyError(Values.Message.UserTypeNotFound);
+                return null;
+            }
+
+            return userType;
+        }
+
+        public string GenerateAuthToken(User user, UserTypeEnum userType)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -47,6 +61,7 @@ namespace Voluntr.Domain.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, cryptographyService.Encrypt(user.Id.ToString())),
+                new Claim(JwtRegisteredClaimNames.Profile, userType.GetDescription()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

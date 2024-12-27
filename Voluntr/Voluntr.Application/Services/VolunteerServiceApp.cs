@@ -11,6 +11,14 @@ namespace Voluntr.Application.Services
         IMapper mapper
     ) : IVolunteerServiceApp
     {
+        public async Task<List<OnboardingTaskViewModel>> GetOnboarding()
+        {
+            var query = new GetOnboardingQuery();
+            var response = await mediator.SendQuery(query);
+
+            return mapper.Map<List<OnboardingTaskViewModel>>(response);
+        }
+
         public async Task<List<VolunteerResponseViewModel>> GetVolunteers()
         {
             var query = new GetVolunteersQuery();

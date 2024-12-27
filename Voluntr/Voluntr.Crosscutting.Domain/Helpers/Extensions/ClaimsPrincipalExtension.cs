@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Voluntr.Crosscutting.Domain.Helpers.Extensions
 {
@@ -13,6 +14,15 @@ namespace Voluntr.Crosscutting.Domain.Helpers.Extensions
             if (!claims.Any()) return string.Empty;
 
             return claims.FirstOrDefault()?.Value;
+        }
+
+        public static string GetUserTypeFromToken(this ClaimsPrincipal claimsPrincipal)
+        {
+            claimsPrincipal.CheckClaimsPrincipal();
+
+            var claim = claimsPrincipal.FindFirst(t => t.Type == JwtRegisteredClaimNames.Profile);
+
+            return claim?.Value ?? string.Empty;
         }
 
         private static void CheckClaimsPrincipal(this ClaimsPrincipal claimsPrincipal)

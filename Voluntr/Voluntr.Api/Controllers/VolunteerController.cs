@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voluntr.Application.Interfaces.Services;
+using Voluntr.Application.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
 using Voluntr.Crosscutting.Domain.MediatR;
@@ -26,6 +27,20 @@ namespace Voluntr.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var response = await volunteerServiceApp.GetVolunteers();
+
+            return Response(response);
+        }
+
+        /// <summary>
+        /// Realiza a consulta do progresso do onboarding do voluntário
+        /// </summary>
+        [ProducesResponseType(typeof(List<OnboardingTaskViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpGet("onboarding")]
+        public async Task<IActionResult> GetOnboarding()
+        {
+            var response = await volunteerServiceApp.GetOnboarding();
 
             return Response(response);
         }

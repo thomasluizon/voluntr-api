@@ -22,7 +22,8 @@ namespace Voluntr.Domain.CommandHandlers
         IClaimsService claimsService,
         IMapper mapper,
         IUnitOfWork unitOfWork,
-        IVolunteerRepository volunteerRepository
+        IVolunteerRepository volunteerRepository,
+        IAddressRepository addressRepository
     ) : MediatorResponseCommandHandler<RegisterUserCommand, CommandResponseDto>(mediator)
     {
         public override async Task<CommandResponseDto> AfterValidation(RegisterUserCommand request)
@@ -43,9 +44,12 @@ namespace Voluntr.Domain.CommandHandlers
                 Name = request.Name.Trim(),
                 Password = cryptographyService.Encrypt(request.Password.Trim()),
                 Phone = new string(request.Phone.Where(char.IsDigit).ToArray()),
-                Addresses = [mapper.Map<Address>(request.Address)],
             };
 
+            var address = mapper.Map<Address>(request.Address);
+            address.UserId = user.Id;
+
+            await addressRepository.InsertAsync(address);
             await userRepository.InsertAsync(user);
 
             if (request.UserType == UserTypeEnum.Volunteer.GetDescription())
