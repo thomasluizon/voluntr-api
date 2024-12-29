@@ -51,6 +51,12 @@
             </summary>
             <param name="viewModel">Dados da ativação da conta do usuário</param>
         </member>
+        <member name="M:Voluntr.Api.Controllers.CauseController.GetAchievementsPage">
+            <summary>
+            Consulta todos os achievements agrupados por causas.
+            </summary>
+            <returns>Lista de causas com seus achievements associados</returns>
+        </member>
         <member name="M:Voluntr.Api.Controllers.ExternalController.GetZipCodeInformation(System.String)">
             <summary>
             Retorna as informações do endereço do usuário baseado no CEP

@@ -29,6 +29,14 @@ namespace Voluntr.Application.Mappings
 
             #endregion
 
+            #region Achievements
+
+            CreateMap<AchievementsPageDto, AchievementsPageViewModel>();
+            CreateMap<AchievementForAchievementsPageDto, AchievementForAchievementsPageViewModel>();
+            CreateMap<CauseForAchievementsPageDto, CauseForAchievementsPageViewModel>();
+
+            #endregion
+
             #region Authentication
 
             CreateMap<AuthenticationDto, AuthenticationResponseViewModel>();
