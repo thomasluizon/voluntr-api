@@ -32,6 +32,25 @@ namespace Voluntr.Api.Controllers
             return Response(response);
         }
 
+        /// <summary>
+        /// Consulta as conquistas de uma determinada causa
+        /// </summary>
+        [HttpGet("{id}/achievements")]
+        [ProducesResponseType(typeof(CauseAchievementsPageViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetCauseAchievementsPage(string id)
+        {
+            if (ValidateStringToGuidParams(id)) 
+            {
+                var response = await causeServiceApp.GetCauseAchievementsPage(id);
+
+                return Response(response);
+            }
+
+            return Response();
+        }
+
         #endregion
     }
 }

@@ -34,6 +34,8 @@ namespace Voluntr.Application.Mappings
             CreateMap<AchievementsPageDto, AchievementsPageViewModel>();
             CreateMap<AchievementForAchievementsPageDto, AchievementForAchievementsPageViewModel>();
             CreateMap<CauseForAchievementsPageDto, CauseForAchievementsPageViewModel>();
+            CreateMap<CauseAchievementsPageDto, CauseAchievementsPageViewModel>();
+            CreateMap<AchievementForCauseAchievementsPageDto, AchievementForCauseAchievementsPageViewModel>();
 
             #endregion
 

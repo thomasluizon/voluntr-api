@@ -19,5 +19,17 @@ namespace Voluntr.Application.Services
 
             return mapper.Map<AchievementsPageViewModel>(response);
         }
+
+        public async Task<CauseAchievementsPageViewModel> GetCauseAchievementsPage(string id)
+        {
+            var query = new GetCauseAchievementsPageQuery
+            {
+                CauseId = Guid.Parse(id)
+            };
+
+            var response = await mediator.SendQuery(query);
+
+            return mapper.Map<CauseAchievementsPageViewModel>(response);
+        }
     }
 }
