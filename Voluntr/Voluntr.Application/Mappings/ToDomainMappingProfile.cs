@@ -17,9 +17,19 @@ namespace Voluntr.Application.Mappings
 
             #endregion
 
+            #region Quest
+
+            #region Project
+
+            CreateMap<ProjectRequestViewModel, AddProjectCommand>();
+            CreateMap<ProjectRequestViewModel, UpdateProjectCommand>();
+
+            #endregion
+
+            #endregion
+
             #region Volunteer
 
-            CreateMap<Volunteer, VolunteerDto>();
             CreateMap<OnboardingTask, OnboardingTaskDto>();
 
             #endregion

@@ -72,6 +72,14 @@ namespace Voluntr.Infrastructure.Contexts
 
             #endregion
 
+            #region Task
+
+            modelBuilder.ApplyConfiguration(new ProjectMap());
+            modelBuilder.ApplyConfiguration(new QuestMap());
+            modelBuilder.ApplyConfiguration(new QuestAssignmentMap());
+
+            #endregion
+
             #region Seed
 
             modelBuilder.SeedAchievements(urls.BlobStorage);

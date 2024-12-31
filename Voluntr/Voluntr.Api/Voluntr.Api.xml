@@ -77,6 +77,21 @@
             Retorna todos os UFs do brasil
             </summary>
         </member>
+        <member name="M:Voluntr.Api.Controllers.QuestController.CreateProject(Voluntr.Application.ViewModels.ProjectRequestViewModel)">
+            <summary>
+            Realiza a criação de um projeto
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.QuestController.UpdateProject(Voluntr.Application.ViewModels.ProjectRequestViewModel)">
+            <summary>
+            Realiza a atualização de um projeto
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.QuestController.UpdateProject(System.String)">
+            <summary>
+            Realiza a exclusão de um projeto
+            </summary>
+        </member>
         <member name="M:Voluntr.Api.Controllers.UserController.TogglePause">
             <summary>
             Pausa/Despausa a conta do usuário
@@ -85,11 +100,6 @@
         <member name="M:Voluntr.Api.Controllers.UserController.DeleteAccount">
             <summary>
             Deleta a conta do usuário
-            </summary>
-        </member>
-        <member name="M:Voluntr.Api.Controllers.VolunteerController.Get">
-            <summary>
-            Realiza a consulta de todos os voluntários
             </summary>
         </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.GetOnboarding">

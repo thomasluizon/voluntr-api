@@ -13,7 +13,10 @@ namespace Voluntr.Domain.QueryHandlers
         IMediatorHandler mediator,
         ICauseRepository causeRepository,
         IClaimsService claimsService,
-        IUserAchievementRepository userAchievementRepository
+        IUserAchievementRepository userAchievementRepository,
+        IVolunteerRepository volunteerRepository,
+        IQuestAssignmenttRepository questAssignmenttRepository,
+        IUserCauseRepository userCauseRepository
     ) : MediatorQueryHandler<GetCauseAchievementsPageQuery, CauseAchievementsPageDto>(mediator)
     {
         public override async Task<CauseAchievementsPageDto> AfterValidation(GetCauseAchievementsPageQuery request)
@@ -21,6 +24,16 @@ namespace Voluntr.Domain.QueryHandlers
             if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
             {
                 NotifyError("O usuário informado não é um voluntário");
+            }
+
+            var userId = claimsService.GetCurrentUserId();
+
+            var volunteer = await volunteerRepository.GetFirstByExpressionAsync(x => x.UserId == userId);
+
+            if (volunteer == null)
+            {
+                NotifyError("O voluntário informado não foi encontrado");
+                return null;
             }
 
             var response = new CauseAchievementsPageDto();
@@ -36,25 +49,45 @@ namespace Voluntr.Domain.QueryHandlers
                 return null;
             }
 
-            var userId = claimsService.GetCurrentUserId();
-
             var completedAchievements = await userAchievementRepository.ListByExpressionAsync(
                 y => y.UserId == userId
-            );
+            ) ?? [];
 
-            var completedAchievementIds = completedAchievements?.Select(y => y.AchievementId).ToList();
+            var completedAchievementIds = completedAchievements.Select(y => y.AchievementId).ToList();
 
-            response.Achievements = cause.Achievements.Select(x => new AchievementForCauseAchievementsPageDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-                ImageUrl = x.ImageUrl,
-                Done = completedAchievementIds?.Contains(x.Id) ?? false,
-                Description = $"Complete {x.TaskCount} missões ligadas a(o) {cause.Name.ToLowerInvariant()}."
-            }).ToList();
+            response.Achievements = cause.Achievements
+                .OrderBy(x => x.QuestCount)
+                .Select(x => new AchievementForCauseAchievementsPageDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl,
+                    Done = completedAchievementIds.Contains(x.Id),
+                    Description = $"Complete {x.QuestCount} missões ligadas a(o) {cause.Name.ToLowerInvariant()}."
+                }).ToList();
 
-            // TODO: Calculate after implementing tasks
-            response.NumberOfQuestsToNextAchievement = 0;
+            var relevantUsers = await userCauseRepository.ListByExpressionAsync(
+                x => x.CauseId == cause.Id
+            ) ?? [];
+
+            var relevantUserIds = relevantUsers.Select(x => x.UserId).ToList();
+
+            var completedQuests = await questAssignmenttRepository.ListByExpressionAsync(
+                x => x.VolunteerId == volunteer.Id &&
+                     relevantUserIds.Contains(x.Quest.Project.Ngo.UserId) &&
+                     x.Status == QuestAssignmentStatusEnum.Approved.GetDescription(),
+                x => x.Quest.Project.Ngo
+            ) ?? [];
+
+            var totalCompletedQuests = completedQuests.Count;
+
+            var nextAchievement = cause.Achievements
+                .OrderBy(a => a.QuestCount)
+                .FirstOrDefault(a => a.QuestCount > totalCompletedQuests);
+
+            response.NumberOfQuestsToNextAchievement = nextAchievement != null
+                ? nextAchievement.QuestCount - totalCompletedQuests
+                : 0;
 
             return response;
         }
