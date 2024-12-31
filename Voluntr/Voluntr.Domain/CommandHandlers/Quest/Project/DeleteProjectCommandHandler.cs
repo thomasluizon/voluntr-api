@@ -26,7 +26,7 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
-            if (await projectRepository.ExistsByExpressionAsync(x => x.Id == request.Id))
+            if (!await projectRepository.ExistsByExpressionAsync(x => x.Id == request.Id))
             {
                 NotifyError("O projeto informado não foi encontrado");
                 return null;
