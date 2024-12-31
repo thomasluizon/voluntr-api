@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.Json;
 using Voluntr.Crosscutting.Infrastructure.Mappings;
 using Voluntr.Domain.Models;
 

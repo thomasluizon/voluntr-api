@@ -30,12 +30,14 @@ namespace Voluntr.Domain.QueryHandlers
                 x => x.CauseId == null
             );
 
-            response.Achievements = generalAchievements.Select(x => new AchievementForAchievementsPageDto
-            {
-                Id = x.Id,
-                ImageUrl = x.ImageUrl,
-                Name = x.Name
-            }).ToList();
+            response.Achievements = generalAchievements
+                .OrderBy(x => x.QuestCount)
+                .Select(x => new AchievementForAchievementsPageDto
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    Name = x.Name
+                }).ToList();
 
             var causes = await causeRepository.ListAllAsync(x => x.Achievements);
 
@@ -47,20 +49,22 @@ namespace Voluntr.Domain.QueryHandlers
 
             var completedAchievementIds = completedAchievements?.Select(y => y.AchievementId).ToList();
 
-            response.Causes = causes.Select(x =>
-            {
-                var totalAchievements = x.Achievements.Count;
-                var completedCount = x.Achievements.Count(a => completedAchievementIds?.Contains(a.Id) ?? false);
-
-                return new CauseForAchievementsPageDto
+            response.Causes = causes
+                .OrderBy(x => x.Name)
+                .Select(x =>
                 {
-                    Id = x.Id,
-                    ImageUrl = x.ImageUrl,
-                    Name = x.Name,
-                    TotalAchievements = totalAchievements,
-                    CompletedAchievements = completedCount
-                };
-            }).ToList();
+                    var totalAchievements = x.Achievements.Count;
+                    var completedCount = x.Achievements.Count(a => completedAchievementIds?.Contains(a.Id) ?? false);
+
+                    return new CauseForAchievementsPageDto
+                    {
+                        Id = x.Id,
+                        ImageUrl = x.ImageUrl,
+                        Name = x.Name,
+                        TotalAchievements = totalAchievements,
+                        CompletedAchievements = completedCount
+                    };
+                }).ToList();
 
             return response;
         }
