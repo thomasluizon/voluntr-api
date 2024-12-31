@@ -12,6 +12,10 @@ namespace Voluntr.Infrastructure.Mappings
             builder.Property(x => x.UserId)
                 .IsRequired();
 
+            builder.Property(x => x.Description)
+                .HasMaxLength(250)
+                .IsRequired(false);
+
             builder.HasOne(x => x.User)
                 .WithMany()
                 .HasForeignKey(x => x.UserId)

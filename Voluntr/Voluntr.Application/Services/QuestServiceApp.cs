@@ -31,7 +31,7 @@ namespace Voluntr.Application.Services
 
         public async Task DeleteProject(string id)
         {
-            var command = new DeleteProjectCommand { Id = id };
+            var command = new DeleteProjectCommand { Id = Guid.Parse(id) };
 
             await mediator.SendCommandResponse(command);
         }
