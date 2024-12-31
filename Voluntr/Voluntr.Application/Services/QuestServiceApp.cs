@@ -28,5 +28,12 @@ namespace Voluntr.Application.Services
                 return mapper.Map<CommandResponseViewModel>(response);
             }
         }
+
+        public async Task DeleteProject(string id)
+        {
+            var command = new DeleteProjectCommand { Id = id };
+
+            await mediator.SendCommandResponse(command);
+        }
     }
 }

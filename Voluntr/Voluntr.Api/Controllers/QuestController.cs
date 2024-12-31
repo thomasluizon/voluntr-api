@@ -24,7 +24,7 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost]
+        [HttpPost("project")]
         public async Task<IActionResult> CreateProject([FromBody] ProjectRequestViewModel viewModel)
         {
             var response = await questServiceApp.CreateProject(viewModel);
@@ -38,12 +38,29 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpPost]
+        [HttpPut("project")]
         public async Task<IActionResult> UpdateProject([FromBody] ProjectRequestViewModel viewModel)
         {
             var response = await questServiceApp.CreateProject(viewModel, update: true);
 
             return Response(response);
+        }
+
+        /// <summary>
+        /// Realiza a exclusão de um projeto
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpDelete("project/{id}")]
+        public async Task<IActionResult> UpdateProject([FromRoute] string id)
+        {
+            if (ValidateStringToGuidParams(id))
+            {
+                await questServiceApp.DeleteProject(id);
+            }
+
+            return Response();
         }
 
         #endregion
