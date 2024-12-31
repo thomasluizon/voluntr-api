@@ -4,8 +4,10 @@ using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
 using Voluntr.Domain.Enumerators;
+using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
+using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.CommandHandlers
@@ -14,7 +16,8 @@ namespace Voluntr.Domain.CommandHandlers
         IMediatorHandler mediator,
         IClaimsService claimsService,
         INgoRepository ngoRepository,
-        IProjectRepository projectRepository
+        IProjectRepository projectRepository,
+        IUnitOfWork unitOfWork
     ) : MediatorResponseCommandHandler<AddProjectCommand, CommandResponseDto>(mediator)
     {
         public async override Task<CommandResponseDto> AfterValidation(AddProjectCommand request)
@@ -50,6 +53,17 @@ namespace Voluntr.Domain.CommandHandlers
             };
 
             await projectRepository.InsertAsync(project);
+
+            if (!HasNotification() && await unitOfWork.CommitAsync())
+            {
+                request.ExecutedSuccessfullyCommand = true;
+
+                return new CommandResponseDto { Id = project.Id };
+            }
+            else
+                NotifyError(Values.Message.DefaultError);
+
+            return null;
         }
     }
 }
