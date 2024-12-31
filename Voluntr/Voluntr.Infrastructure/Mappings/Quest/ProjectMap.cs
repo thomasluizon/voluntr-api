@@ -5,20 +5,27 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Infrastructure.Mappings
 {
-    public class NgoMap : EntityTypeConfigurationBase<Ngo>
+    public class ProjectMap : EntityTypeConfigurationBase<Project>
     {
-        public override void Configure(EntityTypeBuilder<Ngo> builder)
+        public override void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder.Property(x => x.UserId)
+            builder.Property(x => x.NgoId)
+                .IsRequired();
+
+            builder.Property(x => x.Name)
+                .HasMaxLength(50)
                 .IsRequired();
 
             builder.Property(x => x.Description)
                 .HasMaxLength(250)
+                .IsRequired();
+
+            builder.Property(x => x.DueDate)
                 .IsRequired(false);
 
-            builder.HasOne(x => x.User)
-                .WithMany()
-                .HasForeignKey(x => x.UserId)
+            builder.HasOne(x => x.Ngo)
+                .WithMany(x => x.Projects)
+                .HasForeignKey(x => x.NgoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             base.Configure(builder);

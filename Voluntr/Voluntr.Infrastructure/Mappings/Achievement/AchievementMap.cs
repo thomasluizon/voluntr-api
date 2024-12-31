@@ -16,7 +16,7 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.Property(x => x.TaskCount)
+            builder.Property(x => x.QuestCount)
                 .IsRequired();
 
             builder.Property(x => x.ImageUrl)

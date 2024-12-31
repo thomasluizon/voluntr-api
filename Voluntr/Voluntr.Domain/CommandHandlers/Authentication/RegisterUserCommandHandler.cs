@@ -23,7 +23,9 @@ namespace Voluntr.Domain.CommandHandlers
         IMapper mapper,
         IUnitOfWork unitOfWork,
         IVolunteerRepository volunteerRepository,
-        IAddressRepository addressRepository
+        IAddressRepository addressRepository,
+        INgoRepository ngoRepository,
+        ICompanyRepository companyRepository
     ) : MediatorResponseCommandHandler<RegisterUserCommand, CommandResponseDto>(mediator)
     {
         public override async Task<CommandResponseDto> AfterValidation(RegisterUserCommand request)
@@ -65,11 +67,21 @@ namespace Voluntr.Domain.CommandHandlers
             }
             else if (request.UserType == UserTypeEnum.Ngo.GetDescription())
             {
+                var ngo = new Ngo
+                {
+                    UserId = user.Id,
+                };
 
+                await ngoRepository.InsertAsync(ngo);
             }
             else if (request.UserType == UserTypeEnum.Company.GetDescription())
             {
+                var company = new Company
+                {
+                    UserId = user.Id,
+                };
 
+                await companyRepository.InsertAsync(company);
             }
 
             if (!HasNotification() && await unitOfWork.CommitAsync())

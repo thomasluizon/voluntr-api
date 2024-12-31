@@ -31,14 +31,14 @@ namespace Voluntr.Infrastructure.Contexts
 
             var achievements = new List<Achievement>();
 
-            void AddCauseAchievements(string causeName, int causeIndex, params (string Name, int TaskCount)[] achievementData)
+            void AddCauseAchievements(string causeName, int causeIndex, params (string Name, int QuestCount)[] achievementData)
             {
-                foreach (var (name, taskCount) in achievementData)
+                foreach (var (name, questCount) in achievementData)
                 {
                     achievements.Add(new Achievement
                     {
                         Name = name,
-                        TaskCount = taskCount,
+                        QuestCount = questCount,
                         ImageUrl = AchievementUrl(causeName, name.ToLower().Replace(" ", "-").Replace("ç", "c").Replace("ã", "a")),
                         CauseId = categories[causeIndex].Id
                     });
@@ -47,10 +47,10 @@ namespace Voluntr.Infrastructure.Contexts
 
             achievements.AddRange(
             [
-                new Achievement { Name = "Arregaçando as Mangas", TaskCount = 5, ImageUrl = $"{baseAchievementUrl}/arregacando-as-mangas.png" },
-                new Achievement { Name = "Fazedor de Impacto", TaskCount = 10, ImageUrl = $"{baseAchievementUrl}/fazedor-de-impacto.png" },
-                new Achievement { Name = "Agente de Mudança", TaskCount = 20, ImageUrl = $"{baseAchievementUrl}/agente-da-mudanca.png" },
-                new Achievement { Name = "Heroi da Comunidade", TaskCount = 50, ImageUrl = $"{baseAchievementUrl}/heroi-da-comunidade.png" }
+                new Achievement { Name = "Arregaçando as Mangas", QuestCount = 5, ImageUrl = $"{baseAchievementUrl}/arregacando-as-mangas.png" },
+                new Achievement { Name = "Fazedor de Impacto", QuestCount = 10, ImageUrl = $"{baseAchievementUrl}/fazedor-de-impacto.png" },
+                new Achievement { Name = "Agente de Mudança", QuestCount = 20, ImageUrl = $"{baseAchievementUrl}/agente-da-mudanca.png" },
+                new Achievement { Name = "Heroi da Comunidade", QuestCount = 50, ImageUrl = $"{baseAchievementUrl}/heroi-da-comunidade.png" }
             ]);
 
             // Specific achievements by cause
