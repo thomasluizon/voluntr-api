@@ -17,12 +17,15 @@ namespace Voluntr.Application.Mappings
 
             #endregion
 
-            #region Quest
-
             #region Project
 
             CreateMap<ProjectRequestViewModel, AddProjectCommand>();
             CreateMap<ProjectRequestViewModel, UpdateProjectCommand>();
+
+            #region Quest
+
+            CreateMap<QuestRequestViewModel, AddQuestCommand>();
+            CreateMap<QuestRequestViewModel, UpdateQuestCommand>();
 
             #endregion
 
