@@ -1,12 +1,9 @@
 ﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
-using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
-using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
-using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
 using Voluntr.Domain.Models;
 
@@ -14,7 +11,6 @@ namespace Voluntr.Domain.CommandHandlers
 {
     public class AddQuestCommandHandler(
         IMediatorHandler mediator,
-        IClaimsService claimsService,
         IProjectRepository projectRepository,
         IQuestRepository questRepository,
         IUnitOfWork unitOfWork
@@ -22,12 +18,6 @@ namespace Voluntr.Domain.CommandHandlers
     {
         public override async Task<CommandResponseDto> AfterValidation(AddQuestCommand request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Ngo.GetDescription())
-            {
-                NotifyError("O usuário informado não é uma ONG");
-                return null;
-            }
-
             var project = await projectRepository.GetFirstByExpressionAsync(
                 x => x.Id == request.ProjectId,
                 x => x.Quests

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voluntr.Api.Attributes;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -11,11 +12,21 @@ namespace Voluntr.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize]
+    [Volunteer]
     public class VolunteerController(
         IMediatorHandler mediator,
         IVolunteerServiceApp volunteerServiceApp
     ) : ApiController(mediator)
     {
+        #region User
+
+        //public async Task<IActionResult> UpdateVolunteer()
+        //{
+
+        //}
+
+        #endregion
+
         /// <summary>
         /// Realiza a consulta do progresso do onboarding do voluntário
         /// </summary>
