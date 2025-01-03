@@ -1,9 +1,8 @@
-﻿using Voluntr.Domain.DataTransferObjects;
-using Voluntr.Domain.Validations;
+﻿using Voluntr.Domain.Validations;
 
 namespace Voluntr.Domain.Commands
 {
-    public class AddProjectCommand : ProjectCommand<CommandResponseDto>
+    public class AddProjectCommand : ProjectCommand
     {
         public override bool IsValid()
         {

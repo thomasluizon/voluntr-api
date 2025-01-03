@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.Commands;
-using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Validations
 {
-    public class ProjectValidation<TCommand> : AbstractValidator<TCommand> where TCommand : ProjectCommand<CommandResponseDto>
+    public class ProjectValidation<TCommand> : AbstractValidator<TCommand> where TCommand : ProjectCommand
     {
         protected void ValidateId()
         {
@@ -21,7 +20,7 @@ namespace Voluntr.Domain.Validations
 
             RuleFor(x => x.Description)
                 .NotNull().NotEmpty().WithMessage("A descrição do projeto é obrigatória")
-                .MaximumLength(50).WithMessage("A descrição do projeto precisa ter no máximo 250 caracteres");
+                .MaximumLength(250).WithMessage("A descrição do projeto precisa ter no máximo 250 caracteres");
 
             RuleFor(x => x.DueDate)
                 .Must(ValidateDueDate).WithMessage("A data final do projeto precisa ser no futuro");
