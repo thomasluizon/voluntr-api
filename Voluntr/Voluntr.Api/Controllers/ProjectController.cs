@@ -50,12 +50,12 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProject([FromRoute] string id)
+        [HttpDelete("{projectId}")]
+        public async Task<IActionResult> DeleteProject([FromRoute] string projectId)
         {
-            if (ValidateStringToGuidParams(id))
+            if (ValidateStringToGuidParams(projectId))
             {
-                await projectServiceApp.DeleteProject(id);
+                await projectServiceApp.DeleteProject(projectId);
             }
 
             return Response();

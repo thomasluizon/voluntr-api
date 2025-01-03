@@ -45,6 +45,12 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
+            if (request.DueDate > project.DueDate)
+            {
+                NotifyError("O prazo final da tarefa não pode ser maior que o prazo final do projeto");
+                return null;
+            }
+
             var quest = new Quest
             {
                 ProjectId = project.Id,

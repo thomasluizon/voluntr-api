@@ -6,7 +6,7 @@ using Voluntr.Domain.Commands;
 
 namespace Voluntr.Application.Services
 {
-    public class QuestServiceApp(
+    public class ProjectServiceApp(
         IMediatorHandler mediator,
         IMapper mapper
     ) : IProjectServiceApp
