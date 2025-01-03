@@ -22,6 +22,7 @@ namespace Voluntr.Domain.QueryHandlers
             if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
             {
                 NotifyError("O usuário informado não é um voluntário");
+                return null;
             }
 
             var response = new AchievementsPageDto();
@@ -30,17 +31,6 @@ namespace Voluntr.Domain.QueryHandlers
                 x => x.CauseId == null
             );
 
-            response.Achievements = generalAchievements
-                .OrderBy(x => x.QuestCount)
-                .Select(x => new AchievementForAchievementsPageDto
-                {
-                    Id = x.Id,
-                    ImageUrl = x.ImageUrl,
-                    Name = x.Name
-                }).ToList();
-
-            var causes = await causeRepository.ListAllAsync(x => x.Achievements);
-
             var userId = claimsService.GetCurrentUserId();
 
             var completedAchievements = await userAchievementRepository.ListByExpressionAsync(
@@ -48,6 +38,18 @@ namespace Voluntr.Domain.QueryHandlers
             );
 
             var completedAchievementIds = completedAchievements?.Select(y => y.AchievementId).ToList();
+
+            response.Achievements = generalAchievements
+                .OrderBy(x => x.QuestCount)
+                .Select(x => new AchievementForAchievementsPageDto
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    Name = x.Name,
+                    Done = completedAchievementIds?.Contains(x.Id) ?? false
+                }).ToList();
+
+            var causes = await causeRepository.ListAllAsync(x => x.Achievements);
 
             response.Causes = causes
                 .OrderBy(x => x.Name)

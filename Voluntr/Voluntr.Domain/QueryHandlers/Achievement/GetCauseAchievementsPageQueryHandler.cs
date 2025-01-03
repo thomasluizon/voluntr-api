@@ -24,6 +24,7 @@ namespace Voluntr.Domain.QueryHandlers
             if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
             {
                 NotifyError("O usuário informado não é um voluntário");
+                return null;
             }
 
             var userId = claimsService.GetCurrentUserId();

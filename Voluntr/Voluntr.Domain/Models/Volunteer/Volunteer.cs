@@ -6,6 +6,7 @@ namespace Voluntr.Domain.Models
     {
         public Guid UserId { get; set; }
         public string Surname { get; set; }
+        public string Nickname { get; set; }
         public DateTime BirthDate { get; set; }
 
         public virtual User User { get; set; }

@@ -29,5 +29,19 @@ namespace Voluntr.Api.Controllers
 
             return Response(response);
         }
+
+        /// <summary>
+        /// Realiza a consulta dos dados do perfil do voluntário
+        /// </summary>
+        [ProducesResponseType(typeof(VolunteerProfileViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile()
+        {
+            var response = await volunteerServiceApp.GetProfile();
+
+            return Response(response);
+        }
     }
 }
