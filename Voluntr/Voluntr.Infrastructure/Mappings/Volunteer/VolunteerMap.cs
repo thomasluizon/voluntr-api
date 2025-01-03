@@ -21,6 +21,10 @@ namespace Voluntr.Infrastructure.Mappings
                 .HasMaxLength(100)
                 .IsRequired();
 
+            builder.Property(x => x.Nickname)
+                .HasMaxLength(20)
+                .IsRequired(false);
+
             builder.Property(x => x.BirthDate)
                 .IsRequired();
 

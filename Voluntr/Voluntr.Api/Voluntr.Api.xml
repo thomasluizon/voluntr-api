@@ -122,5 +122,10 @@
             Realiza a consulta do progresso do onboarding do voluntário
             </summary>
         </member>
+        <member name="M:Voluntr.Api.Controllers.VolunteerController.GetProfile">
+            <summary>
+            Realiza a consulta dos dados do perfil do voluntário
+            </summary>
+        </member>
     </members>
 </doc>

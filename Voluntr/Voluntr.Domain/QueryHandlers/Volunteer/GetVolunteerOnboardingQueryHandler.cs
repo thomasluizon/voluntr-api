@@ -10,16 +10,16 @@ using Voluntr.Domain.Queries;
 
 namespace Voluntr.Domain.QueryHandlers
 {
-    public class GetOnboardingQueryHandler(
+    public class GetVolunteerOnboardingQueryHandler(
         IMediatorHandler mediator,
         IClaimsService claimsService,
         IOnboardingTaskRepository onboardingTaskRepository,
         IVolunteerRepository volunteerRepository,
         IUserCauseRepository userCauseRepository,
         IMapper mapper
-    ) : MediatorQueryHandler<GetOnboardingQuery, List<OnboardingTaskDto>>(mediator)
+    ) : MediatorQueryHandler<GetVolunteerOnboardingQuery, List<OnboardingTaskDto>>(mediator)
     {
-        public override async Task<List<OnboardingTaskDto>> AfterValidation(GetOnboardingQuery request)
+        public override async Task<List<OnboardingTaskDto>> AfterValidation(GetVolunteerOnboardingQuery request)
         {
             if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
             {

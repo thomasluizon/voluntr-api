@@ -13,10 +13,18 @@ namespace Voluntr.Application.Services
     {
         public async Task<List<OnboardingTaskViewModel>> GetOnboarding()
         {
-            var query = new GetOnboardingQuery();
+            var query = new GetVolunteerOnboardingQuery();
             var response = await mediator.SendQuery(query);
 
             return mapper.Map<List<OnboardingTaskViewModel>>(response);
+        }
+
+        public async Task<VolunteerProfileViewModel> GetProfile()
+        {
+            var query = new GetVolunteerProfileQuery();
+            var response = await mediator.SendQuery(query);
+
+            return mapper.Map<VolunteerProfileViewModel>(response);
         }
     }
 }
