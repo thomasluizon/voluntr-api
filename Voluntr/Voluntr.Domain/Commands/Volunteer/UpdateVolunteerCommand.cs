@@ -1,10 +1,14 @@
-﻿namespace Voluntr.Domain.Commands
+﻿using Voluntr.Domain.Validations.Volunteer;
+
+namespace Voluntr.Domain.Commands
 {
     public class UpdateVolunteerCommand : VolunteerCommand
     {
         public override bool IsValid()
         {
-            throw new NotImplementedException();
+            ValidationResult = new UpdateVolunteerValidation().Validate(this);
+
+            return ValidationResult.IsValid;
         }
     }
 }
