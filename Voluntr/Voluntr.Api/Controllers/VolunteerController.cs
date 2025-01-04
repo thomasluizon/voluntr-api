@@ -18,14 +18,19 @@ namespace Voluntr.Api.Controllers
         IVolunteerServiceApp volunteerServiceApp
     ) : ApiController(mediator)
     {
-        #region User
+        /// <summary>
+        /// Realiza a atualização dos dados do voluntário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateVolunteer([FromBody] VolunteerRequestViewModel viewModel)
+        {
+            await volunteerServiceApp.UpdateVolunteer(viewModel);
 
-        //public async Task<IActionResult> UpdateVolunteer()
-        //{
-
-        //}
-
-        #endregion
+            return Response();
+        }
 
         /// <summary>
         /// Realiza a consulta do progresso do onboarding do voluntário

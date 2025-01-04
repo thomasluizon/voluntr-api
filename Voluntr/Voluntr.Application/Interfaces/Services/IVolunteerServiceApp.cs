@@ -6,5 +6,6 @@ namespace Voluntr.Application.Interfaces.Services
     {
         Task<List<OnboardingTaskViewModel>> GetOnboarding();
         Task<VolunteerProfileViewModel> GetProfile();
+        Task UpdateVolunteer(VolunteerRequestViewModel viewModel);
     }
 }

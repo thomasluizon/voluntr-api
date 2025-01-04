@@ -34,6 +34,7 @@ namespace Voluntr.Application.Mappings
             #region Volunteer
 
             CreateMap<OnboardingTask, OnboardingTaskDto>();
+            CreateMap<VolunteerRequestViewModel, VolunteerCommand>();
 
             #endregion
 

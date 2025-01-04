@@ -2,7 +2,5 @@
 
 namespace Voluntr.Domain.Commands
 {
-    public abstract class UserCommand : Command
-    {
-    }
+    public abstract class UserCommand : Command;
 }
