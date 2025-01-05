@@ -18,11 +18,6 @@
         public string Surname { get; set; }
 
         /// <summary>
-        /// Email do voluntário
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
         /// Número de telefone do voluntário
         /// </summary>
         public string Phone { get; set; }

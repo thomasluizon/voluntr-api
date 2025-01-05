@@ -43,19 +43,9 @@ namespace Voluntr.Domain.CommandHandlers
                 return;
             }
 
-            if (await volunteerRepository.ExistsByExpressionAsync(
-                x => x.User.Email == request.Email &&
-                x.Id != volunteer.Id
-            ))
-            {
-                NotifyError("Já existe um voluntário com o email informado");
-                return;
-            }
-
             volunteer.Nickname = request.Nickname;
             volunteer.User.Name = request.Name;
             volunteer.Surname = request.Surname;
-            volunteer.User.Email = request.Email;
             volunteer.User.Phone = request.Phone;
 
             var address = mapper.Map<Address>(request.Address);
