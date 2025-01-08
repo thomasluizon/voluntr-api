@@ -1,8 +1,6 @@
-﻿using Voluntr.Crosscutting.Domain.Helpers.Extensions;
-using Voluntr.Crosscutting.Domain.MediatR;
+﻿using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Crosscutting.Domain.Queries.Handlers;
 using Voluntr.Domain.DataTransferObjects;
-using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Queries.Achievement;
@@ -19,27 +17,11 @@ namespace Voluntr.Domain.QueryHandlers
     {
         public override async Task<AchievementsPageDto> AfterValidation(GetAchievementsPageQuery request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
-            {
-                NotifyError("O usuário informado não é um voluntário");
-            }
-
             var response = new AchievementsPageDto();
 
             var generalAchievements = await achievementRepository.ListByExpressionAsync(
                 x => x.CauseId == null
             );
-
-            response.Achievements = generalAchievements
-                .OrderBy(x => x.QuestCount)
-                .Select(x => new AchievementForAchievementsPageDto
-                {
-                    Id = x.Id,
-                    ImageUrl = x.ImageUrl,
-                    Name = x.Name
-                }).ToList();
-
-            var causes = await causeRepository.ListAllAsync(x => x.Achievements);
 
             var userId = claimsService.GetCurrentUserId();
 
@@ -48,6 +30,18 @@ namespace Voluntr.Domain.QueryHandlers
             );
 
             var completedAchievementIds = completedAchievements?.Select(y => y.AchievementId).ToList();
+
+            response.Achievements = generalAchievements
+                .OrderBy(x => x.QuestCount)
+                .Select(x => new AchievementForAchievementsPageDto
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    Name = x.Name,
+                    Done = completedAchievementIds?.Contains(x.Id) ?? false
+                }).ToList();
+
+            var causes = await causeRepository.ListAllAsync(x => x.Achievements);
 
             response.Causes = causes
                 .OrderBy(x => x.Name)

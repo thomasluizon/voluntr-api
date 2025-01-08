@@ -1,9 +1,7 @@
 ﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
-using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
-using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
@@ -22,12 +20,6 @@ namespace Voluntr.Domain.CommandHandlers
     {
         public async override Task<CommandResponseDto> AfterValidation(AddProjectCommand request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Ngo.GetDescription())
-            {
-                NotifyError("O usuário informado não é uma ONG");
-                return null;
-            }
-
             var ngo = await ngoRepository.GetFirstByExpressionAsync(
                 x => x.UserId == claimsService.GetCurrentUserId()
             );

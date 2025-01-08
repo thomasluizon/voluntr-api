@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Text.Json.Serialization;
 using Voluntr.Api.Configurations;
 using Voluntr.Api.Conventions;
+using Voluntr.Api.Filters;
 using Voluntr.Crosscutting.Domain.Middlewares;
 using Voluntr.Crosscutting.Domain.Services.Authentication;
 using Voluntr.Crosscutting.Infrastructure.Contexts.SqlServer;
@@ -21,6 +22,7 @@ var configuration = builder.Configuration;
 builder.AddAzureKeyVaultSetup();
 builder.AddLoggingSetup();
 
+builder.Services.AddScoped<UserTypeValidationFilter>();
 builder.Services.AddDependencyInjectionSetup();
 builder.Services.AddTokenCredentialSetup(configuration);
 builder.Services.AddUrlsSetup(configuration);
@@ -39,7 +41,11 @@ builder.Services.AddMediatR(options => options.RegisterServicesFromAssemblyConta
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services
-    .AddControllers(options => options.Conventions.Add(new ControllerDocumentationConvention()))
+    .AddControllers(options =>
+    {
+        options.Conventions.Add(new ControllerDocumentationConvention());
+        options.Filters.Add<UserTypeValidationFilter>();
+    })
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();

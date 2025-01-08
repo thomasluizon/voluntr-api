@@ -2,7 +2,7 @@
 
 namespace Voluntr.Domain.Queries
 {
-    public class GetOnboardingQuery : VolunteerQuery<List<OnboardingTaskDto>>
+    public class GetVolunteerOnboardingQuery : VolunteerQuery<List<OnboardingTaskDto>>
     {
         public override bool IsValid()
         {

@@ -14,6 +14,7 @@ namespace Voluntr.Application.Mappings
 
             CreateMap<AddressViewModel, AddressCommand>();
             CreateMap<AddressCommand, Address>();
+            CreateMap<UploadPictureRequestViewModel, UploadPictureCommand>();
 
             #endregion
 
@@ -34,6 +35,7 @@ namespace Voluntr.Application.Mappings
             #region Volunteer
 
             CreateMap<OnboardingTask, OnboardingTaskDto>();
+            CreateMap<VolunteerRequestViewModel, VolunteerCommand>();
 
             #endregion
 

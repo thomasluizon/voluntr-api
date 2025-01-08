@@ -18,6 +18,9 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
 
         public async Task<byte[]> DownloadFile(string container, string path, string fileName)
         {
+            if (!path.EndsWith('/'))
+                path += "/";
+
             BlockBlobClient blob = GetContainer(container).GetBlockBlobClient($"{path}{fileName}");
 
             using var ms = new MemoryStream();
@@ -29,6 +32,9 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
 
         public async Task<string> GetFileUrl(string container, string path, string fileName)
         {
+            if (!path.EndsWith('/'))
+                path += "/";
+
             BlockBlobClient blob = await Task.Run(() => GetContainer(container).GetBlockBlobClient($"{path}{fileName}"));
 
             return blob.Uri.AbsoluteUri;
@@ -36,6 +42,9 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
 
         public async Task<string> UploadFile(string container, string path, string fileName, byte[] file)
         {
+            if (!path.EndsWith('/'))
+                path += "/";
+
             BlockBlobClient blob = GetContainer(container).GetBlockBlobClient($@"{path}{fileName}");
 
             var streamFile = new MemoryStream(file);
@@ -47,6 +56,9 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
 
         public async Task<bool> ExistsFile(string container, string path, string fileName)
         {
+            if (!path.EndsWith('/'))
+                path += "/";
+
             BlockBlobClient blob = GetContainer(container).GetBlockBlobClient(@$"{path}{fileName}");
 
             return await blob.ExistsAsync();
@@ -55,9 +67,7 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
         public async Task<bool> ExistsFiles(string container, string path)
         {
             if (!path.EndsWith('/'))
-            {
                 path += "/";
-            }
 
             var blobContainerClient = GetContainer(container);
 
@@ -69,9 +79,25 @@ namespace Voluntr.Crosscutting.Domain.Services.Storage
             return false;
         }
 
+        public async Task DeleteAllFiles(string container, string path)
+        {
+            if (!path.EndsWith('/'))
+                path += "/";
+
+            var blobContainerClient = GetContainer(container);
+
+            await foreach (var blobItem in blobContainerClient.GetBlobsAsync(prefix: path))
+            {
+                var blobClient = blobContainerClient.GetBlobClient(blobItem.Name);
+                await blobClient.DeleteAsync();
+            }
+        }
 
         public async Task RemoveFile(string container, string path, string fileName)
         {
+            if (!path.EndsWith('/'))
+                path += "/";
+
             BlockBlobClient blob = GetContainer(container).GetBlockBlobClient(@$"{path}{fileName}");
 
             await blob.DeleteAsync();

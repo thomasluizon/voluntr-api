@@ -117,9 +117,29 @@
             Deleta a conta do usuário
             </summary>
         </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.UploadPicture(Voluntr.Application.ViewModels.UploadPictureRequestViewModel)">
+            <summary>
+            Realiza o upload da foto do usuário
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.DeletePicture">
+            <summary>
+            Realiza a exclusão da foto do usuário
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.VolunteerController.UpdateVolunteer(Voluntr.Application.ViewModels.VolunteerRequestViewModel)">
+            <summary>
+            Realiza a atualização dos dados do voluntário
+            </summary>
+        </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.GetOnboarding">
             <summary>
             Realiza a consulta do progresso do onboarding do voluntário
+            </summary>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.VolunteerController.GetProfile">
+            <summary>
+            Realiza a consulta dos dados do perfil do voluntário
             </summary>
         </member>
     </members>
