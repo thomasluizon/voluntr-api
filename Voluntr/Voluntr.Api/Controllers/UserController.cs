@@ -57,5 +57,19 @@ namespace Voluntr.Api.Controllers
 
             return Response();
         }
+
+        /// <summary>
+        /// Realiza a exclusão da foto do usuário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpDelete("picture")]
+        public async Task<IActionResult> DeletePicture()
+        {
+            await userServiceApp.DeletePicture();
+
+            return Response();
+        }
     }
 }

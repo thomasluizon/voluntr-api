@@ -122,6 +122,11 @@
             Realiza o upload da foto do usuário
             </summary>
         </member>
+        <member name="M:Voluntr.Api.Controllers.UserController.DeletePicture">
+            <summary>
+            Realiza a exclusão da foto do usuário
+            </summary>
+        </member>
         <member name="M:Voluntr.Api.Controllers.VolunteerController.UpdateVolunteer(Voluntr.Application.ViewModels.VolunteerRequestViewModel)">
             <summary>
             Realiza a atualização dos dados do voluntário

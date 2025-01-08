@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.MediatR;
@@ -29,6 +28,13 @@ namespace Voluntr.Application.Services
         public async Task UploadPicture(UploadPictureRequestViewModel viewModel)
         {
             var command = mapper.Map<UploadPictureCommand>(viewModel);
+
+            await mediator.SendCommand(command);
+        }
+
+        public async Task DeletePicture()
+        {
+            var command = new DeletePictureCommand();
 
             await mediator.SendCommand(command);
         }
