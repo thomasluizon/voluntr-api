@@ -2,11 +2,11 @@
 
 namespace Voluntr.Domain.Commands
 {
-    public class UpdateVolunteerCommand : VolunteerCommand
+    public class UploadPictureCommand : UserCommand
     {
         public override bool IsValid()
         {
-            ValidationResult = new UpdateVolunteerValidation().Validate(this);
+            ValidationResult = new UploadPictureValidation().Validate(this);
 
             return ValidationResult.IsValid;
         }

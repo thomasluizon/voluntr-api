@@ -14,6 +14,7 @@ namespace Voluntr.Application.Mappings
 
             CreateMap<AddressViewModel, AddressCommand>();
             CreateMap<AddressCommand, Address>();
+            CreateMap<UploadPictureRequestViewModel, UploadPictureCommand>();
 
             #endregion
 

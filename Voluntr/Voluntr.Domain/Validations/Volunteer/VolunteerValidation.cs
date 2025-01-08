@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Text.RegularExpressions;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.Validations.User;
 
@@ -20,11 +19,6 @@ namespace Voluntr.Domain.Validations
             RuleFor(x => x.Nickname)
                 .MaximumLength(20).WithMessage("O apelido deve ter no máximo 20 caracteres.")
                 .When(x => !string.IsNullOrEmpty(x.Nickname));
-
-            RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("O e-mail é obrigatório.")
-                .EmailAddress().WithMessage("O e-mail informado é inválido.")
-                .MaximumLength(100).WithMessage("O e-mail deve ter no máximo 100 caracteres.");
 
             RuleFor(x => x.Phone)
                 .Must(ValidatePhoneNumber)

@@ -14,6 +14,11 @@ namespace Voluntr.Api.Filters
             var endpointAttributes = context.ActionDescriptor.EndpointMetadata;
             var controllerAttributes = context.Controller.GetType().GetCustomAttributes(true);
 
+            if (!HasAnyUserTypeAttribute(endpointAttributes, controllerAttributes))
+            {
+                return;
+            }
+
             var userType = claimsService.GetCurrentUserType();
 
             if (HasAttribute<VolunteerAttribute>(endpointAttributes, controllerAttributes) && userType != UserTypeEnum.Volunteer.GetDescription())
@@ -40,6 +45,13 @@ namespace Voluntr.Api.Filters
         private static bool HasAttribute<T>(IEnumerable<object> endpointAttributes, IEnumerable<object> controllerAttributes)
         {
             return endpointAttributes.OfType<T>().Any() || controllerAttributes.OfType<T>().Any();
+        }
+
+        private static bool HasAnyUserTypeAttribute(IEnumerable<object> endpointAttributes, IEnumerable<object> controllerAttributes)
+        {
+            return HasAttribute<VolunteerAttribute>(endpointAttributes, controllerAttributes) ||
+                   HasAttribute<NgoAttribute>(endpointAttributes, controllerAttributes) ||
+                   HasAttribute<CompanyAttribute>(endpointAttributes, controllerAttributes);
         }
     }
 }

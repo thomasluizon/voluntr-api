@@ -54,6 +54,7 @@ namespace Voluntr.Domain.CommandHandlers
             if (userType == null)
             {
                 NotifyError(Values.Message.UserTypeNotFound);
+                return null;
             }
 
             return new AuthenticationDto

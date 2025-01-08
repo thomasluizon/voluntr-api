@@ -14,6 +14,8 @@
 
         public static class BlobPath
         {
+            public const string ImagesContainer = "images";
+            public const string UserPictures = "users/{0}";
         }
 
         public static class CacheKey

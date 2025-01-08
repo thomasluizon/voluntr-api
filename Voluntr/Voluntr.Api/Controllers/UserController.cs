@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voluntr.Application.Interfaces.Services;
+using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
 using Voluntr.Crosscutting.Domain.MediatR;
 
@@ -39,6 +40,20 @@ namespace Voluntr.Api.Controllers
         public async Task<IActionResult> DeleteAccount()
         {
             await userServiceApp.DeleteAccount();
+
+            return Response();
+        }
+
+        /// <summary>
+        /// Realiza o upload da foto do usuário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPost("picture")]
+        public async Task<IActionResult> UploadPicture([FromForm] UploadPictureRequestViewModel viewModel)
+        {
+            await userServiceApp.UploadPicture(viewModel);
 
             return Response();
         }
