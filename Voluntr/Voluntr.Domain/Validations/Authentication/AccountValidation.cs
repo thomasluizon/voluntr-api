@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
-using System.Text.RegularExpressions;
 using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.Enumerators;
+using Voluntr.Domain.Validations.User;
 
 namespace Voluntr.Domain.Validations
 {
-    public partial class AccountValidation<TCommand, TResponse>
+    public class AccountValidation<TCommand, TResponse>
         : AbstractValidator<TCommand> where TCommand : AccountCommand<TResponse>
     {
         protected void ValidateEmail()
@@ -55,52 +55,47 @@ namespace Voluntr.Domain.Validations
             RuleFor(x => x.Phone)
                 .Must(ValidatePhoneNumber).WithMessage("O telefone informado é inválido. Deve conter exatamente 11 números.");
 
+            #region Volunteer
+
             RuleFor(x => x.VolunteerRegister)
                 .NotNull().When(x => x.UserType.Trim() == UserTypeEnum.Volunteer.GetDescription())
                 .WithMessage("As informações do voluntário são obrigatórias para o tipo de usuário Voluntário.");
+
+            When(x => x.UserType.Trim() == UserTypeEnum.Volunteer.GetDescription(), () =>
+            {
+                RuleFor(x => x.VolunteerRegister.Surname)
+                    .NotEmpty().WithMessage("O sobrenome do voluntário é obrigatório.")
+                    .MaximumLength(100).WithMessage("O sobrenome do voluntário deve ter no máximo 100 caractéres");
+
+                RuleFor(x => x.VolunteerRegister.BirthDate)
+                    .NotNull().WithMessage("A data de nascimento do voluntário é obrigatória.")
+                    .LessThan(DateTime.Now.ToBrazilianTimezone()).WithMessage("A data de nascimento do voluntário deve ser no passado.");
+            });
+
+            #endregion
+
+            #region Ngo
 
             RuleFor(x => x.NgoRegister)
                 .NotNull().When(x => x.UserType.Trim() == UserTypeEnum.Ngo.GetDescription())
                 .WithMessage("As informações da ONG são obrigatórias para o tipo de usuário ONG.");
 
+            #endregion
+
+            #region Company
+
             RuleFor(x => x.CompanyRegister)
                 .NotNull().When(x => x.UserType.Trim() == UserTypeEnum.Company.GetDescription())
                 .WithMessage("As informações da empresa são obrigatórias para o tipo de usuário Empresa.");
+
+            #endregion
         }
 
         protected void ValidateAddress()
         {
             RuleFor(x => x.Address)
                 .NotNull().WithMessage("O endereço é obrigatório.")
-                .DependentRules(() =>
-                {
-                    RuleFor(x => x.Address.ZipCode)
-                        .Matches(ZipCodeValidator.ValidZipCodeRegex())
-                        .When(x => !string.IsNullOrEmpty(x.Address.ZipCode))
-                        .WithMessage("O CEP informado é inválido.");
-
-                    RuleFor(x => x.Address.Street)
-                        .NotNull().NotEmpty().WithMessage("A rua é obrigatória.");
-
-                    RuleFor(x => x.Address.Number)
-                        .NotNull().NotEmpty().WithMessage("O número é obrigatório.");
-
-                    RuleFor(x => x.Address.Neighbourhood)
-                        .NotNull().NotEmpty().WithMessage("O bairro é obrigatório.");
-
-                    RuleFor(x => x.Address.Uf)
-                        .NotNull().NotEmpty().WithMessage("O UF é obrigatório.")
-                        .Length(2).WithMessage("O UF deve conter exatamente 2 caracteres.");
-
-                    RuleFor(x => x.Address.City)
-                        .NotNull().NotEmpty().WithMessage("A cidade é obrigatória.");
-                });
-        }
-
-        private static partial class ZipCodeValidator
-        {
-            [GeneratedRegex(@"^\d{5}-?\d{3}$")]
-            public static partial Regex ValidZipCodeRegex();
+                .SetValidator(new AddressValidator());
         }
 
         private bool ValidatePhoneNumber(string phone)

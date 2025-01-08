@@ -21,18 +21,12 @@ namespace Voluntr.Domain.QueryHandlers
     {
         public override async Task<List<OnboardingTaskDto>> AfterValidation(GetVolunteerOnboardingQuery request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
-            {
-                NotifyError("O usuário informado não é um voluntário");
-                return null;
-            }
-
             var volunteer = await volunteerRepository.GetFirstByExpressionAsync(
                 x => x.UserId == claimsService.GetCurrentUserId(),
                 x => x.User
             );
 
-            if (volunteer == null) 
+            if (volunteer == null)
             {
                 NotifyError("O voluntário informado não foi encontrado");
                 return null;
@@ -42,7 +36,7 @@ namespace Voluntr.Domain.QueryHandlers
 
             var tasks = await onboardingTaskRepository.ListAllAsync();
 
-            foreach (var task in tasks) 
+            foreach (var task in tasks)
             {
                 if (task.Type == OnboardingTaskEnum.Picture.GetDescription())
                 {

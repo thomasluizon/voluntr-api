@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Voluntr.Application.Interfaces.Services;
+using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 
@@ -20,6 +21,20 @@ namespace Voluntr.Application.Services
         public async Task DeleteAccount()
         {
             var command = new DeleteAccountCommand();
+
+            await mediator.SendCommand(command);
+        }
+
+        public async Task UploadPicture(UploadPictureRequestViewModel viewModel)
+        {
+            var command = mapper.Map<UploadPictureCommand>(viewModel);
+
+            await mediator.SendCommand(command);
+        }
+
+        public async Task DeletePicture()
+        {
+            var command = new DeletePictureCommand();
 
             await mediator.SendCommand(command);
         }

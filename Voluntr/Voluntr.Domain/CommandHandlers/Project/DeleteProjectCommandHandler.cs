@@ -13,19 +13,12 @@ namespace Voluntr.Domain.CommandHandlers
 {
     public class DeleteProjectCommandHandler(
         IMediatorHandler mediator,
-        IClaimsService claimsService,
         IProjectRepository projectRepository,
         IUnitOfWork unitOfWork
     ) : MediatorResponseCommandHandler<DeleteProjectCommand, CommandResponseDto>(mediator)
     {
         public async override Task<CommandResponseDto> AfterValidation(DeleteProjectCommand request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Ngo.GetDescription())
-            {
-                NotifyError("O usuário informado não é uma ONG");
-                return null;
-            }
-
             if (!await projectRepository.ExistsByExpressionAsync(x => x.Id == request.Id))
             {
                 NotifyError("O projeto informado não foi encontrado");

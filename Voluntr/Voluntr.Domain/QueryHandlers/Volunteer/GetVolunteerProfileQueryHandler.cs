@@ -20,12 +20,6 @@ namespace Voluntr.Domain.QueryHandlers
     {
         public override async Task<VolunteerProfileDto> AfterValidation(GetVolunteerProfileQuery request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
-            {
-                NotifyError("O usuário informado não é um voluntário");
-                return null;
-            }
-
             var userId = claimsService.GetCurrentUserId();
 
             var volunteer = await volunteerRepository.GetFirstByExpressionAsync(

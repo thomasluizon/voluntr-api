@@ -1,8 +1,6 @@
-﻿using Voluntr.Crosscutting.Domain.Helpers.Extensions;
-using Voluntr.Crosscutting.Domain.MediatR;
+﻿using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Crosscutting.Domain.Queries.Handlers;
 using Voluntr.Domain.DataTransferObjects;
-using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Queries.Achievement;
@@ -19,12 +17,6 @@ namespace Voluntr.Domain.QueryHandlers
     {
         public override async Task<AchievementsPageDto> AfterValidation(GetAchievementsPageQuery request)
         {
-            if (claimsService.GetCurrentUserType() != UserTypeEnum.Volunteer.GetDescription())
-            {
-                NotifyError("O usuário informado não é um voluntário");
-                return null;
-            }
-
             var response = new AchievementsPageDto();
 
             var generalAchievements = await achievementRepository.ListByExpressionAsync(

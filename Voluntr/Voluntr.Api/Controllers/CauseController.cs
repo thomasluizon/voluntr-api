@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voluntr.Api.Attributes;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -11,6 +12,7 @@ namespace Voluntr.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize]
+    [Volunteer]
     public class CauseController(
         IMediatorHandler mediator,
         ICauseServiceApp causeServiceApp
@@ -41,7 +43,7 @@ namespace Voluntr.Api.Controllers
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetCauseAchievementsPage(string id)
         {
-            if (ValidateStringToGuidParams(id)) 
+            if (ValidateStringToGuidParams(id))
             {
                 var response = await causeServiceApp.GetCauseAchievementsPage(id);
 

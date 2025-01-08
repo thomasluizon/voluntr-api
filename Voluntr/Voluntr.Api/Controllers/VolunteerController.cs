@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voluntr.Api.Attributes;
 using Voluntr.Application.Interfaces.Services;
 using Voluntr.Application.ViewModels;
 using Voluntr.Crosscutting.Domain.Controller;
@@ -11,11 +12,26 @@ namespace Voluntr.Api.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize]
+    [Volunteer]
     public class VolunteerController(
         IMediatorHandler mediator,
         IVolunteerServiceApp volunteerServiceApp
     ) : ApiController(mediator)
     {
+        /// <summary>
+        /// Realiza a atualização dos dados do voluntário
+        /// </summary>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateVolunteer([FromBody] VolunteerRequestViewModel viewModel)
+        {
+            await volunteerServiceApp.UpdateVolunteer(viewModel);
+
+            return Response();
+        }
+
         /// <summary>
         /// Realiza a consulta do progresso do onboarding do voluntário
         /// </summary>
