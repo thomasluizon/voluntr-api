@@ -10,6 +10,9 @@ namespace Voluntr.Domain.Validations
         {
             RuleFor(x => x.Id)
                 .NotEmpty().NotEqual(Guid.Empty).WithMessage("O código da tarefa é obrigatório");
+
+            RuleFor(x => x.ProjectId)
+                .NotEmpty().NotEqual(Guid.Empty).WithMessage("O código do projeto é obrigatório");
         }
 
         protected void ValidateQuest()

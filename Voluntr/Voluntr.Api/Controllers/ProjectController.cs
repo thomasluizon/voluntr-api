@@ -21,6 +21,7 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Realiza a criação de um projeto
         /// </summary>
+        /// <param name="viewModel">Dados do projeto</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -35,6 +36,7 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Realiza a atualização de um projeto
         /// </summary>
+        /// <param name="viewModel">Dados do projeto</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -49,6 +51,7 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Realiza a exclusão de um projeto
         /// </summary>
+        /// <param name="projectId">Código do projeto</param>
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -68,6 +71,8 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Realiza a criação de uma tarefa
         /// </summary>
+        /// <param name="viewModel">Dados da tarefa</param>
+        /// <param name="projectId">Código do projeto</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -87,6 +92,8 @@ namespace Voluntr.Api.Controllers
         /// <summary>
         /// Realiza a atualização de uma tarefa
         /// </summary>
+        /// <param name="viewModel">Dados da tarefa</param>
+        /// <param name="projectId">Código do projeto</param>
         [ProducesResponseType(typeof(CommandResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -104,8 +111,10 @@ namespace Voluntr.Api.Controllers
         }
 
         /// <summary>
-        /// Realiza a exclusão de um projeto
+        /// Realiza a exclusão de uma tarefa
         /// </summary>
+        /// <param name="projectId">Código do projeto</param>
+        /// <param name="questId">Código da tarefa</param>
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
@@ -118,6 +127,30 @@ namespace Voluntr.Api.Controllers
             if (ValidateStringToGuidParams(projectId) && ValidateStringToGuidParams(questId))
             {
                 await projectServiceApp.DeleteQuest(projectId, questId);
+            }
+
+            return Response();
+        }
+
+
+        /// <summary>
+        /// Realiza a atribuição da tarefa ao voluntário
+        /// </summary>
+        /// <param name="projectId">Código do projeto</param>
+        /// <param name="questId">Código da tarefa</param>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [Volunteer]
+        [HttpPost("{projectId}/quest/{questId}/assign")]
+        public async Task<IActionResult> AssignQuest(
+            [FromRoute] string projectId,
+            [FromRoute] string questId
+        )
+        {
+            if (ValidateStringToGuidParams(projectId) && ValidateStringToGuidParams(questId))
+            {
+                await projectServiceApp.AssignQuest(projectId, questId);
             }
 
             return Response();

@@ -5,5 +5,5 @@ using Voluntr.Infrastructure.Contexts;
 
 namespace Voluntr.Infrastructure.Repositories
 {
-    public class QuestAssignmenttRepository(SqlContext context) : SqlRepository<QuestAssignment>(context), IQuestAssignmenttRepository;
+    public class QuestAssignmentRepository(SqlContext context) : SqlRepository<QuestAssignment>(context), IQuestAssignmentRepository;
 }
