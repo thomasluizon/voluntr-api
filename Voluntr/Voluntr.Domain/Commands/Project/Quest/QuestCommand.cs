@@ -1,4 +1,5 @@
-﻿using Voluntr.Crosscutting.Domain.Commands;
+﻿using Microsoft.AspNetCore.Http;
+using Voluntr.Crosscutting.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
 
 namespace Voluntr.Domain.Commands
@@ -10,5 +11,6 @@ namespace Voluntr.Domain.Commands
         public string Description { get; set; }
         public DateTime? DueDate { get; set; }
         public int Reward { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

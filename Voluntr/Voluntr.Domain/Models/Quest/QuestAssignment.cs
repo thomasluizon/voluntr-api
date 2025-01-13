@@ -14,6 +14,7 @@ namespace Voluntr.Domain.Models
         public DateTime? ApprovalDate { get; set; }
         public string ImageAttachmentUrl { get; set; }
         public string Description { get; set; }
+        public string SubmissionResponse { get; set; }
 
         public QuestAssignmentStatusEnum QuestAssignmentStatusEnum
         {

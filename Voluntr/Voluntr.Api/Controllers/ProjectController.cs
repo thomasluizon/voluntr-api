@@ -156,6 +156,31 @@ namespace Voluntr.Api.Controllers
             return Response();
         }
 
+        /// <summary>
+        /// Realiza a submissão da tarefa por parte do voluntário
+        /// </summary>
+        /// <param name="projectId">Código do projeto</param>
+        /// <param name="questId">Código da tarefa</param>
+        /// <param name="viewModel">Dados da submissão</param>
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NoContentResult), StatusCodes.Status401Unauthorized)]
+        [Volunteer]
+        [HttpPost("{projectId}/quest/{questId}/submit")]
+        public async Task<IActionResult> SubmitQuest(
+            [FromRoute] string projectId,
+            [FromRoute] string questId,
+            [FromBody] SubmitQuestViewModel viewModel
+        )
+        {
+            if (ValidateStringToGuidParams(projectId) && ValidateStringToGuidParams(questId))
+            {
+                await projectServiceApp.SubmitQuest(projectId, questId, viewModel);
+            }
+
+            return Response();
+        }
+
         #endregion
     }
 }
