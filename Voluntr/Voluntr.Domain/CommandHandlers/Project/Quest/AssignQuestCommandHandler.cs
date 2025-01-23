@@ -52,11 +52,21 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
+
             if (await questAssignmentRepository.ExistsByExpressionAsync(
                 x => x.QuestId == quest.Id && x.Status != QuestAssignmentStatusEnum.Rejected.GetDescription()
+                && x.VolunteerId == volunteer.Id
             ))
             {
-                NotifyError("Esta tarefa já esta atribuída à outro voluntáro");
+                NotifyError("Esta tarefa já está atribuída à este voluntário");
+                return null;
+            }
+
+            if (await questAssignmentRepository.CountByExpressionAsync(
+                x => x.QuestId == quest.Id && x.Status != QuestAssignmentStatusEnum.Rejected.GetDescription()
+            ) >= quest.MaxVolunteers)
+            {
+                NotifyError("Esta tarefa já possui a quantidade máxima de voluntários");
                 return null;
             }
 

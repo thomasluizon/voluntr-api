@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Voluntr.Crosscutting.Domain.Helpers.Extensions;
 using Voluntr.Domain.Commands;
+using Voluntr.Domain.Validations.User;
 
 namespace Voluntr.Domain.Validations
 {
@@ -34,6 +35,27 @@ namespace Voluntr.Domain.Validations
             RuleFor(x => x.Reward)
                 .NotEmpty().WithMessage("A recompensa da tarefa é necessária")
                 .Must(x => x >= 0).WithMessage("A recompensa da tarefa não pode ser negativa");
+
+            RuleFor(x => x.MaxVolunteers)
+                .NotEmpty().WithMessage("A quantidade máxima de voluntários da tarefa é necessária")
+                .Must(x => x >= 0).WithMessage("A quantidade máxima de voluntários da tarefa não pode ser negativa");
+
+            RuleFor(x => x.IsRemote)
+                .NotEmpty().WithMessage("A flag que indica se a tarefa é presencial é necessária");
+
+            When(x => x.IsRemote, () =>
+            {
+                RuleFor(x => x.Address)
+                    .Null().Empty().WithMessage("O endereço da tarefa não pode existir quando é remota");
+            }).Otherwise(() =>
+            {
+                When(x => x.Address != null, () =>
+                {
+                    RuleFor(x => x.Address)
+                        .SetValidator(new AddressValidator());
+                });
+            });
+
         }
 
         protected void ValidateSubmission()

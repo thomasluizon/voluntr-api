@@ -31,5 +31,20 @@
         /// Recompensa da tarefa
         /// </summary>
         public int Reward { get; set; }
+
+        /// <summary>
+        /// Quantidade máxima de voluntários que podem se atribuir à tarefa
+        /// </summary>
+        public int MaxVolunteers { get; set; }
+
+        /// <summary>
+        /// Flag que indica se a tarefa precisa ser feita de forma remota
+        /// </summary>
+        public bool IsRemote { get; set; }
+
+        /// <summary>
+        /// Endereço da tarefa
+        /// </summary>
+        public AddressViewModel Address { get; set; }
     }
 }

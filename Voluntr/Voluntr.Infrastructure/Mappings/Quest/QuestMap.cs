@@ -26,6 +26,12 @@ namespace Voluntr.Infrastructure.Mappings
             builder.Property(x => x.Reward)
                 .IsRequired();
 
+            builder.Property(x => x.MaxVolunteers)
+                .IsRequired();
+
+            builder.Property(x => x.IsRemote)
+                .IsRequired();
+
             builder.HasOne(x => x.Project)
                 .WithMany(x => x.Quests)
                 .HasForeignKey(x => x.ProjectId)

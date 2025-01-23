@@ -11,6 +11,9 @@ namespace Voluntr.Domain.Commands
         public string Description { get; set; }
         public DateTime? DueDate { get; set; }
         public int Reward { get; set; }
+        public int MaxVolunteers { get; set; }
+        public bool IsRemote { get; set; }
+        public AddressCommand Address { get; set; }
         public IFormFile Image { get; set; }
     }
 }
