@@ -21,7 +21,11 @@ namespace Voluntr.Infrastructure.Mappings
 
             builder.Property(x => x.Description)
                 .HasMaxLength(250)
-                .IsRequired();
+                .IsRequired(false);
+
+            builder.Property(x => x.SubmissionResponse)
+                .HasMaxLength(250)
+                .IsRequired(false);
 
             builder.Property(x => x.SubmissionDate)
                 .IsRequired(false);

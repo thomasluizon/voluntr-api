@@ -81,31 +81,55 @@
             <summary>
             Realiza a criação de um projeto
             </summary>
+            <param name="viewModel">Dados do projeto</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ProjectController.UpdateProject(Voluntr.Application.ViewModels.ProjectRequestViewModel)">
             <summary>
             Realiza a atualização de um projeto
             </summary>
+            <param name="viewModel">Dados do projeto</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ProjectController.DeleteProject(System.String)">
             <summary>
             Realiza a exclusão de um projeto
             </summary>
+            <param name="projectId">Código do projeto</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ProjectController.CreateQuest(Voluntr.Application.ViewModels.QuestRequestViewModel,System.String)">
             <summary>
             Realiza a criação de uma tarefa
             </summary>
+            <param name="viewModel">Dados da tarefa</param>
+            <param name="projectId">Código do projeto</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ProjectController.UpdateQuest(Voluntr.Application.ViewModels.QuestRequestViewModel,System.String)">
             <summary>
             Realiza a atualização de uma tarefa
             </summary>
+            <param name="viewModel">Dados da tarefa</param>
+            <param name="projectId">Código do projeto</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.ProjectController.DeleteQuest(System.String,System.String)">
             <summary>
-            Realiza a exclusão de um projeto
+            Realiza a exclusão de uma tarefa
             </summary>
+            <param name="projectId">Código do projeto</param>
+            <param name="questId">Código da tarefa</param>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.ProjectController.AssignQuest(System.String,System.String)">
+            <summary>
+            Realiza a atribuição da tarefa ao voluntário
+            </summary>
+            <param name="projectId">Código do projeto</param>
+            <param name="questId">Código da tarefa</param>
+        </member>
+        <member name="M:Voluntr.Api.Controllers.ProjectController.SubmitQuest(System.String,System.String,Voluntr.Application.ViewModels.SubmitQuestViewModel)">
+            <summary>
+            Realiza a submissão da tarefa por parte do voluntário
+            </summary>
+            <param name="projectId">Código do projeto</param>
+            <param name="questId">Código da tarefa</param>
+            <param name="viewModel">Dados da submissão</param>
         </member>
         <member name="M:Voluntr.Api.Controllers.UserController.TogglePause">
             <summary>

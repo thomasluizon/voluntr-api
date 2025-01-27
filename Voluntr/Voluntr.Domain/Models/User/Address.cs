@@ -4,7 +4,8 @@ namespace Voluntr.Domain.Models
 {
     public class Address : Entity
     {
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
+        public Guid? QuestId { get; set; }
 
         public string ZipCode { get; set; }
         public string Street { get; set; }
@@ -15,5 +16,6 @@ namespace Voluntr.Domain.Models
         public string City { get; set; }
 
         public virtual User User { get; set; }
+        public virtual Quest Quest { get; set; }
     }
 }

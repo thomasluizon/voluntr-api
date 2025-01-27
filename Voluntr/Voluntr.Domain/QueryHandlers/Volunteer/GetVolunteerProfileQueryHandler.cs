@@ -13,7 +13,7 @@ namespace Voluntr.Domain.QueryHandlers
         IMediatorHandler mediator,
         IClaimsService claimsService,
         IVolunteerRepository volunteerRepository,
-        IQuestAssignmenttRepository questAssignmenttRepository,
+        IQuestAssignmentRepository questAssignmentRepository,
         IAchievementRepository achievementRepository,
         IUserAchievementRepository userAchievementRepository
     ) : MediatorQueryHandler<GetVolunteerProfileQuery, VolunteerProfileDto>(mediator)
@@ -44,7 +44,7 @@ namespace Voluntr.Domain.QueryHandlers
                 }
             };
 
-            var questsCompleted = await questAssignmenttRepository.ListByExpressionAsync(
+            var questsCompleted = await questAssignmentRepository.ListByExpressionAsync(
                 x => x.VolunteerId == volunteer.Id &&
                 x.Status == QuestAssignmentStatusEnum.Approved.GetDescription(),
                 x => x.Quest

@@ -1,4 +1,5 @@
-﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
+﻿using AutoMapper;
+using Voluntr.Crosscutting.Domain.Commands.Handlers;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
@@ -13,7 +14,9 @@ namespace Voluntr.Domain.CommandHandlers
         IMediatorHandler mediator,
         IProjectRepository projectRepository,
         IQuestRepository questRepository,
-        IUnitOfWork unitOfWork
+        IAddressRepository addressRepository,
+        IUnitOfWork unitOfWork,
+        IMapper mapper
     ) : MediatorResponseCommandHandler<AddQuestCommand, CommandResponseDto>(mediator)
     {
         public override async Task<CommandResponseDto> AfterValidation(AddQuestCommand request)
@@ -47,9 +50,15 @@ namespace Voluntr.Domain.CommandHandlers
                 Name = request.Name,
                 Description = request.Description,
                 Reward = request.Reward,
-                DueDate = request.DueDate
+                DueDate = request.DueDate,
+                IsRemote = request.IsRemote,
+                MaxVolunteers = request.MaxVolunteers
             };
 
+            var address = mapper.Map<Address>(request.Address);
+            address.QuestId = quest.Id;
+
+            await addressRepository.InsertAsync(address);
             await questRepository.InsertAsync(quest);
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
