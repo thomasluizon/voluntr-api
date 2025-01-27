@@ -10,7 +10,10 @@ namespace Voluntr.Infrastructure.Mappings
         public override void Configure(EntityTypeBuilder<Address> builder)
         {
             builder.Property(x => x.UserId)
-                .IsRequired();
+                .IsRequired(false);
+
+            builder.Property(x => x.QuestId)
+                .IsRequired(false);
 
             builder.Property(x => x.ZipCode)
                 .HasMaxLength(8)
@@ -44,6 +47,11 @@ namespace Voluntr.Infrastructure.Mappings
                 .WithMany()
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.Quest)
+                .WithMany()
+                .HasForeignKey(x => x.QuestId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.Configure(builder);
         }

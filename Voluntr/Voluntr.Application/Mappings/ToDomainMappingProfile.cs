@@ -27,6 +27,7 @@ namespace Voluntr.Application.Mappings
 
             CreateMap<QuestRequestViewModel, AddQuestCommand>();
             CreateMap<QuestRequestViewModel, UpdateQuestCommand>();
+            CreateMap<SubmitQuestViewModel, SubmitQuestCommand>();
 
             #endregion
 

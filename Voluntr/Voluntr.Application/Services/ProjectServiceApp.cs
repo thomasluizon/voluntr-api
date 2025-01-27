@@ -66,5 +66,25 @@ namespace Voluntr.Application.Services
 
             await mediator.SendCommandResponse(command);
         }
+
+        public async Task AssignQuest(string projectId, string questId)
+        {
+            var command = new AssignQuestCommand
+            {
+                Id = Guid.Parse(questId),
+                ProjectId = Guid.Parse(projectId)
+            };
+
+            await mediator.SendCommandResponse(command);
+        }
+
+        public async Task SubmitQuest(string projectId, string questId, SubmitQuestViewModel viewModel)
+        {
+            var command = mapper.Map<SubmitQuestCommand>(viewModel);
+            command.Id = Guid.Parse(questId);
+            command.ProjectId = Guid.Parse(projectId);
+
+            await mediator.SendCommandResponse(command);
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Voluntr.Domain.QueryHandlers
         IClaimsService claimsService,
         IUserAchievementRepository userAchievementRepository,
         IVolunteerRepository volunteerRepository,
-        IQuestAssignmenttRepository questAssignmenttRepository,
+        IQuestAssignmentRepository questAssignmentRepository,
         IUserCauseRepository userCauseRepository
     ) : MediatorQueryHandler<GetCauseAchievementsPageQuery, CauseAchievementsPageDto>(mediator)
     {
@@ -67,7 +67,7 @@ namespace Voluntr.Domain.QueryHandlers
 
             var relevantUserIds = relevantUsers.Select(x => x.UserId).ToList();
 
-            var completedQuests = await questAssignmenttRepository.ListByExpressionAsync(
+            var completedQuests = await questAssignmentRepository.ListByExpressionAsync(
                 x => x.VolunteerId == volunteer.Id &&
                      relevantUserIds.Contains(x.Quest.Project.Ngo.UserId) &&
                      x.Status == QuestAssignmentStatusEnum.Approved.GetDescription(),

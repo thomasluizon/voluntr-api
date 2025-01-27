@@ -3,5 +3,5 @@ using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.Interfaces.Repositories
 {
-    public interface IQuestAssignmenttRepository : ISqlRepository<QuestAssignment>;
+    public interface IQuestAssignmentRepository : ISqlRepository<QuestAssignment>;
 }
