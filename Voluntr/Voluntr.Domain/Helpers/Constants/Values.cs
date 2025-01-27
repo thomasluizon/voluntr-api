@@ -16,6 +16,7 @@
         {
             public const string ImagesContainer = "images";
             public const string UserPictures = "users/{0}";
+            public const string QuestPictures = "quests/{0}";
         }
 
         public static class CacheKey

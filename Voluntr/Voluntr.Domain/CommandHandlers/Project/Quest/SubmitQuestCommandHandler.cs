@@ -1,12 +1,15 @@
 ﻿using Voluntr.Crosscutting.Domain.Commands.Handlers;
+using Voluntr.Crosscutting.Domain.Helpers.Extensions;
+using Voluntr.Crosscutting.Domain.Interfaces.Services;
 using Voluntr.Crosscutting.Domain.MediatR;
 using Voluntr.Domain.Commands;
 using Voluntr.Domain.DataTransferObjects;
+using Voluntr.Domain.Enumerators;
 using Voluntr.Domain.Helpers.Constants;
 using Voluntr.Domain.Interfaces.Repositories;
 using Voluntr.Domain.Interfaces.Services;
 using Voluntr.Domain.Interfaces.UnitOfWork;
-using Voluntr.Domain.Services;
+using Voluntr.Domain.Models;
 
 namespace Voluntr.Domain.CommandHandlers
 {
@@ -16,7 +19,8 @@ namespace Voluntr.Domain.CommandHandlers
         IVolunteerRepository volunteerRepository,
         IProjectRepository projectRepository,
         IQuestAssignmentRepository questAssignmentRepository,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        IStorageService storageService
     ) : MediatorResponseCommandHandler<SubmitQuestCommand, CommandResponseDto>(mediator)
     {
         public override async Task<CommandResponseDto> AfterValidation(SubmitQuestCommand request)
@@ -50,7 +54,31 @@ namespace Voluntr.Domain.CommandHandlers
                 return null;
             }
 
-            // TODO
+            var extension = Path.GetExtension(request.Image.FileName)?.ToLower();
+
+            var container = Values.BlobPath.ImagesContainer;
+            var path = string.Format(Values.BlobPath.QuestPictures, quest.Id);
+            var fileName = $"submission{extension}";
+
+            await storageService.DeleteAllFiles(container, path);
+
+            using var memoryStream = new MemoryStream();
+            await request.Image.CopyToAsync(memoryStream);
+            var fileBytes = memoryStream.ToArray();
+
+            var imageUrl = await storageService.UploadFile(container, path, fileName, fileBytes);
+
+            var questAssignment = new QuestAssignment
+            {
+                QuestId = quest.Id,
+                VolunteerId = volunteer.Id,
+                QuestAssignmentStatusEnum = QuestAssignmentStatusEnum.Submitted,
+                SubmissionDate = DateTime.Now.ToBrazilianTimezone(),
+                Description = quest.Description,
+                ImageAttachmentUrl = imageUrl
+            };
+
+            await questAssignmentRepository.InsertAsync(questAssignment);
 
             if (!HasNotification() && await unitOfWork.CommitAsync())
                 request.ExecutedSuccessfullyCommand = true;
