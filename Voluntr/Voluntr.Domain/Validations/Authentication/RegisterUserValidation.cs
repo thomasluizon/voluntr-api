@@ -12,6 +12,7 @@ namespace Voluntr.Domain.Validations
             ValidateName();
             ValidateRegister();
             ValidateAddress();
+            ValidateNgoDocument();
         }
     }
 }

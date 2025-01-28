@@ -6,6 +6,8 @@ namespace Voluntr.Domain.Models
     {
         public Guid UserId { get; set; }
         public string Description { get; set; }
+        public DateTime? FoundingDate { get; set; }
+        public string Document { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; } = [];
 

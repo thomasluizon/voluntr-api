@@ -40,6 +40,9 @@ namespace Voluntr.Domain.Commands
 
     public class NgoRegisterCommand
     {
+        public string Document { get; set; }
+        public DateTime? FoundingDate { get; set; }
+        public string Description { get; set; }
     }
 
     public class CompanyRegisterCommand

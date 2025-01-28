@@ -70,6 +70,9 @@ namespace Voluntr.Domain.CommandHandlers
                 var ngo = new Ngo
                 {
                     UserId = user.Id,
+                    Description = request.NgoRegister.Description,
+                    Document = request.NgoRegister.Document,
+                    FoundingDate = request.NgoRegister.FoundingDate,
                 };
 
                 await ngoRepository.InsertAsync(ngo);

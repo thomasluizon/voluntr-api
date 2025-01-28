@@ -40,6 +40,16 @@ namespace Voluntr.Domain.Validations
                 .MaximumLength(100).WithMessage("O nome do usuário deve conter no máximo 100 caracteres");
         }
 
+        protected void ValidateNgoDocument()
+        {
+            When(x => !string.IsNullOrEmpty(x.NgoRegister.Document), () =>
+            {
+                RuleFor(x => x.NgoRegister.Document)
+                    .Length(14).Matches(@"^\d{14}$").WithMessage("O CNPJ deve conter apenas dígitos e ter 14 caracteres.")
+                    .Must(doc => doc.Contains("0001")).WithMessage("O CNPJ informado é invalido.");
+            });
+        }
+
         protected void ValidateToken()
         {
             RuleFor(c => c.Token)

@@ -70,16 +70,27 @@ namespace Voluntr.Domain.CommandHandlers
                     {
                         UserId = user.Id,
                         Surname = string.Join(' ', nameParts.Skip(1)).Trim(),
-                        BirthDate = default
                     };
 
                     await volunteerRepository.InsertAsync(volunteer);
                 }
                 else if (request.UserType == UserTypeEnum.Ngo.GetDescription())
                 {
+                    var ngo = new Ngo
+                    {
+                        UserId = user.Id,
+                    };
+
+                    await ngoRepository.InsertAsync(ngo);
                 }
                 else if (request.UserType == UserTypeEnum.Company.GetDescription())
                 {
+                    var company = new Company
+                    {
+                        UserId = user.Id,
+                    };
+
+                    await companyRepository.InsertAsync(company);
                 }
             }
             else if (!user.OAuthProviderId.HasValue)
